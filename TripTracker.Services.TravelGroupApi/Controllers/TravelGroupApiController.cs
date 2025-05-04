@@ -7,7 +7,7 @@ using TripTracker.Services.TravelGroupApi.Model.Dto;
 
 namespace TripTracker.Services.TravelGroupApi.Controllers
 {
-    [Route("api/group")]
+    [Route("api/travel-group")]
     [ApiController]
     public class TravelGroupApiController : ControllerBase
     {
@@ -28,7 +28,7 @@ namespace TripTracker.Services.TravelGroupApi.Controllers
             try
             {
                 _responseDto.Result = _mapper.Map<IEnumerable<TravelGroupDto>>(
-                    await _db.TravelGroups.AsNoTracking().ToListAsync());                
+                    await _db.TravelGroups.AsNoTracking().ToListAsync());
             }
             catch (Exception ex)
             {
@@ -45,7 +45,7 @@ namespace TripTracker.Services.TravelGroupApi.Controllers
             try
             {
                 var travelGroup = await _db.TravelGroups.FindAsync(id);
-                
+
                 if (travelGroup == null)
                 {
                     _responseDto.IsSuccess = false;
@@ -113,6 +113,7 @@ namespace TripTracker.Services.TravelGroupApi.Controllers
         }
 
         [HttpDelete]
+        [Route("{id:int}")]
         public async Task<ResponseDto> Delete(int id)
         {
             try

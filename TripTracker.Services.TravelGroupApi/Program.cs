@@ -45,7 +45,7 @@ void ApplyMigrations()
     using (var scope = app.Services.CreateScope())
     {
         var dbContext = scope.ServiceProvider.GetRequiredService<TravelGroupDbContext>();
-        if(dbContext.Database.GetPendingMigrations().Any())
+        if (dbContext.Database.GetPendingMigrations().Any())
         {
             dbContext.Database.Migrate();
         }

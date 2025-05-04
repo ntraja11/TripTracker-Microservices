@@ -16,7 +16,7 @@ namespace TripTracker.Services.TravelGroupApi.Data
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<TravelGroup>()
-                .HasData( 
+                .HasData(
 
                 new TravelGroup
                 {

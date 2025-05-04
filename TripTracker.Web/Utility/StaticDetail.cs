@@ -2,6 +2,7 @@
 {
     public class StaticDetail
     {
+        public static string? TravelGroupApiBasePath { get; set; } = "";
         public enum ApiType
         {
             GET,

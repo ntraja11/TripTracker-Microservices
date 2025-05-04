@@ -1,7 +1,21 @@
+using TripTracker.Web.Service;
+using TripTracker.Web.Service.Interface;
+using TripTracker.Web.Utility;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddHttpClient();
+builder.Services.AddHttpClient<ITravelGroupService, TravelGroupService>();
+
+StaticDetail.TravelGroupApiBasePath = builder.Configuration["ServiceUrls:TravelGroupAPI"];
+
+builder.Services.AddScoped<IBaseService, BaseService>();
+builder.Services.AddScoped<ITravelGroupService, TravelGroupService>();
+
+
 
 var app = builder.Build();
 

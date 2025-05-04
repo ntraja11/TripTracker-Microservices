@@ -6,6 +6,6 @@ namespace TripTracker.Web.Service.Interface
     public interface IBaseService
     {
         Task<ResponseDto?> SendAsync(RequestDto requestDto);
-        
+
     }
 }
