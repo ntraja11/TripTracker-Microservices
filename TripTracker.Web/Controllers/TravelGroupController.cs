@@ -50,6 +50,14 @@ namespace TripTracker.Web.Controllers
         {
             if (travelGroupDto == null)
             {
+                TempData["error"] = "Invalid travel group data.";
+                ModelState.AddModelError(string.Empty, "Invalid travel group data.");                
+                return View(travelGroupDto);
+            }
+
+            if (!ModelState.IsValid)
+            {
+                TempData["error"] = "Invalid travel group data.";
                 ModelState.AddModelError(string.Empty, "Invalid travel group data.");
                 return View(travelGroupDto);
             }
@@ -57,10 +65,12 @@ namespace TripTracker.Web.Controllers
             var response = await _travelGroupService.CreateAsync(travelGroupDto);
             if (response?.IsSuccess == true)
             {
+                TempData["success"] = "Travel group created successfully.";
                 return RedirectToAction(nameof(Index)); 
             }
 
-            ModelState.AddModelError(string.Empty, response?.Message ?? "Failed to create travel group.");
+            TempData["error"] = response?.Message ?? "Failed to create travel group.";
+            ModelState.AddModelError(string.Empty, response?.Message ?? "Failed to create travel group.");            
             return View(travelGroupDto);
         }
 
@@ -73,6 +83,7 @@ namespace TripTracker.Web.Controllers
                 return View(travelGroup);
             }
 
+            TempData["error"] = response?.Message ?? "Travel group not found.";
             ModelState.AddModelError(string.Empty, response?.Message ?? "Travel group not found.");
             return View(new TravelGroupDto()); // Return an empty model if not found
         }
@@ -87,6 +98,7 @@ namespace TripTracker.Web.Controllers
                 return View(travelGroup);
             }
 
+            TempData["error"] = response?.Message ?? "Travel group not found.";
             ModelState.AddModelError(string.Empty, response?.Message ?? "Travel group not found.");
             return View(new TravelGroupDto());
         }
@@ -96,6 +108,14 @@ namespace TripTracker.Web.Controllers
         {
             if (travelGroupDto == null)
             {
+                TempData["error"] = "Invalid travel group data.";
+                ModelState.AddModelError(string.Empty, "Invalid travel group data.");
+                return View(travelGroupDto);
+            }
+
+            if (!ModelState.IsValid)
+            {
+                TempData["error"] = "Invalid travel group data.";
                 ModelState.AddModelError(string.Empty, "Invalid travel group data.");
                 return View(travelGroupDto);
             }
@@ -103,9 +123,11 @@ namespace TripTracker.Web.Controllers
             var response = await _travelGroupService.UpdateAsync(travelGroupDto);
             if (response?.IsSuccess == true)
             {
+                TempData["success"] = "Travel group updated successfully.";
                 return RedirectToAction(nameof(Index));
             }
 
+            TempData["error"] = response?.Message ?? "Failed to update travel group.";
             ModelState.AddModelError(string.Empty, response?.Message ?? "Failed to update travel group.");
             return View(travelGroupDto);
         }
@@ -120,6 +142,7 @@ namespace TripTracker.Web.Controllers
                 return View(travelGroup);
             }
 
+            TempData["error"] = response?.Message ?? "Travel group not found.";
             ModelState.AddModelError(string.Empty, response?.Message ?? "Travel group not found.");
             return View(new TravelGroupDto());
         }
@@ -130,9 +153,11 @@ namespace TripTracker.Web.Controllers
             var response = await _travelGroupService.DeleteAsync(id);
             if (response?.IsSuccess == true)
             {
+                TempData["success"] = "Travel group deleted successfully.";
                 return RedirectToAction(nameof(Index));
             }
 
+            TempData["error"] = response?.Message ?? "Failed to delete travel group.";
             ModelState.AddModelError(string.Empty, response?.Message ?? "Failed to delete travel group.");
             return RedirectToAction("Delete", "TravelGroup", new {id});
         }

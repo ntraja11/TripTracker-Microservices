@@ -6,21 +6,25 @@
             <h2 class="text-center">Edit Travel Group</h2>
 
             <form asp-action="Edit" method="post" class="mt-3">
+                <div asp-validation-summary="All" class="text-danger"></div>
                 <input type="hidden" asp-for="Id" /> 
 
                 <div class="mb-3">
                     <label class="form-label">Name</label>
                     <input asp-for="Name" class="form-control" required>
+                    <div class="text-danger" asp-validation-for="Name"></div>
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">Place</label>
                     <input asp-for="Place" class="form-control" required>
+                    <div class="text-danger" asp-validation-for="Place"></div>
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">Description</label>
                     <textarea asp-for="Description" class="form-control"></textarea>
+                    <div class="text-danger" asp-validation-for="Description"></div>
                 </div>
                                
                 <button type="submit" class="btn btn-warning w-100">Update</button>
@@ -30,3 +34,8 @@
         </div>
     </div>
 </div>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
