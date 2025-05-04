@@ -2,10 +2,13 @@ using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using TripTracker.Services.TravelGroupApi;
 using TripTracker.Services.TravelGroupApi.Data;
+using TripTracker.Services.TravelGroupApi.Model.Dto;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+builder.Services.AddScoped<ResponseDto>();
 
 builder.Services.AddDbContext<TravelGroupDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
