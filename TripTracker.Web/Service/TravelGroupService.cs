@@ -1,7 +1,6 @@
 ﻿using TripTracker.Web.Model.Dto;
 using TripTracker.Web.Models.Dto;
 using TripTracker.Web.Service.Interface;
-using TripTracker.Web.Utility;
 using static TripTracker.Web.Utility.StaticDetail;
 
 namespace TripTracker.Web.Service
