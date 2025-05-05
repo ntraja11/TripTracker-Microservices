@@ -4,6 +4,6 @@ namespace TripTracker.Services.AuthApi.Model
 {
     public class ApplicationUser : IdentityUser
     {
-        public string? FullName { get; set; }
+        public string? Name { get; set; }
     }
 }
