@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using TripTracker.Services.AuthApi.Data;
 using TripTracker.Services.AuthApi.Model;
+using TripTracker.Services.AuthApi.Model.Dto;
 using TripTracker.Services.AuthApi.Service;
 using TripTracker.Services.AuthApi.Service.Interface;
 
@@ -19,6 +20,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("ApiSettings:JwtOptions"));
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
+builder.Services.AddScoped<ResponseDto>();
 
 
 builder.Services.AddControllers();

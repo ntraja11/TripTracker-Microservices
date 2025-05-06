@@ -19,23 +19,25 @@ namespace TripTracker.Services.AuthApi.Service
         {
             var tokenHandler = new JwtSecurityTokenHandler();
 
-            var key = Encoding.ASCII.GetBytes(_jwtOptions.Secret!);
+            var key = Encoding.UTF8.GetBytes(_jwtOptions.Secret!);
 
             var claimList = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.Name, applicationUser.Name),
-                new Claim(JwtRegisteredClaimNames.Email, applicationUser.Email),
-                new Claim(JwtRegisteredClaimNames.Sub, applicationUser.Id)
+                new Claim(JwtRegisteredClaimNames.UniqueName, applicationUser.Name!),
+                new Claim(JwtRegisteredClaimNames.Email, applicationUser.Email!),
+                new Claim(JwtRegisteredClaimNames.Sub, applicationUser.Id!)
             };
+
+            var expirationMinutes = int.TryParse(_jwtOptions.ExpirationInMinutes, out var minutes) ? minutes : 30;
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Audience = _jwtOptions.Audience,
                 Issuer = _jwtOptions.Issuer,
                 Subject = new ClaimsIdentity(claimList),
-                Expires = DateTime.UtcNow.AddHours(1),
+                Expires = DateTime.UtcNow.AddMinutes(expirationMinutes),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
-                    SecurityAlgorithms.HmacSha256Signature)
+                    SecurityAlgorithms.HmacSha512Signature)
             };
 
             var token = tokenHandler.CreateToken(tokenDescriptor);

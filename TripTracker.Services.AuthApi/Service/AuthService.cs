@@ -23,16 +23,41 @@ namespace TripTracker.Services.AuthApi.Service
             _userManager = userManager;
             _jwtTokenGenerator = jwtTokenGenerator;
         }
+
+        public async Task<bool> AssignRole(string email, string roleName)
+        {
+            var allowedRoles = new List<string> { "Admin", "User" };
+            if (!allowedRoles.Contains(roleName))
+            {
+                return false; 
+            }
+
+            var user = await _userManager.FindByEmailAsync(email);
+
+            if (user != null)
+            {
+                if (!await _roleManager.RoleExistsAsync(roleName))
+                {
+                    await _roleManager.CreateAsync(new IdentityRole(roleName));                    
+                }
+                await _userManager.AddToRoleAsync(user, roleName);
+                return true;
+            }
+            return false;
+        }
+
         public async Task<LoginResponseDto> Login(LoginRequestDto loginRequestDto)
         {
-            var user = await _db.ApplicationUsers
-                .FirstOrDefaultAsync(u => u.UserName!.ToLower() == loginRequestDto.UserName!.ToLower());
-
-            var isValidPassword = await _userManager.CheckPasswordAsync(user!, loginRequestDto.Password!);
-
-            if (user == null || !isValidPassword)
+            var user = await _userManager.FindByEmailAsync(loginRequestDto.UserName!);
+            if (user == null)
             {
-                return new LoginResponseDto{User = null, Token = ""};
+                return new LoginResponseDto { User = null, Token = "" };
+            }
+
+            var isValidPassword = await _userManager.CheckPasswordAsync(user, loginRequestDto.Password!);
+            if (!isValidPassword)
+            {
+                return new LoginResponseDto { User = null, Token = "" };
             }
 
             var token = _jwtTokenGenerator.GenerateToken(user);
@@ -62,7 +87,7 @@ namespace TripTracker.Services.AuthApi.Service
                 Email = registrationRequestDto.Email,
                 NormalizedEmail = registrationRequestDto.Email!.ToUpper(),
                 PhoneNumber = registrationRequestDto.PhoneNumber,
-                Name = registrationRequestDto.FullName
+                Name = registrationRequestDto.Name
             };
 
             try
@@ -70,21 +95,17 @@ namespace TripTracker.Services.AuthApi.Service
                 var result = await _userManager.CreateAsync(user, registrationRequestDto.Password!);
                 if (result.Succeeded)
                 {
-                    return "";
+                    return "User registered successfully";
                 }
                 else
                 {
-                    return result.Errors.FirstOrDefault().Description;
+                    return result.Errors.FirstOrDefault()!.Description;
                 }
             }
-            catch(Exception ex)
+            catch(Exception)
             {
+                return "Unexpected error occured during registration";
             }
-
-            return "Error encountered";
-
-
-
         }
     }
 }

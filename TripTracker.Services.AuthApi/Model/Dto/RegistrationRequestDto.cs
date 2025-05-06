@@ -4,7 +4,7 @@ namespace TripTracker.Services.AuthApi.Model.Dto
 {
     public class RegistrationRequestDto
     {
-        public string? FullName { get; set; }
+        public string? Name { get; set; }
 
         [Required(ErrorMessage = "Email is required.")]
         [EmailAddress(ErrorMessage = "Invalid email format.")]
@@ -13,5 +13,7 @@ namespace TripTracker.Services.AuthApi.Model.Dto
 
         [Required(ErrorMessage = "Password is required.")]
         public string? Password { get; set; }
+        public string? Role { get; set; }
+
     }
 }
