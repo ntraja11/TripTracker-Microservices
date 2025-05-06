@@ -22,7 +22,7 @@ namespace TripTracker.Services.TravelGroupApi.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("TripTracker.Services.TravelGroupApi.Model.TravelGroup", b =>
+            modelBuilder.Entity("TripTracker.Services.TravelGroupApi.Models.TravelGroup", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()

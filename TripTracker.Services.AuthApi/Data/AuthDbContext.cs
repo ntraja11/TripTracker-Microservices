@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using TripTracker.Services.AuthApi.Model;
+using TripTracker.Services.AuthApi.Models;
 
 namespace TripTracker.Services.AuthApi.Data
 {

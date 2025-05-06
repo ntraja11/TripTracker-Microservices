@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TripTracker.Services.TravelGroupApi.Model;
+using TripTracker.Services.TravelGroupApi.Models;
 
 namespace TripTracker.Services.TravelGroupApi.Data
 {

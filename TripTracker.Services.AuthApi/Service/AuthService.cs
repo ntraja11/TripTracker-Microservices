@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using TripTracker.Services.AuthApi.Data;
-using TripTracker.Services.AuthApi.Model;
-using TripTracker.Services.AuthApi.Model.Dto;
+using TripTracker.Services.AuthApi.Models;
+using TripTracker.Services.AuthApi.Models.Dto;
 using TripTracker.Services.AuthApi.Service.Interface;
 
 namespace TripTracker.Services.AuthApi.Service

@@ -3,7 +3,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using TripTracker.Services.AuthApi.Model;
+using TripTracker.Services.AuthApi.Models;
 using TripTracker.Services.AuthApi.Service.Interface;
 
 namespace TripTracker.Services.AuthApi.Service

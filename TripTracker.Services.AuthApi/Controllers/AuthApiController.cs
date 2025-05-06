@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using TripTracker.Services.AuthApi.Model.Dto;
+using TripTracker.Services.AuthApi.Models.Dto;
 using TripTracker.Services.AuthApi.Service.Interface;
 
 namespace TripTracker.Services.AuthApi.Controllers

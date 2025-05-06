@@ -158,7 +158,7 @@ namespace TripTracker.Services.AuthApi.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("TripTracker.Services.AuthApi.Model.ApplicationUser", b =>
+            modelBuilder.Entity("TripTracker.Services.AuthApi.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -237,7 +237,7 @@ namespace TripTracker.Services.AuthApi.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("TripTracker.Services.AuthApi.Model.ApplicationUser", null)
+                    b.HasOne("TripTracker.Services.AuthApi.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -246,7 +246,7 @@ namespace TripTracker.Services.AuthApi.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("TripTracker.Services.AuthApi.Model.ApplicationUser", null)
+                    b.HasOne("TripTracker.Services.AuthApi.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -261,7 +261,7 @@ namespace TripTracker.Services.AuthApi.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TripTracker.Services.AuthApi.Model.ApplicationUser", null)
+                    b.HasOne("TripTracker.Services.AuthApi.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -270,7 +270,7 @@ namespace TripTracker.Services.AuthApi.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("TripTracker.Services.AuthApi.Model.ApplicationUser", null)
+                    b.HasOne("TripTracker.Services.AuthApi.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)

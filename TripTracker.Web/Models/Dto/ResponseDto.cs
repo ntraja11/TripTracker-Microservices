@@ -1,4 +1,4 @@
-﻿namespace TripTracker.Web.Model.Dto
+﻿namespace TripTracker.Web.Models.Dto
 {
     public class ResponseDto
     {

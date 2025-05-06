@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using TripTracker.Services.TravelGroupApi.Model;
-using TripTracker.Services.TravelGroupApi.Model.Dto;
+using TripTracker.Services.TravelGroupApi.Models;
+using TripTracker.Services.TravelGroupApi.Models.Dto;
 
 namespace TripTracker.Services.TravelGroupApi
 {

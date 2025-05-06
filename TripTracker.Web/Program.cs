@@ -11,6 +11,7 @@ builder.Services.AddHttpClient();
 builder.Services.AddHttpClient<ITravelGroupService, TravelGroupService>();
 
 StaticDetail.TravelGroupApiBasePath = builder.Configuration["ServiceUrls:TravelGroupAPI"];
+StaticDetail.TravelGroupApiBasePath = builder.Configuration["ServiceUrls:AuthAPI"];
 
 builder.Services.AddScoped<IBaseService, BaseService>();
 builder.Services.AddScoped<ITravelGroupService, TravelGroupService>();

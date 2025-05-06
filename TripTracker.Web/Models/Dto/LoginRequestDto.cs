@@ -1,4 +1,4 @@
-﻿namespace TripTracker.Services.AuthApi.Model.Dto
+﻿namespace TripTracker.Web.Models.Dto
 {
     public class LoginRequestDto
     {

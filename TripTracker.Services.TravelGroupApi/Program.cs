@@ -2,7 +2,7 @@ using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using TripTracker.Services.TravelGroupApi;
 using TripTracker.Services.TravelGroupApi.Data;
-using TripTracker.Services.TravelGroupApi.Model.Dto;
+using TripTracker.Services.TravelGroupApi.Models.Dto;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -1,4 +1,4 @@
-﻿using TripTracker.Services.AuthApi.Model;
+﻿using TripTracker.Services.AuthApi.Models;
 
 namespace TripTracker.Services.AuthApi.Service.Interface
 {
