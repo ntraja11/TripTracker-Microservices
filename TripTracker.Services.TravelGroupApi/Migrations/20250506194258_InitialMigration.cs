@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -7,7 +8,7 @@
 namespace TripTracker.Services.TravelGroupApi.Migrations
 {
     /// <inheritdoc />
-    public partial class InitDatabase : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -18,7 +19,7 @@ namespace TripTracker.Services.TravelGroupApi.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Place = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedDate = table.Column<DateOnly>(type: "date", nullable: true),
@@ -34,8 +35,8 @@ namespace TripTracker.Services.TravelGroupApi.Migrations
                 columns: new[] { "Id", "CreatedDate", "Description", "MemberCount", "Name", "Place" },
                 values: new object[,]
                 {
-                    { 1, new DateOnly(2025, 5, 4), "Friends from palur and varanasi.", 0, "Friends Group", "Keelapalur/Varanasi" },
-                    { 2, new DateOnly(2025, 5, 4), "Friends from Aeronautical education.", 0, "Aero Group", "Chennai" }
+                    { 1, new DateOnly(2025, 5, 6), "Friends from palur and varanasi.", 0, "Friends Group", "Keelapalur/Varanasi" },
+                    { 2, new DateOnly(2025, 5, 6), "Friends from Aeronautical education.", 0, "Aero Group", "Chennai" }
                 });
         }
 

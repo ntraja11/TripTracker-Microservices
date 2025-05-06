@@ -74,6 +74,13 @@ namespace TripTracker.Services.TravelGroupApi.Controllers
                     return _responseDto;
                 }
 
+                if (await _db.TravelGroups.AnyAsync(tg => tg.Name!.ToLower() == travelGroupDto.Name!.ToLower()))
+                {
+                    _responseDto.IsSuccess = false;
+                    _responseDto.Message = "A TravelGroup with this name already exists";
+                    return _responseDto;
+                }
+
                 TravelGroup travelGroup = _mapper.Map<TravelGroup>(travelGroupDto);
                 await _db.TravelGroups.AddAsync(travelGroup);
                 await _db.SaveChangesAsync();

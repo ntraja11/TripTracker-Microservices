@@ -12,8 +12,8 @@ using TripTracker.Services.TravelGroupApi.Data;
 namespace TripTracker.Services.TravelGroupApi.Migrations
 {
     [DbContext(typeof(TravelGroupDbContext))]
-    [Migration("20250503231025_InitDatabase")]
-    partial class InitDatabase
+    [Migration("20250506194447_UniqueTravelGroupName")]
+    partial class UniqueTravelGroupName
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -43,12 +43,16 @@ namespace TripTracker.Services.TravelGroupApi.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Place")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("TravelGroups");
 
@@ -56,7 +60,7 @@ namespace TripTracker.Services.TravelGroupApi.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateOnly(2025, 5, 4),
+                            CreatedDate = new DateOnly(2025, 5, 6),
                             Description = "Friends from palur and varanasi.",
                             MemberCount = 0,
                             Name = "Friends Group",
@@ -65,7 +69,7 @@ namespace TripTracker.Services.TravelGroupApi.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedDate = new DateOnly(2025, 5, 4),
+                            CreatedDate = new DateOnly(2025, 5, 6),
                             Description = "Friends from Aeronautical education.",
                             MemberCount = 0,
                             Name = "Aero Group",
