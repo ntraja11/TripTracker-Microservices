@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace TripTracker.Services.TravelGroupApi.Model
+namespace TripTracker.Services.TravelGroupApi.Models
 {
     public class TravelGroup
     {

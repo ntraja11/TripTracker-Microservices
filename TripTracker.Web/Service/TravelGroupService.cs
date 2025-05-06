@@ -1,5 +1,4 @@
-﻿using TripTracker.Web.Model.Dto;
-using TripTracker.Web.Models.Dto;
+﻿using TripTracker.Web.Models.Dto;
 using TripTracker.Web.Service.Interface;
 using static TripTracker.Web.Utility.StaticDetail;
 

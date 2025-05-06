@@ -1,4 +1,4 @@
-﻿namespace TripTracker.Services.AuthApi.Model
+﻿namespace TripTracker.Services.AuthApi.Models
 {
     public class JwtOptions
     {

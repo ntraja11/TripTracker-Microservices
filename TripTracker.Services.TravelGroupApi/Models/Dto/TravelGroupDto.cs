@@ -1,4 +1,4 @@
-﻿namespace TripTracker.Services.TravelGroupApi.Model.Dto
+﻿namespace TripTracker.Services.TravelGroupApi.Models.Dto
 {
     public class TravelGroupDto
     {

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace TripTracker.Services.AuthApi.Model
+namespace TripTracker.Services.AuthApi.Models
 {
     public class ApplicationUser : IdentityUser
     {

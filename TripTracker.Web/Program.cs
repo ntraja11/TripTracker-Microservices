@@ -9,12 +9,15 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddHttpClient();
 builder.Services.AddHttpClient<ITravelGroupService, TravelGroupService>();
+builder.Services.AddHttpClient<IAuthService, AuthService>();
 
 StaticDetail.TravelGroupApiBasePath = builder.Configuration["ServiceUrls:TravelGroupAPI"];
-StaticDetail.TravelGroupApiBasePath = builder.Configuration["ServiceUrls:AuthAPI"];
+StaticDetail.AuthApiBasePath = builder.Configuration["ServiceUrls:AuthAPI"];
 
 builder.Services.AddScoped<IBaseService, BaseService>();
 builder.Services.AddScoped<ITravelGroupService, TravelGroupService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+
 
 
 
