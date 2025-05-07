@@ -43,12 +43,15 @@ namespace TripTracker.Web.Service
 
                 responseMessage = await client.SendAsync(message);
 
+                var apiContent = await responseMessage.Content.ReadAsStringAsync();
+                var apiResponseDto = JsonConvert.DeserializeObject<ResponseDto>(apiContent);
+
                 switch (responseMessage.StatusCode)
                 {
                     case HttpStatusCode.NotFound:
                         return new ResponseDto() { IsSuccess = false, Message = "Not found" };
-                    case HttpStatusCode.BadRequest:
-                        return new ResponseDto() { IsSuccess = false, Message = "Bad Request" };
+                    case HttpStatusCode.BadRequest:                           
+                            return new ResponseDto() { IsSuccess = false, Message = apiResponseDto!.Message };
                     case HttpStatusCode.InternalServerError:
                         return new ResponseDto() { IsSuccess = false, Message = "Internal Server Error" };
                     case HttpStatusCode.Unauthorized:
@@ -56,8 +59,6 @@ namespace TripTracker.Web.Service
                     case HttpStatusCode.Forbidden:
                         return new ResponseDto() { IsSuccess = false, Message = "Forbidden" };
                     default:
-                        var apiContent = await responseMessage.Content.ReadAsStringAsync();
-                        var apiResponseDto = JsonConvert.DeserializeObject<ResponseDto>(apiContent);
                         return apiResponseDto;
                 }
             }

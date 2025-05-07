@@ -7,6 +7,8 @@ namespace TripTracker.Web.Service.Interface
         Task<ResponseDto?> GetAllAsync();
         Task<ResponseDto?> GetAsync(int travelGroupId);
 
+        Task<ResponseDto?> GetAsync(string travelGroupName);
+
         Task<ResponseDto?> CreateAsync(TravelGroupDto dto);
 
         Task<ResponseDto?> UpdateAsync(TravelGroupDto dto);

@@ -50,6 +50,15 @@ namespace TripTracker.Web.Service
             });
         }
 
+        public async Task<ResponseDto?> GetAsync(string travelGroupName)
+        {
+            return await _baseService.SendAsync(new Models.Dto.RequestDto
+            {
+                ApiType = ApiType.GET,
+                Url = TravelGroupApiPath + "getByName/" + travelGroupName
+            });
+        }
+
         public async Task<ResponseDto?> UpdateAsync(TravelGroupDto travelGroupDto)
         {
             return await _baseService.SendAsync(new Models.Dto.RequestDto

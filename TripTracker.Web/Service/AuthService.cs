@@ -13,22 +13,22 @@ namespace TripTracker.Web.Service
             _baseService = baseService;
             AuthApiPath = AuthApiBasePath + "/api/auth/";
         }
-        public async Task<ResponseDto?> AssignRole(RegistrationRequestDto registrationRequestDto)
+        public async Task<ResponseDto?> AssignRoleAsync(RegistrationRequestDto registrationRequestDto)
         {
             return await _baseService.SendAsync(new RequestDto
             {
                 ApiType = ApiType.POST,
-                Url = AuthApiPath,
+                Url = AuthApiPath + "assign-role",
                 Data = registrationRequestDto
             });
         }
 
-        public async Task<ResponseDto?> Login(LoginRequestDto loginRequestDto)
+        public async Task<ResponseDto?> LoginAsync(LoginRequestDto loginRequestDto)
         {
             return await _baseService.SendAsync(new RequestDto
             {
                 ApiType = ApiType.POST,
-                Url = AuthApiPath,
+                Url = AuthApiPath + "login",
                 Data = loginRequestDto
             });
         }
@@ -38,12 +38,12 @@ namespace TripTracker.Web.Service
             throw new NotImplementedException();
         }
 
-        public async Task<ResponseDto?> Register(RegistrationRequestDto registrationRequestDto)
+        public async Task<ResponseDto?> RegisterAsync(RegistrationRequestDto registrationRequestDto)
         {
             return await _baseService.SendAsync(new RequestDto
             {
                 ApiType = ApiType.POST,
-                Url = AuthApiPath,
+                Url = AuthApiPath + "register",
                 Data = registrationRequestDto
             });
         }

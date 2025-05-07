@@ -26,12 +26,6 @@ namespace TripTracker.Services.AuthApi.Service
 
         public async Task<bool> AssignRole(string email, string roleName)
         {
-            var allowedRoles = new List<string> { "Admin", "User" };
-            if (!allowedRoles.Contains(roleName))
-            {
-                return false; 
-            }
-
             var user = await _userManager.FindByEmailAsync(email);
 
             if (user != null)
@@ -87,7 +81,8 @@ namespace TripTracker.Services.AuthApi.Service
                 Email = registrationRequestDto.Email,
                 NormalizedEmail = registrationRequestDto.Email!.ToUpper(),
                 PhoneNumber = registrationRequestDto.PhoneNumber,
-                Name = registrationRequestDto.Name
+                Name = registrationRequestDto.Name,
+                TravelGroupId = registrationRequestDto.TravelGroupId
             };
 
             try
@@ -95,7 +90,7 @@ namespace TripTracker.Services.AuthApi.Service
                 var result = await _userManager.CreateAsync(user, registrationRequestDto.Password!);
                 if (result.Succeeded)
                 {
-                    return "User registered successfully";
+                    return "";
                 }
                 else
                 {

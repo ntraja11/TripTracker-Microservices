@@ -1,0 +1,35 @@
+﻿@model LoginRequestDto
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white text-center">
+                    <h4>Login</h4>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Login" method="post">
+                        <div asp-validation-summary="All" class="text-danger"></div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <input asp-for="UserName" class="form-control" placeholder="Enter your email" required>
+                            <div class="text-danger" asp-validation-for="UserName"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Password</label>
+                            <input asp-for="Password" type="password" class="form-control" placeholder="Enter your password" required>
+                            <div class="text-danger" asp-validation-for="Password"></div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100">Login</button>
+                    </form>
+                </div>
+                <div class="card-footer text-center">
+                    <small>Don't have an account? <a asp-controller="Auth" asp-action="Register">Register here</a></small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
