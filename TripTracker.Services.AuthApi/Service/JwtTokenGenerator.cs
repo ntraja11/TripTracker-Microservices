@@ -15,7 +15,7 @@ namespace TripTracker.Services.AuthApi.Service
         {
             _jwtOptions = jwtOptions.Value;
         }
-        public string GenerateToken(ApplicationUser applicationUser)
+        public string GenerateToken(ApplicationUser applicationUser, IEnumerable<string> roles)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
 
@@ -27,6 +27,8 @@ namespace TripTracker.Services.AuthApi.Service
                 new Claim(JwtRegisteredClaimNames.Email, applicationUser.Email!),
                 new Claim(JwtRegisteredClaimNames.Sub, applicationUser.Id!)
             };
+
+            claimList.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
 
             var expirationMinutes = int.TryParse(_jwtOptions.ExpirationInMinutes, out var minutes) ? minutes : 30;
 

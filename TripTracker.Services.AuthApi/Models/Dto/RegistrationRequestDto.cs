@@ -10,6 +10,9 @@ namespace TripTracker.Services.AuthApi.Models.Dto
         [Required(ErrorMessage = "Email is required")]
         [EmailAddress(ErrorMessage = "Invalid email format")]
         public string? Email { get; set; }
+        [Required(ErrorMessage = "Phone number is required")]
+
+        [RegularExpression(@"^\d+$", ErrorMessage = "Phone number must contain only digits")]
         public string? PhoneNumber { get; set; }
 
         [Required(ErrorMessage = "Password is required")]

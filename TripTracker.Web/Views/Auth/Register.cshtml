@@ -9,36 +9,36 @@
                 </div>
                 <div class="card-body">
                     <form asp-action="Register" method="post">
-                        <div asp-validation-summary="All" class="text-danger"></div>
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                         <div class="mb-3">
                             <label class="form-label">Name</label>
-                            <input asp-for="Name" class="form-control" placeholder="Enter your full name" required>
-                            <div class="text-danger" asp-validation-for="Name"></div>
+                            <input asp-for="Name" class="form-control mb-2" placeholder="Enter your full name" required>
+                            <span class="text-danger" asp-validation-for="Name"></span>
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label">Email</label>
-                            <input asp-for="Email" type="email" class="form-control" placeholder="Enter your email" required>
-                            <div class="text-danger" asp-validation-for="Email"></div>
+                            <input asp-for="Email" type="email" class="form-control mb-2" placeholder="Enter your email" required>
+                            <span class="text-danger" asp-validation-for="Email"></span>
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label">Password</label>
-                            <input asp-for="Password" type="password" class="form-control" placeholder="Enter your password" required>
-                            <div class="text-danger" asp-validation-for="Password"></div>
+                            <input asp-for="Password" type="password" class="form-control mb-2" placeholder="Enter your password" required>
+                            <span class="text-danger" asp-validation-for="Password"></span>
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label">Phone Number</label>
-                            <input asp-for="PhoneNumber" type="tel" pattern="\d+" class="form-control" placeholder="Enter your phone number">
-                            <div class="text-danger" asp-validation-for="PhoneNumber"></div>
+                            <input asp-for="PhoneNumber" type="tel" class="form-control mb-2" placeholder="Enter your phone number">
+                            <span class="text-danger" asp-validation-for="PhoneNumber"></span>
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label">Travel Group Name</label>
-                            <input asp-for="TravelGroupName" class="form-control" placeholder="Enter your travel group name">
-                            <div class="text-danger" asp-validation-for="TravelGroupName"></div>
+                            <input asp-for="TravelGroupName" class="form-control mb-2" placeholder="Enter your travel group name">
+                            <span class="text-danger" asp-validation-for="TravelGroupName"></span>
                         </div>                         
                         
                         <div class="mb-3 form-check">
@@ -58,3 +58,9 @@
         </div>
     </div>
 </div>
+
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

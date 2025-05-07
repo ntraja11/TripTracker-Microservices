@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System.Net;
+using System.Net.Http.Headers;
 using System.Text;
 using TripTracker.Web.Models.Dto;
 using TripTracker.Web.Service.Interface;
@@ -10,12 +11,14 @@ namespace TripTracker.Web.Service
     public class BaseService : IBaseService
     {
         private readonly IHttpClientFactory _httpClientFactory;
+        private readonly ITokenHandler _tokenHandler;
 
-        public BaseService(IHttpClientFactory httpClientFactory)
+        public BaseService(IHttpClientFactory httpClientFactory, ITokenHandler tokenHandler)
         {
             _httpClientFactory = httpClientFactory;
+            _tokenHandler = tokenHandler;
         }
-        public async Task<ResponseDto?> SendAsync(RequestDto requestDto)
+        public async Task<ResponseDto?> SendAsync(RequestDto requestDto, bool withBearer = true)
         {
             try
             {
@@ -23,6 +26,15 @@ namespace TripTracker.Web.Service
 
                 HttpRequestMessage message = new HttpRequestMessage();
                 message.Headers.Add("Accept", "application/json");
+
+                if (withBearer)
+                {
+                    var token = _tokenHandler.GetToken();
+                    if (!string.IsNullOrEmpty(token))
+                    {
+                        message.Headers.Add("Authorization", $"Bearer {token}");
+                    }
+                }
 
                 message.RequestUri = new Uri(requestDto.Url);
 
@@ -43,15 +55,18 @@ namespace TripTracker.Web.Service
 
                 responseMessage = await client.SendAsync(message);
 
-                var apiContent = await responseMessage.Content.ReadAsStringAsync();
-                var apiResponseDto = JsonConvert.DeserializeObject<ResponseDto>(apiContent);
+                string apiContent = "";
+                ResponseDto? apiResponseDto = new ResponseDto();
 
                 switch (responseMessage.StatusCode)
                 {
+
                     case HttpStatusCode.NotFound:
                         return new ResponseDto() { IsSuccess = false, Message = "Not found" };
-                    case HttpStatusCode.BadRequest:                           
-                            return new ResponseDto() { IsSuccess = false, Message = apiResponseDto!.Message };
+                    case HttpStatusCode.BadRequest:
+                        apiContent = await responseMessage.Content.ReadAsStringAsync();
+                        apiResponseDto = JsonConvert.DeserializeObject<ResponseDto>(apiContent);
+                        return new ResponseDto() { IsSuccess = false, Message = apiResponseDto!.Message };
                     case HttpStatusCode.InternalServerError:
                         return new ResponseDto() { IsSuccess = false, Message = "Internal Server Error" };
                     case HttpStatusCode.Unauthorized:
@@ -59,6 +74,8 @@ namespace TripTracker.Web.Service
                     case HttpStatusCode.Forbidden:
                         return new ResponseDto() { IsSuccess = false, Message = "Forbidden" };
                     default:
+                        apiContent = await responseMessage.Content.ReadAsStringAsync();
+                        apiResponseDto = JsonConvert.DeserializeObject<ResponseDto>(apiContent);
                         return apiResponseDto;
                 }
             }

@@ -30,7 +30,7 @@ namespace TripTracker.Web.Service
                 ApiType = ApiType.POST,
                 Url = AuthApiPath + "login",
                 Data = loginRequestDto
-            });
+            }, withBearer: false);
         }
 
         public Task<ResponseDto?> Logout()
@@ -45,7 +45,7 @@ namespace TripTracker.Web.Service
                 ApiType = ApiType.POST,
                 Url = AuthApiPath + "register",
                 Data = registrationRequestDto
-            });
+            }, withBearer: false);
         }
     }
 }

@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using TripTracker.Web.Models.Dto;
 using TripTracker.Web.Service.Interface;
+using TripTracker.Web.Utility;
 
 namespace TripTracker.Web.Controllers
 {
+    [Authorize]
     public class TravelGroupController : Controller
     {
         private readonly ITravelGroupService _travelGroupService;
@@ -30,11 +33,13 @@ namespace TripTracker.Web.Controllers
                 }
                 catch (JsonException ex)
                 {
+                    TempData["error"] = $"Error parsing data: {ex.Message}";
                     ModelState.AddModelError(string.Empty, $"Error parsing data: {ex.Message}");
                 }
             }
             else
             {
+                TempData["error"] = response?.Message ?? "Failed to retrieve travel groups.";
                 ModelState.AddModelError(string.Empty, response?.Message ?? "Failed to retrieve travel groups.");
             }
 
