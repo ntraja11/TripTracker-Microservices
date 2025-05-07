@@ -1,9 +1,7 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using System.Text;
 using TripTracker.Services.TravelGroupApi;
 using TripTracker.Services.TravelGroupApi.Data;
 using TripTracker.Services.TravelGroupApi.Extensions;
