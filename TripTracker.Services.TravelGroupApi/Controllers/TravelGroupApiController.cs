@@ -42,16 +42,42 @@ namespace TripTracker.Services.TravelGroupApi.Controllers
         [Route("{id:int}")]
         public async Task<ResponseDto> Get(int id)
         {
-            try
-            {
-                var travelGroup = await _db.TravelGroups.FindAsync(id);
+            var travelGroup = await _db.TravelGroups.FindAsync(id);
 
-                if (travelGroup == null)
-                {
-                    _responseDto.IsSuccess = false;
-                    _responseDto.Message = "Travel group not found.";
-                    return _responseDto;
-                }
+            if (travelGroup == null)
+            {
+                _responseDto.IsSuccess = false;
+                _responseDto.Message = "Travel group not found.";
+                return _responseDto;
+            }
+
+            try
+            {                
+                _responseDto.Result = _mapper.Map<TravelGroupDto>(travelGroup);
+            }
+            catch (Exception ex)
+            {
+                _responseDto.IsSuccess = false;
+                _responseDto.Message = ex.Message;
+            }
+            return _responseDto;
+        }
+
+        [HttpGet]
+        [Route("getByName/{travelGroupName}")]
+        public async Task<ResponseDto> Get(string travelGroupName)
+        {
+            var travelGroup = await _db.TravelGroups.FirstOrDefaultAsync(tg => tg.Name == travelGroupName);
+
+            if (travelGroup == null)
+            {
+                _responseDto.IsSuccess = false;
+                _responseDto.Message = "Travel group not found.";
+                return _responseDto;
+            }
+
+            try
+            {                
                 _responseDto.Result = _mapper.Map<TravelGroupDto>(travelGroup);
             }
             catch (Exception ex)
