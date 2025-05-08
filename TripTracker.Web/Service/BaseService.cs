@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using System.Net;
-using System.Net.Http.Headers;
 using System.Text;
 using TripTracker.Web.Models.Dto;
 using TripTracker.Web.Service.Interface;

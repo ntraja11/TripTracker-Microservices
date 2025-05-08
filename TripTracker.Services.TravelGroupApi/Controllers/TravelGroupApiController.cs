@@ -54,7 +54,7 @@ namespace TripTracker.Services.TravelGroupApi.Controllers
             }
 
             try
-            {                
+            {
                 _responseDto.Result = _mapper.Map<TravelGroupDto>(travelGroup);
             }
             catch (Exception ex)
@@ -79,7 +79,7 @@ namespace TripTracker.Services.TravelGroupApi.Controllers
             }
 
             try
-            {                
+            {
                 _responseDto.Result = _mapper.Map<TravelGroupDto>(travelGroup);
             }
             catch (Exception ex)

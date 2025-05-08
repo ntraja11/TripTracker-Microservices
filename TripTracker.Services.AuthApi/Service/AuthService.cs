@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using TripTracker.Services.AuthApi.Data;
 using TripTracker.Services.AuthApi.Models;
 using TripTracker.Services.AuthApi.Models.Dto;
@@ -13,8 +12,8 @@ namespace TripTracker.Services.AuthApi.Service
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IJwtTokenGenerator _jwtTokenGenerator;
-        public AuthService(AuthDbContext db, 
-            RoleManager<IdentityRole> roleManager, 
+        public AuthService(AuthDbContext db,
+            RoleManager<IdentityRole> roleManager,
             UserManager<ApplicationUser> userManager,
             IJwtTokenGenerator jwtTokenGenerator)
         {
@@ -32,7 +31,7 @@ namespace TripTracker.Services.AuthApi.Service
             {
                 if (!await _roleManager.RoleExistsAsync(roleName))
                 {
-                    await _roleManager.CreateAsync(new IdentityRole(roleName));                    
+                    await _roleManager.CreateAsync(new IdentityRole(roleName));
                 }
                 await _userManager.AddToRoleAsync(user, roleName);
                 return true;
@@ -98,7 +97,7 @@ namespace TripTracker.Services.AuthApi.Service
                     return result.Errors.FirstOrDefault()!.Description;
                 }
             }
-            catch(Exception)
+            catch (Exception)
             {
                 return "Unexpected error occured during registration";
             }

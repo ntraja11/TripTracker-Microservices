@@ -2,11 +2,9 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Newtonsoft.Json;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Threading.Tasks;
 using TripTracker.Web.Models.Dto;
 using TripTracker.Web.Service.Interface;
 using TripTracker.Web.Utility;
@@ -19,7 +17,7 @@ namespace TripTracker.Web.Controllers
         private readonly ITravelGroupService _travelGroupService;
         private readonly ITokenHandler _tokenHandler;
 
-        public AuthController(IAuthService authService,  ITravelGroupService travelGroupService, ITokenHandler tokenHandler)
+        public AuthController(IAuthService authService, ITravelGroupService travelGroupService, ITokenHandler tokenHandler)
         {
             _authService = authService;
             _travelGroupService = travelGroupService;
@@ -98,7 +96,7 @@ namespace TripTracker.Web.Controllers
                 return View();
             }
 
-           
+
             ResponseDto? travelGroupCreateResponse = null;
 
             if (!travelGroupExists)
@@ -116,12 +114,12 @@ namespace TripTracker.Web.Controllers
                 }
 
             }
-           
+
 
             registrationRequestDto.TravelGroupId = JsonConvert.DeserializeObject<TravelGroupDto>(Convert.ToString(travelGroupCreateResponse?.Result))?.Id
                                                     ?? JsonConvert.DeserializeObject<TravelGroupDto>(Convert.ToString(travelGroupResponse?.Result))?.Id;
-            
-            registrationRequestDto.Role = travelGroupExists ? StaticDetail.RoleMember 
+
+            registrationRequestDto.Role = travelGroupExists ? StaticDetail.RoleMember
                                             : StaticDetail.RoleAdmin;
 
 

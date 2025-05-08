@@ -2,10 +2,10 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-using TripTracker.Services.TravelGroupApi;
-using TripTracker.Services.TravelGroupApi.Data;
-using TripTracker.Services.TravelGroupApi.Extensions;
-using TripTracker.Services.TravelGroupApi.Models.Dto;
+using TripTracker.Services.ParticipantApi;
+using TripTracker.Services.ParticipantApi.Data;
+using TripTracker.Services.ParticipantApi.Extensions;
+using TripTracker.Services.ParticipantApi.Models.Dto;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,7 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddScoped<ResponseDto>();
 
-builder.Services.AddDbContext<TravelGroupDbContext>(options =>
+builder.Services.AddDbContext<ParticipantDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 IMapper mapper = MappingConfig.RegisterMaps().CreateMapper();
@@ -73,7 +73,7 @@ void ApplyMigrations()
 {
     using (var scope = app.Services.CreateScope())
     {
-        var dbContext = scope.ServiceProvider.GetRequiredService<TravelGroupDbContext>();
+        var dbContext = scope.ServiceProvider.GetRequiredService<ParticipantDbContext>();
         if (dbContext.Database.GetPendingMigrations().Any())
         {
             dbContext.Database.Migrate();

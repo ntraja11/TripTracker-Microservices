@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 
 namespace TripTracker.Services.TripApi.Models
@@ -24,7 +22,7 @@ namespace TripTracker.Services.TripApi.Models
         [Display(Name = "Total Expense")]
         [Precision(10, 2)]
         public decimal? TotalExpense { get; set; }
-                
+
         public string? Status { get; set; }
 
         public string? Notes { get; set; }

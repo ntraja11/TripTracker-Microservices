@@ -1,7 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
-
-namespace TripTracker.Services.TripApi.Models.Dto
+﻿namespace TripTracker.Services.TripApi.Models.Dto
 {
     public class TripDto
     {

@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using TripTracker.Services.AuthApi.Models.Dto;
 using TripTracker.Services.AuthApi.Service.Interface;
 
@@ -26,7 +25,7 @@ namespace TripTracker.Services.AuthApi.Controllers
                 return BadRequest(ModelState);
             }
             var errorMessage = await _authService.Register(registrationRequestDto);
-            if(!string.IsNullOrEmpty(errorMessage))
+            if (!string.IsNullOrEmpty(errorMessage))
             {
                 _response.IsSuccess = false;
                 _response.Message = errorMessage;
@@ -38,7 +37,7 @@ namespace TripTracker.Services.AuthApi.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequestDto loginRequestDto)
         {
-            if (!ModelState.IsValid) 
+            if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
@@ -66,7 +65,7 @@ namespace TripTracker.Services.AuthApi.Controllers
 
             var isRoleAssigned = await _authService
                 .AssignRole(registrationRequestDto.Email!, registrationRequestDto.Role!.ToUpper());
-                        
+
             if (!isRoleAssigned)
             {
                 _response.IsSuccess = false;

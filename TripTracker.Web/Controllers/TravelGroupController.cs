@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using TripTracker.Web.Models.Dto;
 using TripTracker.Web.Service.Interface;
-using TripTracker.Web.Utility;
 
 namespace TripTracker.Web.Controllers
 {
@@ -28,7 +27,7 @@ namespace TripTracker.Web.Controllers
                 try
                 {
                     travelGroups = JsonConvert
-                        .DeserializeObject<List<TravelGroupDto>>(Convert.ToString(response.Result)) 
+                        .DeserializeObject<List<TravelGroupDto>>(Convert.ToString(response.Result))
                         ?? new List<TravelGroupDto>();
                 }
                 catch (JsonException ex)

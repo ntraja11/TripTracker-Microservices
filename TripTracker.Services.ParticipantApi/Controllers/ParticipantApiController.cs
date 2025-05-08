@@ -2,22 +2,23 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using TripTracker.Services.TripApi.Data;
-using TripTracker.Services.TripApi.Models;
-using TripTracker.Services.TripApi.Models.Dto;
+using TripTracker.Services.ParticipantApi.Data;
+using TripTracker.Services.ParticipantApi.Models;
+using TripTracker.Services.ParticipantApi.Models.Dto;
 
-namespace TripTracker.Services.TripApi.Controllers
+namespace TripTracker.Services.ParticipantApi.Controllers
 {
-    [Route("api/trip")]
+    [Route("api/participant")]
     [ApiController]
     [Authorize]
-    public class TripApiController : ControllerBase
+    public class ParticipantApiController : ControllerBase
+
     {
-        private readonly TripDbContext _db;
+        private readonly ParticipantDbContext _db;
         private readonly ResponseDto _responseDto;
         private readonly IMapper _mapper;
 
-        public TripApiController(TripDbContext db, IMapper mapper, ResponseDto responseDto)
+        public ParticipantApiController(ParticipantDbContext db, IMapper mapper, ResponseDto responseDto)
         {
             _db = db;
             _mapper = mapper;
@@ -29,8 +30,8 @@ namespace TripTracker.Services.TripApi.Controllers
         {
             try
             {
-                _responseDto.Result = _mapper.Map<IEnumerable<TripDto>>(
-                    await _db.Trips.AsNoTracking().ToListAsync());
+                _responseDto.Result = _mapper.Map<IEnumerable<ParticipantDto>>(
+                    await _db.Participants.AsNoTracking().ToListAsync());
             }
             catch (Exception ex)
             {
@@ -44,18 +45,18 @@ namespace TripTracker.Services.TripApi.Controllers
         [Route("{id:int}")]
         public async Task<ResponseDto> Get(int id)
         {
-            var trip = await _db.Trips.FindAsync(id);
+            var participant = await _db.Participants.FindAsync(id);
 
-            if (trip == null)
+            if (participant == null)
             {
                 _responseDto.IsSuccess = false;
-                _responseDto.Message = "Trip group not found.";
+                _responseDto.Message = "Participant not found.";
                 return _responseDto;
             }
 
             try
             {
-                _responseDto.Result = _mapper.Map<TripDto>(trip);
+                _responseDto.Result = _mapper.Map<ParticipantDto>(participant);
             }
             catch (Exception ex)
             {
@@ -64,57 +65,31 @@ namespace TripTracker.Services.TripApi.Controllers
             }
             return _responseDto;
         }
-
-        [HttpGet]
-        [Route("getByTravelGroup/{travelGroupId:int}")]
-        public async Task<ResponseDto> GetByTravelGroup(int travelGroupId)
-        {
-            var trips = await _db.Trips.Where(t => t.TravelGroupId == travelGroupId)
-                .AsNoTracking().ToListAsync();
-
-            if (trips == null || trips!.Count == 0)
-            {
-                _responseDto.IsSuccess = false;
-                _responseDto.Message = "No trips created in this travel group";
-                return _responseDto;
-            }
-
-            try
-            {
-                _responseDto.Result = _mapper.Map<IEnumerable<TripDto>>(trips);
-            }
-            catch (Exception ex)
-            {
-                _responseDto.IsSuccess = false;
-                _responseDto.Message = ex.Message;
-            }
-            return _responseDto;
-        }
-
+        
         [HttpPost]
         [Authorize(Roles = "ADMIN")]
-        public async Task<ResponseDto> Post([FromBody] TripDto tripDto)
+        public async Task<ResponseDto> Post([FromBody] ParticipantDto participantDto)
         {
             try
             {
-                if (tripDto == null)
+                if (participantDto == null)
                 {
                     _responseDto.IsSuccess = false;
-                    _responseDto.Message = "Trip group is null.";
+                    _responseDto.Message = "Participant group is null.";
                     return _responseDto;
                 }
 
-                if (await _db.Trips.AnyAsync(tg => tg.Name!.ToLower() == tripDto.Name!.ToLower()))
+                if (await _db.Participants.AnyAsync(tg => tg.Name!.ToLower() == participantDto.Name!.ToLower()))
                 {
                     _responseDto.IsSuccess = false;
-                    _responseDto.Message = "A Trip with this name already exists";
+                    _responseDto.Message = "A Participant with this name already exists";
                     return _responseDto;
                 }
 
-                Trip trip = _mapper.Map<Trip>(tripDto);
-                await _db.Trips.AddAsync(trip);
+                Participant participant = _mapper.Map<Participant>(participantDto);
+                await _db.Participants.AddAsync(participant);
                 await _db.SaveChangesAsync();
-                _responseDto.Result = _mapper.Map<TripDto>(trip);
+                _responseDto.Result = _mapper.Map<ParticipantDto>(participant);
             }
             catch (Exception ex)
             {
@@ -126,21 +101,21 @@ namespace TripTracker.Services.TripApi.Controllers
 
         [HttpPut]
         [Authorize(Roles = "ADMIN")]
-        public async Task<ResponseDto> Put([FromBody] TripDto tripDto)
+        public async Task<ResponseDto> Put([FromBody] ParticipantDto participantDto)
         {
             try
             {
-                if (tripDto == null)
+                if (participantDto == null)
                 {
                     _responseDto.IsSuccess = false;
-                    _responseDto.Message = "Trip group is null.";
+                    _responseDto.Message = "Participant is null.";
                     return _responseDto;
                 }
 
-                Trip trip = _mapper.Map<Trip>(tripDto);
-                _db.Trips.Update(trip);
+                Participant participant = _mapper.Map<Participant>(participantDto);
+                _db.Participants.Update(participant);
                 await _db.SaveChangesAsync();
-                _responseDto.Result = _mapper.Map<TripDto>(trip);
+                _responseDto.Result = _mapper.Map<ParticipantDto>(participant);
             }
             catch (Exception ex)
             {
@@ -157,17 +132,17 @@ namespace TripTracker.Services.TripApi.Controllers
         {
             try
             {
-                var trip = await _db.Trips.FindAsync(id);
-                if (trip == null)
+                var participant = await _db.Participants.FindAsync(id);
+                if (participant == null)
                 {
                     _responseDto.IsSuccess = false;
-                    _responseDto.Message = "Trip group not found.";
+                    _responseDto.Message = "Participant not found.";
                     return _responseDto;
                 }
 
-                _db.Trips.Remove(trip);
+                _db.Participants.Remove(participant);
                 await _db.SaveChangesAsync();
-                _responseDto.Message = "Trip group deleted successfully.";
+                _responseDto.Message = "Participant deleted successfully.";
             }
             catch (Exception ex)
             {

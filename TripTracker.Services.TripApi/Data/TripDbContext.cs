@@ -60,7 +60,7 @@ namespace TripTracker.Services.TripApi.Data
                         Notes = "Visited Mysore Palace and Brindavan Gardens.",
                     }
                 );
-                
+
         }
 
 
