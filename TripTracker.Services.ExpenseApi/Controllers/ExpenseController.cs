@@ -64,7 +64,7 @@ namespace TripTracker.Services.ExpenseApi.Controllers
             }
             return _responseDto;
         }
-        
+
         [HttpPost]
         [Authorize(Roles = "ADMIN")]
         public async Task<ResponseDto> Post([FromBody] ExpenseDto expenseDto)

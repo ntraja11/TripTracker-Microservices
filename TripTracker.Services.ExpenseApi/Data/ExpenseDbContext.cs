@@ -15,7 +15,7 @@ namespace TripTracker.Services.ExpenseApi.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            
+
 
         }
 

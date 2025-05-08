@@ -65,7 +65,7 @@ namespace TripTracker.Services.ParticipantApi.Controllers
             }
             return _responseDto;
         }
-        
+
         [HttpPost]
         [Authorize(Roles = "ADMIN")]
         public async Task<ResponseDto> Post([FromBody] ParticipantDto participantDto)

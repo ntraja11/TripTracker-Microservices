@@ -12,16 +12,22 @@ builder.Services.AddHttpClient();
 
 builder.Services.AddHttpClient<ITravelGroupService, TravelGroupService>();
 builder.Services.AddHttpClient<ITripService, TripService>();
+builder.Services.AddHttpClient<IParticipantService, ParticipantService>();
+builder.Services.AddHttpClient<IExpenseService, ExpenseService>();
 builder.Services.AddHttpClient<IAuthService, AuthService>();
 
 StaticDetail.TravelGroupApiBasePath = builder.Configuration["ServiceUrls:TravelGroupAPI"];
 StaticDetail.TripApiBasePath = builder.Configuration["ServiceUrls:TripAPI"];
+StaticDetail.ParticipantApiBasePath = builder.Configuration["ServiceUrls:ParticipantAPI"];
+StaticDetail.ExpenseApiBasePath = builder.Configuration["ServiceUrls:ExpenseAPI"];
 StaticDetail.AuthApiBasePath = builder.Configuration["ServiceUrls:AuthAPI"];
 
 builder.Services.AddScoped<ITokenHandler, TokenHandler>();
 builder.Services.AddScoped<IBaseService, BaseService>();
 builder.Services.AddScoped<ITravelGroupService, TravelGroupService>();
 builder.Services.AddScoped<ITripService, TripService>();
+builder.Services.AddScoped<IParticipantService, ParticipantService>();
+builder.Services.AddScoped<IExpenseService, ExpenseService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

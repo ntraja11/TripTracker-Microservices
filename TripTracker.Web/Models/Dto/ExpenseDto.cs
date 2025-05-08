@@ -1,16 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
-
-namespace TripTracker.Services.ExpenseApi.Models
+﻿namespace TripTracker.Web.Models.Dto
 {
-    public class Expense
+    public class ExpenseDto
     {
         public int Id { get; set; }
-        [Required]
         public string Name { get; set; } = String.Empty;
-        public string Description { get; set; } = String.Empty;
-        [Required]
-        [Precision(10, 2)]
+        public string? Description { get; set; } = String.Empty;
         public decimal Amount { get; set; } = 0;
         public DateOnly? ExpenseDate { get; set; }
         public int ParticipantId { get; set; }

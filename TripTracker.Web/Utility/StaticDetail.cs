@@ -4,6 +4,8 @@
     {
         public static string? TravelGroupApiBasePath { get; set; } = "";
         public static string? TripApiBasePath { get; set; } = "";
+        public static string? ParticipantApiBasePath { get; set; } = "";
+        public static string? ExpenseApiBasePath { get; set; } = "";
         public static string? AuthApiBasePath { get; set; } = "";
         public const string RoleAdmin = "ADMIN";
         public const string RoleMember = "MEMBER";
