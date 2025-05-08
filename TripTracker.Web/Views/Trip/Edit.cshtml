@@ -1,0 +1,68 @@
+﻿@model TripDto
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Edit Trip</h2>
+        <a asp-action="Index" class="btn btn-secondary">← Back to List</a>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <form asp-action="Edit" method="post">
+                <input type="hidden" asp-for="Id">
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Trip Name</label>
+                        <input asp-for="Name" class="form-control" placeholder="Enter trip name" required>
+                        <div class="text-danger" asp-validation-for="Name"></div>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Start Location</label>
+                        <input asp-for="From" class="form-control" placeholder="Enter start location" required>
+                        <div class="text-danger" asp-validation-for="From"></div>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Destination</label>
+                        <input asp-for="To" class="form-control" placeholder="Enter destination" required>
+                        <div class="text-danger" asp-validation-for="To"></div>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Start Date</label>
+                        <input asp-for="StartDate" type="date" class="form-control" required>
+                        <div class="text-danger" asp-validation-for="StartDate"></div>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">End Date</label>
+                        <input asp-for="EndDate" type="date" class="form-control">
+                        <div class="text-danger" asp-validation-for="EndDate"></div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <hr>
+                    </div>
+
+                    <div class="col-md-12 mb-3">
+                        <label class="form-label fw-bold">Description</label>
+                        <textarea asp-for="Description" class="form-control" rows="3" placeholder="Enter trip details"></textarea>
+                        <div class="text-danger" asp-validation-for="Description"></div>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Notes</label>
+                        <textarea asp-for="Notes" class="form-control" rows="2" placeholder="Additional notes"></textarea>
+                        <div class="text-danger" asp-validation-for="Notes"></div>
+                    </div>
+
+                    <div class="col-md-12 text-center mt-4">
+                        <button type="submit" class="btn btn-success px-4">Save Changes</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

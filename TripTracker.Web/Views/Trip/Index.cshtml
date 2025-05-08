@@ -1,0 +1,55 @@
+﻿@model IEnumerable<TripDto>
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Trips</h2>
+        <a asp-action="Create" class="btn btn-primary">+ Add New Trip</a>
+    </div>
+
+    @if (Model != null && Model.Any())
+    {
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Name</th>
+                        <th>From</th>
+                        <th>To</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Total Expense</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var trip in Model)
+                    {
+                        <tr>
+                            <td>@trip.Name</td>
+                            <td>@trip.From</td>
+                            <td>@trip.To</td>
+                            <td>@trip.StartDate?.ToString("yyyy-MM-dd")</td>
+                            <td>@trip.EndDate?.ToString("yyyy-MM-dd")</td>
+                            <td>@trip.TotalExpense?.ToString("C")</td>
+                            <td>@trip.Status</td>
+                            <td>
+                                <div class="d-flex">
+                                    <a asp-action="Details" asp-route-id="@trip.Id" class="btn btn-info btn-sm me-2">View</a>
+                                    <a asp-action="Edit" asp-route-id="@trip.Id" class="btn btn-warning btn-sm me-2">Edit</a>
+                                    <form asp-action="DeleteConfirmed" asp-route-id="@trip.Id" method="post" onsubmit="return confirm('Are you sure you want to delete this trip?');">
+                                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <p class="text-muted text-center">No trips found.</p>
+    }
+</div>
