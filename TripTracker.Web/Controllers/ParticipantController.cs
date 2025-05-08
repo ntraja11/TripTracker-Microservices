@@ -45,98 +45,98 @@ namespace TripTracker.Web.Controllers
             return View(participants);
         }
 
-        [HttpGet]
-        public IActionResult Create()
-        {
-            return View();
-        }
+        //[HttpGet]
+        //public IActionResult Create()
+        //{
+        //    return View();
+        //}
 
-        [HttpPost]
-        public async Task<IActionResult> Create(ParticipantDto participantDto)
-        {
-            if (participantDto == null)
-            {
-                TempData["error"] = "Invalid participant data.";
-                ModelState.AddModelError(string.Empty, "Invalid participant data.");
-                return View(participantDto);
-            }
+        //[HttpPost]
+        //public async Task<IActionResult> Create(ParticipantDto participantDto)
+        //{
+        //    if (participantDto == null)
+        //    {
+        //        TempData["error"] = "Invalid participant data.";
+        //        ModelState.AddModelError(string.Empty, "Invalid participant data.");
+        //        return View(participantDto);
+        //    }
 
-            if (!ModelState.IsValid)
-            {
-                TempData["error"] = "Invalid participant data.";
-                ModelState.AddModelError(string.Empty, "Invalid participant data.");
-                return View(participantDto);
-            }
+        //    if (!ModelState.IsValid)
+        //    {
+        //        TempData["error"] = "Invalid participant data.";
+        //        ModelState.AddModelError(string.Empty, "Invalid participant data.");
+        //        return View(participantDto);
+        //    }
 
-            var response = await _participantService.CreateAsync(participantDto);
-            if (response?.IsSuccess == true)
-            {
-                TempData["success"] = "Participant created successfully.";
-                return RedirectToAction(nameof(Index));
-            }
+        //    var response = await _participantService.CreateAsync(participantDto);
+        //    if (response?.IsSuccess == true)
+        //    {
+        //        TempData["success"] = "Participant created successfully.";
+        //        return RedirectToAction(nameof(Index));
+        //    }
 
-            TempData["error"] = response?.Message ?? "Failed to create participant.";
-            ModelState.AddModelError(string.Empty, response?.Message ?? "Failed to create participant.");
-            return View(participantDto);
-        }
+        //    TempData["error"] = response?.Message ?? "Failed to create participant.";
+        //    ModelState.AddModelError(string.Empty, response?.Message ?? "Failed to create participant.");
+        //    return View(participantDto);
+        //}
 
-        public async Task<IActionResult> Details(int id)
-        {
-            var response = await _participantService.GetAsync(id);
-            if (response?.IsSuccess == true && response.Result != null)
-            {
-                var participant = JsonConvert.DeserializeObject<ParticipantDto>(Convert.ToString(response.Result));
-                return View(participant);
-            }
+        //public async Task<IActionResult> Details(int id)
+        //{
+        //    var response = await _participantService.GetAsync(id);
+        //    if (response?.IsSuccess == true && response.Result != null)
+        //    {
+        //        var participant = JsonConvert.DeserializeObject<ParticipantDto>(Convert.ToString(response.Result));
+        //        return View(participant);
+        //    }
 
-            TempData["error"] = response?.Message ?? "Participant not found.";
-            ModelState.AddModelError(string.Empty, response?.Message ?? "Participant not found.");
-            return View(new ParticipantDto());
-        }
+        //    TempData["error"] = response?.Message ?? "Participant not found.";
+        //    ModelState.AddModelError(string.Empty, response?.Message ?? "Participant not found.");
+        //    return View(new ParticipantDto());
+        //}
 
-        [HttpGet]
-        public async Task<IActionResult> Edit(int id)
-        {
-            var response = await _participantService.GetAsync(id);
-            if (response != null && response?.IsSuccess == true && response.Result != null)
-            {
-                var participant = JsonConvert.DeserializeObject<ParticipantDto>(Convert.ToString(response.Result));
-                return View(participant);
-            }
+        //[HttpGet]
+        //public async Task<IActionResult> Edit(int id)
+        //{
+        //    var response = await _participantService.GetAsync(id);
+        //    if (response != null && response?.IsSuccess == true && response.Result != null)
+        //    {
+        //        var participant = JsonConvert.DeserializeObject<ParticipantDto>(Convert.ToString(response.Result));
+        //        return View(participant);
+        //    }
 
-            TempData["error"] = response?.Message ?? "Participant not found.";
-            ModelState.AddModelError(string.Empty, response?.Message ?? "Participant not found.");
-            return View(new ParticipantDto());
-        }
+        //    TempData["error"] = response?.Message ?? "Participant not found.";
+        //    ModelState.AddModelError(string.Empty, response?.Message ?? "Participant not found.");
+        //    return View(new ParticipantDto());
+        //}
 
-        [HttpPost]
-        public async Task<IActionResult> Edit(ParticipantDto participantDto)
-        {
-            if (participantDto == null)
-            {
-                TempData["error"] = "Invalid participant data.";
-                ModelState.AddModelError(string.Empty, "Invalid participant data.");
-                return View(participantDto);
-            }
+        //[HttpPost]
+        //public async Task<IActionResult> Edit(ParticipantDto participantDto)
+        //{
+        //    if (participantDto == null)
+        //    {
+        //        TempData["error"] = "Invalid participant data.";
+        //        ModelState.AddModelError(string.Empty, "Invalid participant data.");
+        //        return View(participantDto);
+        //    }
 
-            if (!ModelState.IsValid)
-            {
-                TempData["error"] = "Invalid participant data.";
-                ModelState.AddModelError(string.Empty, "Invalid participant data.");
-                return View(participantDto);
-            }
+        //    if (!ModelState.IsValid)
+        //    {
+        //        TempData["error"] = "Invalid participant data.";
+        //        ModelState.AddModelError(string.Empty, "Invalid participant data.");
+        //        return View(participantDto);
+        //    }
 
-            var response = await _participantService.UpdateAsync(participantDto);
-            if (response?.IsSuccess == true)
-            {
-                TempData["success"] = "Participant updated successfully.";
-                return RedirectToAction(nameof(Index));
-            }
+        //    var response = await _participantService.UpdateAsync(participantDto);
+        //    if (response?.IsSuccess == true)
+        //    {
+        //        TempData["success"] = "Participant updated successfully.";
+        //        return RedirectToAction(nameof(Index));
+        //    }
 
-            TempData["error"] = response?.Message ?? "Failed to update participant.";
-            ModelState.AddModelError(string.Empty, response?.Message ?? "Failed to update participant.");
-            return View(participantDto);
-        }
+        //    TempData["error"] = response?.Message ?? "Failed to update participant.";
+        //    ModelState.AddModelError(string.Empty, response?.Message ?? "Failed to update participant.");
+        //    return View(participantDto);
+        //}
 
         [HttpGet]
         public async Task<IActionResult> Delete(int id)

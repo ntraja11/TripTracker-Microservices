@@ -1,0 +1,25 @@
+﻿@model ExpenseDto
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Remove Expense</h2>
+        <a asp-action="Index" class="btn btn-secondary">← Back to List</a>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body text-center">
+            <h5 class="text-danger">Are you sure you want to remove this expense?</h5>
+            <p class="fw-bold">@Model.Name</p>
+            <p>Amount: @Model.Amount.ToString("C")</p>
+            <p>Expense Date: @Model.ExpenseDate?.ToString("yyyy-MM-dd")</p>
+            <p>Participant ID: @Model.ParticipantId</p>
+            <p>Trip ID: @Model.TripId</p>
+
+            <form asp-action="DeleteConfirmed" method="post">
+                <input type="hidden" asp-for="Id">
+                <button type="submit" class="btn btn-danger px-4">Remove Expense</button>
+                <a asp-action="Index" class="btn btn-outline-dark px-4">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>

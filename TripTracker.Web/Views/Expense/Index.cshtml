@@ -1,0 +1,53 @@
+﻿@model IEnumerable<ExpenseDto>
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Expenses</h2>
+        <a asp-action="Create" class="btn btn-primary">+ Add Expense</a>
+    </div>
+
+    @if (Model != null && Model.Any())
+    {
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Amount</th>
+                        <th>Expense Date</th>
+                        <th>Participant ID</th>
+                        <th>Trip ID</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var expense in Model)
+                    {
+                        <tr>
+                            <td>@expense.Name</td>
+                            <td>@expense.Description</td>
+                            <td>@expense.Amount.ToString("C")</td>
+                            <td>@expense.ExpenseDate?.ToString("yyyy-MM-dd")</td>
+                            <td>@expense.ParticipantId</td>
+                            <td>@expense.TripId</td>
+                            <td>
+                                <div class="d-flex">
+                                    <a asp-action="Details" asp-route-id="@expense.Id" class="btn btn-info btn-sm me-2">View</a>
+                                    <a asp-action="Edit" asp-route-id="@expense.Id" class="btn btn-warning btn-sm me-2">Edit</a>
+                                    <form asp-action="DeleteConfirmed" asp-route-id="@expense.Id" method="post" onsubmit="return confirm('Are you sure you want to remove this expense?');">
+                                        <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <p class="text-muted text-center">No expenses recorded yet.</p>
+    }
+</div>

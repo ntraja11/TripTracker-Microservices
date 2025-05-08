@@ -1,0 +1,32 @@
+﻿@model ParticipantDto
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Add Participant</h2>
+        <a asp-action="Index" class="btn btn-secondary">← Back to List</a>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <form asp-action="Create" method="post">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Name</label>
+                        <input asp-for="Name" class="form-control" placeholder="Enter participant name" required>
+                        <div class="text-danger" asp-validation-for="Name"></div>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Email</label>
+                        <input asp-for="Email" type="email" class="form-control" placeholder="Enter email" required>
+                        <div class="text-danger" asp-validation-for="Email"></div>
+                    </div>
+
+                    <div class="col-md-12 text-center mt-4">
+                        <button type="submit" class="btn btn-success px-4">Add Participant</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

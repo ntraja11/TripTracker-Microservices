@@ -1,0 +1,23 @@
+﻿@model ParticipantDto
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Remove Participant</h2>
+        <a asp-action="Index" class="btn btn-secondary">← Back to List</a>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body text-center">
+            <h5 class="text-danger">Are you sure you want to remove this participant?</h5>
+            <p class="fw-bold">@Model.Name</p>
+            <p>Email: @Model.Email</p>
+            <p>Trip ID: @Model.TripId</p>
+
+            <form asp-action="DeleteConfirmed" method="post">
+                <input type="hidden" asp-for="Id">
+                <button type="submit" class="btn btn-danger px-4">Remove Participant</button>
+                <a asp-action="Index" class="btn btn-outline-dark px-4">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>

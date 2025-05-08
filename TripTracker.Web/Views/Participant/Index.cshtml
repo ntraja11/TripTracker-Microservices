@@ -1,0 +1,47 @@
+﻿@model IEnumerable<ParticipantDto>
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Participants</h2>
+        <a asp-action="Create" class="btn btn-primary">+ Add Participant</a>
+    </div>
+
+    @if (Model != null && Model.Any())
+    {
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Trip ID</th>
+                        <th>Total Expense</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var participant in Model)
+                    {
+                        <tr>
+                            <td>@participant.Name</td>
+                            <td>@participant.Email</td>
+                            <td>@participant.TripId</td>
+                            <td>@participant.TotalTripExpense?.ToString("C")</td>
+                            <td>
+                                <div class="d-flex">
+                                    <form asp-action="DeleteConfirmed" asp-route-id="@participant.Id" method="post" onsubmit="return confirm('Are you sure you want to remove this participant?');">
+                                        <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <p class="text-muted text-center">No participants found.</p>
+    }
+</div>

@@ -1,0 +1,48 @@
+﻿@model ExpenseDto
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Expense Details</h2>
+        <a asp-action="Index" class="btn btn-secondary">← Back to List</a>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6 mb-2">
+                    <h5 class="fw-bold">Expense Name</h5>
+                    <p>@Model.Name</p>
+                </div>
+
+                <div class="col-md-6 mb-2">
+                    <h5 class="fw-bold">Amount</h5>
+                    <p>@Model.Amount.ToString("C")</p>
+                </div>
+
+                <div class="col-md-6 mb-2">
+                    <h5 class="fw-bold">Expense Date</h5>
+                    <p>@Model.ExpenseDate?.ToString("yyyy-MM-dd")</p>
+                </div>
+
+                <div class="col-md-6 mb-2">
+                    <h5 class="fw-bold">Participant ID</h5>
+                    <p>@Model.ParticipantId</p>
+                </div>
+
+                <div class="col-md-6 mb-2">
+                    <h5 class="fw-bold">Trip ID</h5>
+                    <p>@Model.TripId</p>
+                </div>
+
+                <div class="col-md-12 mb-2">
+                    <h5 class="fw-bold">Description</h5>
+                    <p>@Model.Description</p>
+                </div>
+
+                <div class="col-md-12 text-center mt-4">
+                    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning px-4">Edit Expense</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
