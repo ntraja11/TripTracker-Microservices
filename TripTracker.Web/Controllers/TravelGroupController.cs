@@ -6,7 +6,6 @@ using TripTracker.Web.Service.Interface;
 
 namespace TripTracker.Web.Controllers
 {
-    [Authorize]
     public class TravelGroupController : Controller
     {
         private readonly ITravelGroupService _travelGroupService;

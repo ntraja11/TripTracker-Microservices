@@ -20,7 +20,7 @@ namespace TripTracker.Web.Service
                 ApiType = ApiType.POST,
                 Url = TravelGroupApiPath,
                 Data = travelGroupDto
-            });
+            }, withBearer: false);
         }
 
         public async Task<ResponseDto?> DeleteAsync(int travelGroupId)
@@ -29,7 +29,7 @@ namespace TripTracker.Web.Service
             {
                 ApiType = ApiType.DELETE,
                 Url = TravelGroupApiPath + travelGroupId
-            });
+            }, withBearer: false);
         }
 
         public async Task<ResponseDto?> GetAllAsync()
@@ -38,7 +38,7 @@ namespace TripTracker.Web.Service
             {
                 ApiType = ApiType.GET,
                 Url = TravelGroupApiPath
-            });
+            }, withBearer: false);
         }
 
         public async Task<ResponseDto?> GetAsync(int travelGroupId)
@@ -47,7 +47,7 @@ namespace TripTracker.Web.Service
             {
                 ApiType = ApiType.GET,
                 Url = TravelGroupApiPath + travelGroupId
-            });
+            }, withBearer: false);
         }
 
         public async Task<ResponseDto?> GetAsync(string travelGroupName)
@@ -56,7 +56,7 @@ namespace TripTracker.Web.Service
             {
                 ApiType = ApiType.GET,
                 Url = TravelGroupApiPath + "getByName/" + travelGroupName
-            });
+            }, withBearer: false);
         }
 
         public async Task<ResponseDto?> UpdateAsync(TravelGroupDto travelGroupDto)
@@ -66,7 +66,7 @@ namespace TripTracker.Web.Service
                 ApiType = ApiType.PUT,
                 Url = TravelGroupApiPath,
                 Data = travelGroupDto
-            });
+            }, withBearer: false);
         }
     }
 }

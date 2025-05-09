@@ -4,7 +4,7 @@ namespace TripTracker.Web.Service.Interface
 {
     public interface IExpenseService
     {
-        Task<ResponseDto?> GetAllAsync();
+        Task<ResponseDto?> GetAllByTripAsync(int tripId);
         Task<ResponseDto?> GetAsync(int expenseId);
         Task<ResponseDto?> CreateAsync(ExpenseDto dto);
         Task<ResponseDto?> UpdateAsync(ExpenseDto dto);

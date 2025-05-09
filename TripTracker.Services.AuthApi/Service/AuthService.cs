@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using TripTracker.Services.AuthApi.Data;
 using TripTracker.Services.AuthApi.Models;
 using TripTracker.Services.AuthApi.Models.Dto;
@@ -12,15 +14,18 @@ namespace TripTracker.Services.AuthApi.Service
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IJwtTokenGenerator _jwtTokenGenerator;
+        private readonly IMapper _mapper;
         public AuthService(AuthDbContext db,
             RoleManager<IdentityRole> roleManager,
             UserManager<ApplicationUser> userManager,
-            IJwtTokenGenerator jwtTokenGenerator)
+            IJwtTokenGenerator jwtTokenGenerator,
+            IMapper mapper)
         {
             _db = db;
             _roleManager = roleManager;
             _userManager = userManager;
             _jwtTokenGenerator = jwtTokenGenerator;
+            _mapper = mapper;
         }
 
         public async Task<bool> AssignRole(string email, string roleName)
@@ -37,6 +42,42 @@ namespace TripTracker.Services.AuthApi.Service
                 return true;
             }
             return false;
+        }
+
+        public async Task<int> GetTravelGroupId(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+
+            if(user != null)
+            {
+                return user.TravelGroupId ?? 0;
+            }
+            return 0;
+        }
+
+        public async Task<UserDto> GetUserById(string userId)
+        {
+            var user = _mapper.Map<UserDto>(
+                    await _userManager.FindByIdAsync(userId));
+
+            if (user != null)
+            {
+                return user;
+            }
+
+            return new UserDto();
+        }
+
+        public async Task<IEnumerable<UserDto>> GetUsersByTravelGroup(int travelGroupId)
+        {
+            if (travelGroupId > 0)
+            {
+                var users = _mapper.Map<IEnumerable<UserDto>>(
+                    await _db.ApplicationUsers.Where(u => u.TravelGroupId == travelGroupId).ToListAsync());
+
+                return users;
+            }
+            return new List<UserDto>();
         }
 
         public async Task<LoginResponseDto> Login(LoginRequestDto loginRequestDto)

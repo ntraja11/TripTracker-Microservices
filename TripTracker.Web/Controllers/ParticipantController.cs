@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using TripTracker.Web.Models.Dto;
 using TripTracker.Web.Service.Interface;
+using TripTracker.Web.ViewModel;
 
 namespace TripTracker.Web.Controllers
 {
@@ -10,10 +12,12 @@ namespace TripTracker.Web.Controllers
     public class ParticipantController : Controller
     {
         private readonly IParticipantService _participantService;
+        private readonly IAuthService _authService;
 
-        public ParticipantController(IParticipantService participantService)
+        public ParticipantController(IParticipantService participantService, IAuthService authService)
         {
             _participantService = participantService;
+            _authService = authService;
         }
 
         public async Task<IActionResult> Index()
@@ -43,6 +47,96 @@ namespace TripTracker.Web.Controllers
             }
 
             return View(participants);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AddParticipants(int tripId)
+        {
+            var userEmail = User.Identity?.Name;
+            var authResponse = await _authService.GetTravelGroupId(userEmail!);
+
+            if (authResponse == null)
+            {
+                TempData["error"] = "Failed to retrieve travel group ID.";
+                ModelState.AddModelError(string.Empty, "Failed to retrieve travel group ID.");
+                return View(new AddParticipantViewModel());
+            }
+
+            var travelGroupId = authResponse.IsSuccess == true && authResponse.Result != null ?
+                JsonConvert.DeserializeObject<int>(Convert.ToString(authResponse.Result)) : 0;
+
+            var userResponse = await _authService.GetUsersByTravelGroup(travelGroupId);
+
+            var users = (userResponse!.IsSuccess == true && userResponse != null) ?
+                JsonConvert.DeserializeObject<List<UserDto>>(Convert.ToString(userResponse.Result)) : new List<UserDto>();
+
+            var participantResponse = await _participantService.GetAllByTripAsync(tripId);
+
+            var participants = (participantResponse!.IsSuccess == true && participantResponse != null) ?
+                JsonConvert.DeserializeObject<List<ParticipantDto>>(Convert.ToString(participantResponse.Result)) : new List<ParticipantDto>();
+
+            AddParticipantViewModel addParticipantViewModel = new()
+            {
+                TripId = tripId,
+                AvailableUsers = users!
+                    .Where(u => !participants.Any(p => p.Email == u.Email))
+                    .Select(u => new SelectListItem
+                    {
+                        Text = u.Name,
+                        Value = u.Id.ToString()
+                    })
+
+            };
+            return View(addParticipantViewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddParticipants(AddParticipantViewModel addParticipantViewModel)
+        {
+            if (!addParticipantViewModel.SelectedUserIds.Any())
+            {
+                TempData["error"] = "No participants selected.";
+            }
+
+            bool isCreateParticipantSuccess = false;
+
+            foreach (var userId in addParticipantViewModel.SelectedUserIds)
+            {
+                var userResponse = await _authService.GetUserById(userId);
+                if (userResponse?.IsSuccess == true && userResponse.Result != null)
+                {
+                    var user = JsonConvert.DeserializeObject<UserDto>(Convert.ToString(userResponse.Result));
+                    
+                    if(user != null)
+                    {
+                        var participant = new ParticipantDto
+                        {
+                            TripId = addParticipantViewModel.TripId,
+                            Name = user.Name,
+                            Email = user.Email,
+                        };
+                        var createParticipantResponse = await _participantService.CreateAsync(participant);
+
+                        if (createParticipantResponse?.IsSuccess != true)
+                        {
+                            isCreateParticipantSuccess = false;
+                            TempData["error"] = createParticipantResponse?.Message ?? "Failed to add participant.";
+                            break;
+                        }
+                        else
+                        {
+                            isCreateParticipantSuccess = true;
+                        }
+                    }                    
+                }
+            }
+
+            if (isCreateParticipantSuccess)
+            {
+                TempData["success"] = "Participants added successfully.";
+            }
+                      
+            return RedirectToAction("Details", "Trips", new { tripId = addParticipantViewModel.TripId });
         }
 
         //[HttpGet]
@@ -137,6 +231,7 @@ namespace TripTracker.Web.Controllers
         //    ModelState.AddModelError(string.Empty, response?.Message ?? "Failed to update participant.");
         //    return View(participantDto);
         //}
+
 
         [HttpGet]
         public async Task<IActionResult> Delete(int id)

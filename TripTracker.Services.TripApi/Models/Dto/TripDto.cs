@@ -15,7 +15,7 @@
         public string? Notes { get; set; }
         public string? CreatedByUserEmail { get; set; }
 
-        public IEnumerable<string>? ParticipantIds { get; set; } = new List<string>();
+        public IEnumerable<string>? Participants { get; set; } = new List<string>();
         public IEnumerable<int>? ExpenseIds { get; set; } = new List<int>();
     }
 }

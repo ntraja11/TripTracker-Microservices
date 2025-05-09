@@ -25,12 +25,13 @@ namespace TripTracker.Services.ExpenseApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ResponseDto> GetAll()
+        [Route("get-all-by-trip/{tripId:int}")]
+        public async Task<ResponseDto> GetAllByTrip(int tripId)
         {
             try
             {
                 _responseDto.Result = _mapper.Map<IEnumerable<ExpenseDto>>(
-                    await _db.Expenses.AsNoTracking().ToListAsync());
+                    await _db.Expenses.AsNoTracking().Where(e => e.TripId == tripId).ToListAsync());
             }
             catch (Exception ex)
             {
@@ -81,7 +82,7 @@ namespace TripTracker.Services.ExpenseApi.Controllers
                 if (await _db.Expenses.AnyAsync(tg => tg.Name!.ToLower() == expenseDto.Name!.ToLower()))
                 {
                     _responseDto.IsSuccess = false;
-                    _responseDto.Message = "A Expense with this name already exists";
+                    _responseDto.Message = "An Expense with this name already exists";
                     return _responseDto;
                 }
 

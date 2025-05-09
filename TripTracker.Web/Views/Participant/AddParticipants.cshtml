@@ -1,0 +1,109 @@
+﻿@model AddParticipantViewModel
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Add Participants to Trip</h2>
+        <a asp-controller="Trips" asp-action="Details" asp-route-tripId="@Model.TripId" class="btn btn-secondary">← Back to Trip</a>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <form asp-action="AddParticipants" asp-route-tripId="@Model.TripId" method="post">
+
+                <input type="hidden" asp-asp-for="TripId" />
+                @for (var i = 0; i < Model.SelectedUserIds.Count; i++)
+                {
+                    <input type="hidden" name="SelectedUserIds[@i]" value="@Model.SelectedUserIds[i]" />
+                }
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Available Users</label>
+                        <select id="userDropdown" class="form-control">
+                            <option value="">-- Select a User --</option>
+                            @foreach (var user in Model.AvailableUsers)
+                            {
+                                <option value="@user.Value">@user.Text</option>
+                            }
+                        </select>
+                        <button type="button" id="addUserBtn" class="btn btn-success mt-2">Add</button>
+                    </div>
+
+                    <!-- Selected Users List -->
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Selected Users</label>
+                        <ul id="selectedUsersList" class="ps-3">
+                            @foreach (var user in Model.SelectedUsers)
+                            {
+                                <li data-user-id="@user.Value">
+                                    @user.Text
+                                    <button type="button" class="removeUserBtn btn btn-sm btn-danger ms-2">✖</button>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                                       
+
+                    <!-- Submit Button -->
+                    <div class="col-md-12 text-center mt-4">
+                        <button type="submit" class="btn btn-primary px-4">Save Participants</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript for Dynamic Selection -->
+<script>
+    let selectedUserIds = [];
+
+    document.getElementById("addUserBtn").addEventListener("click", function() {
+        var dropdown = document.getElementById("userDropdown");
+        var selectedUserId = dropdown.value;
+        var selectedUserName = dropdown.options[dropdown.selectedIndex].text;
+
+        if (selectedUserId) {
+            selectedUserIds.push(selectedUserId);
+
+            var listItem = document.createElement("li");
+            listItem.innerHTML = selectedUserName +
+                ' <button type="button" class="removeUserBtn btn btn-sm btn-danger ms-2">✖</button>';
+            listItem.setAttribute("data-user-id", selectedUserId);
+
+            document.getElementById("selectedUsersList").appendChild(listItem);
+            dropdown.remove(dropdown.selectedIndex);
+
+            // Create hidden inputs dynamically
+            var form = document.querySelector("form");
+            var hiddenInput = document.createElement("input");
+            hiddenInput.type = "hidden";
+            hiddenInput.name = "SelectedUserIds";
+            hiddenInput.value = selectedUserId;
+            form.appendChild(hiddenInput);
+        }
+    });
+
+    document.addEventListener("click", function(e) {
+        if (e.target.classList.contains("removeUserBtn")) {
+            var listItem = e.target.parentElement;
+            var userId = listItem.getAttribute("data-user-id");
+            var userName = listItem.innerText.split(" ✖")[0];
+
+            selectedUserIds = selectedUserIds.filter(id => id !== userId);
+
+            var dropdown = document.getElementById("userDropdown");
+            var option = document.createElement("option");
+            option.value = userId;
+            option.textContent = userName;
+            dropdown.appendChild(option);
+
+            listItem.remove();
+
+            // Remove hidden input for userId
+            document.querySelectorAll(`input[name="SelectedUserIds"]`).forEach(input => {
+                if (input.value === userId) input.remove();
+            });
+        }
+    });
+</script>

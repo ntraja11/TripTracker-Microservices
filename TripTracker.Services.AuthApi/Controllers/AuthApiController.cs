@@ -17,6 +17,61 @@ namespace TripTracker.Services.AuthApi.Controllers
             _response = responseDto;
         }
 
+        [HttpGet]
+        [Route("get-travel-group-id/{email}")]
+        public async Task<IActionResult> Get(string email)
+        {
+            if (string.IsNullOrEmpty(email))
+            {
+                _response.IsSuccess = false;
+                _response.Message = "Email is required";
+                return BadRequest(_response);
+            }
+            var travelGroupId = await _authService.GetTravelGroupId(email);
+            if (travelGroupId == 0)
+            {
+                _response.IsSuccess = false;
+                _response.Message = "User or travel group not found";
+                return NotFound(_response);
+            }
+            _response.Result = travelGroupId;
+            return Ok(_response);
+        }
+
+        [HttpGet]
+        [Route("get-user-by-id/{userId}")]
+        public async Task<IActionResult> GetUserById(string userId)
+        {
+            if (string.IsNullOrEmpty(userId))
+            {
+                _response.IsSuccess = false;
+                _response.Message = "Invalid user ID";
+                return BadRequest(_response);
+            }
+
+            var user = await _authService.GetUserById(userId);
+
+            _response.Result = user;
+            return Ok(_response);
+        }
+
+        [HttpGet]
+        [Route("get-users-by-travel-group/{travelGroupId:int}")]
+        public async Task<IActionResult> GetUsersByTravelGroup(int travelGroupId)
+        {
+            if (travelGroupId == 0)
+            {
+                _response.IsSuccess = false;
+                _response.Message = "Invalid travel group ID";
+                return BadRequest(_response);
+            }
+
+            var users = await _authService.GetUsersByTravelGroup(travelGroupId);
+
+            _response.Result = users;
+            return Ok(_response);
+        }
+
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegistrationRequestDto registrationRequestDto)
         {

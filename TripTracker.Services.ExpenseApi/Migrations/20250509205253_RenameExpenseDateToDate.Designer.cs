@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TripTracker.Services.ExpenseApi.Data;
 
@@ -11,9 +12,11 @@ using TripTracker.Services.ExpenseApi.Data;
 namespace TripTracker.Services.ExpenseApi.Migrations
 {
     [DbContext(typeof(ExpenseDbContext))]
-    partial class ExpenseDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250509205253_RenameExpenseDateToDate")]
+    partial class RenameExpenseDateToDate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -38,6 +41,7 @@ namespace TripTracker.Services.ExpenseApi.Migrations
                         .HasColumnType("date");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -46,9 +50,6 @@ namespace TripTracker.Services.ExpenseApi.Migrations
 
                     b.Property<int>("ParticipantId")
                         .HasColumnType("int");
-
-                    b.Property<string>("ParticipantName")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("TripId")
                         .HasColumnType("int");

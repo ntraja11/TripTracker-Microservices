@@ -32,12 +32,13 @@ namespace TripTracker.Web.Service
             });
         }
 
-        public async Task<ResponseDto?> GetAllAsync()
+
+        public async Task<ResponseDto?> GetAllByTripAsync(int tripId)
         {
             return await _baseService.SendAsync(new RequestDto
             {
                 ApiType = ApiType.GET,
-                Url = ExpenseApiPath
+                Url = ExpenseApiPath + "get-all-by-trip/" + tripId
             });
         }
 

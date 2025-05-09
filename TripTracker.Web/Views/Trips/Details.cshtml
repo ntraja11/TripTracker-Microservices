@@ -1,0 +1,145 @@
+﻿@model TripDetailViewModel
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Trip Details</h2>
+        <a asp-action="Index" class="btn btn-secondary">← Back to List</a>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6 mb-2">
+                    <h5 class="fw-bold">Trip Name</h5>
+                    <p>@Model.Trip.Name</p>
+                </div>
+
+                <div class="col-md-6 mb-2">
+                    <h5 class="fw-bold">Status</h5>
+                    <p>@Model.Trip.Status</p>
+                </div>
+
+                <div class="col-md-6 mb-2">
+                    <h5 class="fw-bold">From</h5>
+                    <p>@Model.Trip.From</p>
+                </div>
+
+                <div class="col-md-6 mb-2">
+                    <h5 class="fw-bold">To</h5>
+                    <p>@Model.Trip.To</p>
+                </div>
+
+                <div class="col-md-6 mb-2">
+                    <h5 class="fw-bold">Start Date</h5>
+                    <p>@Model.Trip.StartDate?.ToString("yyyy-MM-dd")</p>
+                </div>
+
+                <div class="col-md-6 mb-2">
+                    <h5 class="fw-bold">End Date</h5>
+                    <p>@Model.Trip.EndDate?.ToString("yyyy-MM-dd")</p>
+                </div>
+
+                <div class="col-md-12">
+                    <hr>
+                </div>
+                
+                <div class="col-md-6 mb-2">
+                    <h5 class="fw-bold">Total Expense</h5>
+                    <p>@Model.Trip.TotalExpense?.ToString("C")</p>
+                </div>
+
+                <div class="col-md-6 mb-2">
+                    <h5 class="fw-bold">Notes</h5>
+                    <p>@Model.Trip.Notes</p>
+                </div>
+
+                <div class="col-md-12 mb-2">
+                    <h5 class="fw-bold">Description</h5>
+                    <p>@Model.Trip.Description</p>
+                </div>
+
+                <div class="col-md-12">
+                    <hr>
+                </div>
+
+                <div class="col-md-12 mb-2">
+                    <div class="d-inline-flex gap-3 align-items-center">
+                        <h5 class="fw-bold">Participants</h5>
+                        <a asp-controller="Participant" asp-action="AddParticipants" asp-route-tripId="@Model.Trip.Id" class="btn btn-sm btn-primary">
+                            + Add Participants
+                        </a>
+                    </div>
+
+                    <ul class="ps-3">
+                        @if (Model.Participants != null && Model.Participants.Any())
+                        {
+                            <table class="table table-bordered table-striped mt-2">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Total expense</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var participant in Model.Participants)
+                                    {
+                                        <tr>
+                                            <td>@participant.Name</td>
+                                            <td>@participant.TotalTripExpense</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        }
+                        else
+                        {
+                            <li class="text-muted">No participants added yet.</li>
+                        }
+                    </ul>
+                </div>
+
+                <div class="col-md-12 mb-2">
+                    <div class="d-inline-flex align-items-center">
+                        <h5 class="fw-bold mb-0 me-2">Expenses</h5>
+                        <a asp-controller="Expense" asp-action="Create" asp-route-tripId="@Model.Trip.Id" class="btn btn-sm btn-success">
+                            + Add Expense
+                        </a>
+                    </div>
+
+                    @if (Model.Expenses != null && Model.Expenses.Any())
+                    {
+                        <table class="table table-bordered table-striped mt-2">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Amount</th>
+                                    <th>Date</th>
+                                    <th>Participant</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var expense in Model.Expenses)
+                                {
+                                    <tr>
+                                        <td><a asp-controller="Expense" asp-action="Details" asp-route-expenseId="@expense.Id">@expense.Name</a></td>
+                                        <td>@expense.Amount.ToString("C")</td>
+                                        <td>@expense.Date</td>
+                                        <td>@expense.ParticipantName</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <p class="text-muted mt-2">No expenses recorded yet.</p>
+                    }
+                </div>
+
+                <div class="col-md-12 text-center mt-4">
+                    <a asp-action="Edit" asp-route-tripId="@Model.Trip.Id" class="btn btn-warning px-4">Edit Trip</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

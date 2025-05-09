@@ -1,4 +1,4 @@
-﻿@model ExpenseDto
+﻿@model UpsertExpenseViewModel
 
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
@@ -9,43 +9,44 @@
     <div class="card shadow-sm">
         <div class="card-body">
             <form asp-action="Edit" method="post">
-                <input type="hidden" asp-for="Id">
+                <input type="hidden" asp-for="@Model.Expense.TripId" />
+                <input type="hidden" asp-for="@Model.Expense.Id" />
+                <input type="hidden" asp-for="@Model.Expense.ParticipantName" />
 
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label class="form-label fw-bold">Expense Name</label>
-                        <input asp-for="Name" class="form-control" placeholder="Enter expense name" required>
-                        <div class="text-danger" asp-validation-for="Name"></div>
+                        <input asp-for="@Model.Expense.Name" class="form-control" placeholder="Enter expense name" required>
+                        <div class="text-danger" asp-validation-for="@Model.Expense.Name"></div>
                     </div>
 
                     <div class="col-md-6 mb-3">
                         <label class="form-label fw-bold">Amount</label>
-                        <input asp-for="Amount" type="number" class="form-control" step="0.01" placeholder="Enter amount" required>
-                        <div class="text-danger" asp-validation-for="Amount"></div>
+                        <input asp-for="@Model.Expense.Amount" type="number" class="form-control" step="0.01" placeholder="Enter amount" required>
+                        <div class="text-danger" asp-validation-for="@Model.Expense.Amount"></div>
                     </div>
 
                     <div class="col-md-6 mb-3">
                         <label class="form-label fw-bold">Expense Date</label>
-                        <input asp-for="ExpenseDate" type="date" class="form-control">
-                        <div class="text-danger" asp-validation-for="ExpenseDate"></div>
+                        <input asp-for="@Model.Expense.Date" type="date" class="form-control">
+                        <div class="text-danger" asp-validation-for="@Model.Expense.Date"></div>
                     </div>
 
                     <div class="col-md-6 mb-3">
-                        <label class="form-label fw-bold">Participant ID</label>
-                        <input asp-for="ParticipantId" class="form-control" placeholder="Enter participant ID" required>
-                        <div class="text-danger" asp-validation-for="ParticipantId"></div>
+                        <label class="form-label fw-bold">Participant</label>
+                        <select id="userDropdown" asp-for="@Model.Expense.ParticipantId" class="form-control">
+                            <option value="">-- Select a participant --</option>
+                            @foreach (var participant in Model.Participants)
+                            {
+                                <option value="@participant.Value">@participant.Text</option>
+                            }
+                        </select>
                     </div>
-
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label fw-bold">Trip ID</label>
-                        <input asp-for="TripId" class="form-control" placeholder="Enter trip ID" required>
-                        <div class="text-danger" asp-validation-for="TripId"></div>
-                    </div>
-
+                                                                             
                     <div class="col-md-12 mb-3">
                         <label class="form-label fw-bold">Description</label>
-                        <textarea asp-for="Description" class="form-control" rows="3" placeholder="Enter details"></textarea>
-                        <div class="text-danger" asp-validation-for="Description"></div>
+                        <textarea asp-for="@Model.Expense.Description" class="form-control" rows="3" placeholder="Enter details"></textarea>
+                        <div class="text-danger" asp-validation-for="@Model.Expense.Description"></div>
                     </div>
 
                     <div class="col-md-12 text-center mt-4">

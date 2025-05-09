@@ -23,6 +23,33 @@ namespace TripTracker.Web.Service
             });
         }
 
+        public async Task<ResponseDto?> GetTravelGroupId(string email)
+        {
+            return await _baseService.SendAsync(new RequestDto
+            {
+                ApiType = ApiType.GET,
+                Url = AuthApiPath + "get-travel-group-id/" + email,
+            });
+        }
+
+        public async Task<ResponseDto?> GetUserById(string userId)
+        {
+            return await _baseService.SendAsync(new RequestDto
+            {
+                ApiType = ApiType.GET,
+                Url = AuthApiPath + "get-user-by-id/" + userId,
+            });
+        }
+
+        public async Task<ResponseDto?> GetUsersByTravelGroup(int travelGroupId)
+        {
+            return await _baseService.SendAsync(new RequestDto
+            {
+                ApiType = ApiType.GET,
+                Url = AuthApiPath + "get-users-by-travel-group/" + travelGroupId,
+            });
+        }
+
         public async Task<ResponseDto?> LoginAsync(LoginRequestDto loginRequestDto)
         {
             return await _baseService.SendAsync(new RequestDto
@@ -47,5 +74,6 @@ namespace TripTracker.Web.Service
                 Data = registrationRequestDto
             }, withBearer: false);
         }
+
     }
 }

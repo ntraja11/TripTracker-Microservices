@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using TripTracker.Web.Models.Dto;
+using TripTracker.Web.Service;
 using TripTracker.Web.Service.Interface;
+using TripTracker.Web.ViewModel;
 
 namespace TripTracker.Web.Controllers
 {
@@ -10,79 +13,93 @@ namespace TripTracker.Web.Controllers
     public class ExpenseController : Controller
     {
         private readonly IExpenseService _expenseService;
+        private readonly IParticipantService _participantService;
 
-        public ExpenseController(IExpenseService expenseService)
+        public ExpenseController(IExpenseService expenseService, IParticipantService participantService)
         {
             _expenseService = expenseService;
+            _participantService = participantService;
         }
-
-        public async Task<IActionResult> Index()
-        {
-            List<ExpenseDto> expenses = new();
-
-            var response = await _expenseService.GetAllAsync();
-
-            if (response?.IsSuccess == true && response.Result != null)
-            {
-                try
-                {
-                    expenses = JsonConvert
-                        .DeserializeObject<List<ExpenseDto>>(Convert.ToString(response.Result))
-                        ?? new List<ExpenseDto>();
-                }
-                catch (JsonException ex)
-                {
-                    TempData["error"] = $"Error parsing data: {ex.Message}";
-                    ModelState.AddModelError(string.Empty, $"Error parsing data: {ex.Message}");
-                }
-            }
-            else
-            {
-                TempData["error"] = response?.Message ?? "Failed to retrieve expenses.";
-                ModelState.AddModelError(string.Empty, response?.Message ?? "Failed to retrieve expenses.");
-            }
-
-            return View(expenses);
-        }
-
+        
         [HttpGet]
-        public IActionResult Create()
+        public async Task<IActionResult> Create(int tripId)
         {
-            return View();
+            if (tripId == 0)
+            {
+                TempData["error"] = "Invalid trip ID.";
+                ModelState.AddModelError(string.Empty, "Invalid trip ID.");
+                return RedirectToAction("Details", "Trips", new { tripId = tripId });
+            }
+
+            
+            UpsertExpenseViewModel upsertExpenseViewModel = await GetUpsertExpenseViewModel(tripId);
+            upsertExpenseViewModel.Expense = new ExpenseDto
+            {
+                TripId = tripId
+            };
+
+            return View(upsertExpenseViewModel);
+        }
+
+        private async Task<UpsertExpenseViewModel> GetUpsertExpenseViewModel(int tripId)
+        {
+            var participantsResponse = await _participantService.GetAllByTripAsync(tripId);
+
+            var participants = (participantsResponse!.IsSuccess == true && participantsResponse != null) ?
+                JsonConvert.DeserializeObject<List<ParticipantDto>>(Convert.ToString(participantsResponse.Result)) : new List<ParticipantDto>();
+
+            return new UpsertExpenseViewModel
+            {                
+                Participants = participants!.Select(p => new SelectListItem
+                {
+                    Text = p.Name,
+                    Value = p.Id.ToString()
+                }).ToList()
+            };
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(ExpenseDto expenseDto)
+        public async Task<IActionResult> Create(UpsertExpenseViewModel upsertExpenseViewModel)
         {
-            if (expenseDto == null)
+            if (upsertExpenseViewModel.Expense == null || !ModelState.IsValid)
             {
                 TempData["error"] = "Invalid expense data.";
                 ModelState.AddModelError(string.Empty, "Invalid expense data.");
-                return View(expenseDto);
+                return View(await GetUpsertExpenseViewModel(upsertExpenseViewModel.Expense!.TripId));
             }
+                        
+            upsertExpenseViewModel.Expense.ParticipantName = await GetParticipantName(upsertExpenseViewModel.Expense.ParticipantId);
 
-            if (!ModelState.IsValid)
-            {
-                TempData["error"] = "Invalid expense data.";
-                ModelState.AddModelError(string.Empty, "Invalid expense data.");
-                return View(expenseDto);
-            }
-
-            var response = await _expenseService.CreateAsync(expenseDto);
+            var response = await _expenseService.CreateAsync(upsertExpenseViewModel.Expense);
             if (response?.IsSuccess == true)
             {
                 TempData["success"] = "Expense created successfully.";
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", "Trips", new { tripId = upsertExpenseViewModel.Expense.TripId});
             }
 
             TempData["error"] = response?.Message ?? "Failed to create expense.";
             ModelState.AddModelError(string.Empty, response?.Message ?? "Failed to create expense.");
-            return View(expenseDto);
+
+            UpsertExpenseViewModel freshUpsertExpenseViewModel = await GetUpsertExpenseViewModel(upsertExpenseViewModel.Expense.TripId);
+            freshUpsertExpenseViewModel.Expense = new ExpenseDto
+            {
+                TripId = upsertExpenseViewModel.Expense.TripId
+            };
+
+            return View(freshUpsertExpenseViewModel);
         }
 
-        public async Task<IActionResult> Details(int id)
+        private async Task<string> GetParticipantName(int participantId)
         {
-            var response = await _expenseService.GetAsync(id);
+            var participantResponse = await _participantService.GetAsync(participantId);
+            var participant = (participantResponse!.IsSuccess == true && participantResponse != null) ?
+                JsonConvert.DeserializeObject<ParticipantDto>(Convert.ToString(participantResponse.Result)) : new ParticipantDto();
+            return participant!.Name!;
+        }
+
+        public async Task<IActionResult> Details(int expenseId)
+        {
+            var response = await _expenseService.GetAsync(expenseId);
             if (response?.IsSuccess == true && response.Result != null)
             {
                 var expense = JsonConvert.DeserializeObject<ExpenseDto>(Convert.ToString(response.Result));
@@ -94,54 +111,59 @@ namespace TripTracker.Web.Controllers
             return View(new ExpenseDto());
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Edit(int id)
+        private async Task<ExpenseDto> GetExpense(int expenseId)
         {
-            var response = await _expenseService.GetAsync(id);
-            if (response != null && response?.IsSuccess == true && response.Result != null)
-            {
-                var expense = JsonConvert.DeserializeObject<ExpenseDto>(Convert.ToString(response.Result));
-                return View(expense);
-            }
+            var response = await _expenseService.GetAsync(expenseId);
+            var expense =  (response?.IsSuccess == true && response.Result != null) ?
+                JsonConvert.DeserializeObject<ExpenseDto>(Convert.ToString(response.Result))
+                : new ExpenseDto();
 
-            TempData["error"] = response?.Message ?? "Expense not found.";
-            ModelState.AddModelError(string.Empty, response?.Message ?? "Expense not found.");
-            return View(new ExpenseDto());
+            return expense!;
+
+
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int tripId, int expenseId)
+        {
+            UpsertExpenseViewModel upsertExpenseViewModel = await GetUpsertExpenseViewModel(tripId);
+            upsertExpenseViewModel.Expense = await GetExpense(expenseId);
+
+            return View(upsertExpenseViewModel);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(ExpenseDto expenseDto)
+        public async Task<IActionResult> Edit(UpsertExpenseViewModel upsertExpenseViewModel)
         {
-            if (expenseDto == null)
+            if (upsertExpenseViewModel.Expense == null || !ModelState.IsValid)
             {
                 TempData["error"] = "Invalid expense data.";
                 ModelState.AddModelError(string.Empty, "Invalid expense data.");
-                return View(expenseDto);
+                return View(await GetUpsertExpenseViewModel(upsertExpenseViewModel.Expense!.TripId));
             }
 
-            if (!ModelState.IsValid)
-            {
-                TempData["error"] = "Invalid expense data.";
-                ModelState.AddModelError(string.Empty, "Invalid expense data.");
-                return View(expenseDto);
-            }
+            upsertExpenseViewModel.Expense.ParticipantName = await GetParticipantName(upsertExpenseViewModel.Expense.ParticipantId);
 
-            var response = await _expenseService.UpdateAsync(expenseDto);
+            var response = await _expenseService.UpdateAsync(upsertExpenseViewModel.Expense);
             if (response?.IsSuccess == true)
             {
                 TempData["success"] = "Expense updated successfully.";
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", "Expense", new { expenseId = upsertExpenseViewModel.Expense.Id});
             }
 
             TempData["error"] = response?.Message ?? "Failed to update expense.";
             ModelState.AddModelError(string.Empty, response?.Message ?? "Failed to update expense.");
-            return View(expenseDto);
+
+            UpsertExpenseViewModel freshUpsertExpenseViewModel = await GetUpsertExpenseViewModel(upsertExpenseViewModel.Expense.TripId);
+            freshUpsertExpenseViewModel.Expense = await GetExpense(upsertExpenseViewModel.Expense.Id);
+            
+            return View(freshUpsertExpenseViewModel);
         }
 
         [HttpGet]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(int expenseId)
         {
-            var response = await _expenseService.GetAsync(id);
+            var response = await _expenseService.GetAsync(expenseId);
             if (response?.IsSuccess == true && response.Result != null)
             {
                 var expense = JsonConvert.DeserializeObject<ExpenseDto>(Convert.ToString(response.Result));
@@ -154,9 +176,9 @@ namespace TripTracker.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int expenseId)
         {
-            var response = await _expenseService.DeleteAsync(id);
+            var response = await _expenseService.DeleteAsync(expenseId);
             if (response?.IsSuccess == true)
             {
                 TempData["success"] = "Expense deleted successfully.";
@@ -165,7 +187,7 @@ namespace TripTracker.Web.Controllers
 
             TempData["error"] = response?.Message ?? "Failed to delete expense.";
             ModelState.AddModelError(string.Empty, response?.Message ?? "Failed to delete expense.");
-            return RedirectToAction("Delete", "Expense", new { id });
+            return RedirectToAction("Delete", "Expense", new { expenseId });
         }
     }
 }

@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
+using TripTracker.Web.Models;
 using TripTracker.Web.Service;
 using TripTracker.Web.Service.Interface;
 using TripTracker.Web.Utility;

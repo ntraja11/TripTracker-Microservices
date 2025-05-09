@@ -41,6 +41,15 @@ namespace TripTracker.Web.Service
             });
         }
 
+        public async Task<ResponseDto?> GetAllByTripAsync(int tripId)
+        {
+            return await _baseService.SendAsync(new RequestDto
+            {
+                ApiType = ApiType.GET,
+                Url = ParticipantApiPath + "get-all-by-trip/" + tripId
+            });
+        }
+
         public async Task<ResponseDto?> GetAsync(int participantId)
         {
             return await _baseService.SendAsync(new Models.Dto.RequestDto

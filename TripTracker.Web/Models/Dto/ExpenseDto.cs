@@ -1,4 +1,6 @@
-﻿namespace TripTracker.Web.Models.Dto
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+
+namespace TripTracker.Web.Models.Dto
 {
     public class ExpenseDto
     {
@@ -6,7 +8,8 @@
         public string Name { get; set; } = String.Empty;
         public string? Description { get; set; } = String.Empty;
         public decimal Amount { get; set; } = 0;
-        public DateOnly? ExpenseDate { get; set; }
+        public DateOnly? Date { get; set; }
+        public string? ParticipantName { get; set; }
         public int ParticipantId { get; set; }
         public int TripId { get; set; }
     }

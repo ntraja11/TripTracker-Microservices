@@ -8,6 +8,10 @@ namespace TripTracker.Web.Service.Interface
         Task<ResponseDto?> RegisterAsync(RegistrationRequestDto registrationRequestDto);
         Task<ResponseDto?> AssignRoleAsync(RegistrationRequestDto registrationRequestDto);
         Task<ResponseDto?> Logout();
+        Task<ResponseDto?> GetTravelGroupId(string email);
+        Task<ResponseDto?> GetUsersByTravelGroup(int travelGroupId);
+        Task<ResponseDto?> GetUserById(string userId);
+
 
     }
 }

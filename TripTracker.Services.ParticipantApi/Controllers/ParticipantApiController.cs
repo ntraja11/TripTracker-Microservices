@@ -42,6 +42,23 @@ namespace TripTracker.Services.ParticipantApi.Controllers
         }
 
         [HttpGet]
+        [Route("get-all-by-trip/{tripId}")]
+        public async Task<ResponseDto> GetAllByTrip(int tripId)
+        {
+            try
+            {
+                _responseDto.Result = _mapper.Map<IEnumerable<ParticipantDto>>(
+                    await _db.Participants.AsNoTracking().Where(p => p.TripId == tripId).ToListAsync());
+            }
+            catch (Exception ex)
+            {
+                _responseDto.IsSuccess = false;
+                _responseDto.Message = ex.Message;
+            }
+            return _responseDto;
+        }
+
+        [HttpGet]
         [Route("{id:int}")]
         public async Task<ResponseDto> Get(int id)
         {

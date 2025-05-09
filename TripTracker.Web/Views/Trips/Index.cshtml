@@ -35,9 +35,9 @@
                             <td>@trip.Status</td>
                             <td>
                                 <div class="d-flex">
-                                    <a asp-action="Details" asp-route-id="@trip.Id" class="btn btn-info btn-sm me-2">View</a>
-                                    <a asp-action="Edit" asp-route-id="@trip.Id" class="btn btn-warning btn-sm me-2">Edit</a>
-                                    <form asp-action="DeleteConfirmed" asp-route-id="@trip.Id" method="post" onsubmit="return confirm('Are you sure you want to delete this trip?');">
+                                    <a asp-action="Details" asp-route-tripId="@trip.Id" class="btn btn-info btn-sm me-2">View</a>
+                                    <a asp-action="Edit" asp-route-tripId="@trip.Id" class="btn btn-warning btn-sm me-2">Edit</a>
+                                    <form asp-action="DeleteConfirmed" asp-route-tripId="@trip.Id" method="post" onsubmit="return confirm('Are you sure you want to delete this trip?');">
                                         <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                                     </form>
                                 </div>

@@ -1,5 +1,7 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using TripTracker.Services.AuthApi;
 using TripTracker.Services.AuthApi.Data;
 using TripTracker.Services.AuthApi.Models;
 using TripTracker.Services.AuthApi.Models.Dto;
@@ -9,6 +11,10 @@ using TripTracker.Services.AuthApi.Service.Interface;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+IMapper mapper = MappingConfig.RegisterMaps().CreateMapper();
+builder.Services.AddSingleton(mapper);
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddDbContext<AuthDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
