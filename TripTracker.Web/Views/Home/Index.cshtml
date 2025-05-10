@@ -1,8 +1,70 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "TripTracker - Track Your Group Travel Expenses!";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<!-- 🚀 Hero Section: Dynamic Light/Dark Mode -->
+<header class="hero-section text-center py-5 bg-dark text-light">
+    <div class="container">
+        <h1 class="display-3 fw-bold">TripTracker</h1>
+        <p class="lead">Make group travel hassle-free with smart expense tracking!</p>
+        <a asp-controller="Trips" asp-action="Index" class="btn btn-lg btn-warning fw-bold">Start Tracking 🚀</a>
+    </div>
+</header>
+
+<!-- 🌟 Features Showcase -->
+<section class="container text-center my-5">
+    <h2 class="fw-bold text-warning">Why Choose TripTracker?</h2>
+    <p class="lead">Effortlessly track, split, and manage travel expenses with friends and family.</p>
+
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <div class="feature-box p-4 border border-secondary shadow-lg rounded bg-dark text-light">
+                <i class="bi bi-credit-card display-3 text-success"></i>
+                <h4 class="fw-bold mt-3">💳 Smart Expense Tracking</h4>
+                <p>Record and track trip costs easily in real-time.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="feature-box p-4 border border-secondary shadow-lg rounded bg-dark text-light">
+                <i class="bi bi-people-fill display-3 text-info"></i>
+                <h4 class="fw-bold mt-3">👥 Collaborative Cost Splitting</h4>
+                <p>Split expenses with group members transparently.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="feature-box p-4 border border-secondary shadow-lg rounded bg-dark text-light">
+                <i class="bi bi-bar-chart-line display-3 text-danger"></i>
+                <h4 class="fw-bold mt-3">📊 Automatic Calculations</h4>
+                <p>Instantly calculate per-person contributions.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 💬 Testimonials -->
+<section class="testimonial-section py-5 bg-secondary text-light">
+    <div class="container text-center">
+        <h2 class="fw-bold">What Our Users Say</h2>
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <blockquote class="blockquote">
+                    <p>"TripTracker made cost-sharing during our vacation seamless! No more messy calculations."</p>
+                    <footer class="blockquote-footer text-light">Emily, Frequent Traveler</footer>
+                </blockquote>
+            </div>
+            <div class="col-md-6">
+                <blockquote class="blockquote">
+                    <p>"Best app for managing expenses while traveling with friends! Super easy to use."</p>
+                    <footer class="blockquote-footer text-light">Mark, Backpacker</footer>
+                </blockquote>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ✅ Call-To-Action -->
+<section class="text-center my-5">
+    <h2 class="fw-bold text-light">Ready to simplify your trips?</h2>
+    <p class="lead text-light">Get started today and never lose track of your trip expenses again.</p>
+    <a asp-controller="Trips" asp-action="Index" class="btn btn-lg btn-primary fw-bold">Start Your Journey 🚀</a>
+</section>
