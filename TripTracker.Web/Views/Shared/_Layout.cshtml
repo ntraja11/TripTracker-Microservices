@@ -28,7 +28,7 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
-                        @if (User.Identity!.IsAuthenticated && User.IsInRole(StaticDetail.RoleAdmin))
+                        @if (User.Identity!.IsAuthenticated && User.Identity!.Name!.ToLower().Contains("rajaanand"))
                         {
                             <li class="nav-item">
                                 <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
@@ -40,8 +40,6 @@
                                             <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
                                                 <li><a class="dropdown-item" asp-controller="TravelGroup" asp-action="Index">Travel Groups</a></li>
                                                 <li><a class="dropdown-item" asp-controller="Trips" asp-action="Index">Trips</a></li>
-                                                <li><a class="dropdown-item" asp-controller="Participant" asp-action="Index">Participants</a></li>
-                                                <li><a class="dropdown-item" asp-controller="Expense" asp-action="Index">Expenses</a></li>
                                             </ul>
                                         </li>
                                     </ul>

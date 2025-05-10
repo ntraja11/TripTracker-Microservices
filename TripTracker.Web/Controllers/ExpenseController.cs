@@ -69,6 +69,7 @@ namespace TripTracker.Web.Controllers
             }
                         
             upsertExpenseViewModel.Expense.ParticipantName = await GetParticipantName(upsertExpenseViewModel.Expense.ParticipantId);
+            upsertExpenseViewModel.Expense.Date = DateOnly.FromDateTime(DateTime.Now);
 
             var response = await _expenseService.CreateAsync(upsertExpenseViewModel.Expense);
             if (response?.IsSuccess == true)

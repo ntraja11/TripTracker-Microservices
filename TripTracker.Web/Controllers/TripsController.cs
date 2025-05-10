@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using TripTracker.Web.Models;
 using TripTracker.Web.Models.Dto;
 using TripTracker.Web.Service.Interface;
+using TripTracker.Web.Utility;
 using TripTracker.Web.ViewModel;
 
 namespace TripTracker.Web.Controllers
@@ -91,7 +92,18 @@ namespace TripTracker.Web.Controllers
             int travelGroupId = await GetTravelGroupId();
             tripDto.TravelGroupId = travelGroupId;
 
-            var response = await _tripService.CreateAsync(tripDto);
+            if(tripDto.StartDate != null)
+            {
+
+                tripDto.Status = (tripDto.StartDate > DateOnly.FromDateTime(DateTime.Now)) 
+                    ? StaticDetail.TripStatusPlanned : StaticDetail.TripStatusInProgress;
+            }
+            else
+            {
+                tripDto.Status = StaticDetail.TripStatusPlanned;
+            }
+
+                var response = await _tripService.CreateAsync(tripDto);
             if (response?.IsSuccess == true)
             {
                 TempData["success"] = "Trip created successfully.";
@@ -109,12 +121,7 @@ namespace TripTracker.Web.Controllers
             if (response?.IsSuccess == true && response.Result != null)
             {
                 var trip = JsonConvert.DeserializeObject<TripDto>(Convert.ToString(response.Result));
-
-                //int travelGroupId = await GetTravelGroupId();
-                //var userResponse = await _authService.GetUsersByTravelGroup(travelGroupId);
-                //var users = (userResponse!.IsSuccess == true && userResponse != null) ?
-                //    JsonConvert.DeserializeObject<List<UserDto>>(Convert.ToString(userResponse.Result)) : new List<UserDto>();
-
+                               
                 var participantsResponse = await _participantService.GetAllByTripAsync(tripId);
 
                 var participants = (participantsResponse!.IsSuccess == true && participantsResponse != null) ?
@@ -180,6 +187,36 @@ namespace TripTracker.Web.Controllers
                 ModelState.AddModelError(string.Empty, "Invalid trip data.");
                 return View(tripDto);
             }
+
+
+            if(tripDto.StartDate != null && tripDto.EndDate == null)
+            {
+                tripDto.Status = (tripDto.StartDate > DateOnly.FromDateTime(DateTime.Now))
+                    ? StaticDetail.TripStatusPlanned : StaticDetail.TripStatusInProgress;
+            }
+
+
+            if(tripDto.EndDate != null && tripDto.StartDate != null)
+            {
+                if(tripDto.EndDate < tripDto.StartDate)
+                {
+                    TempData["error"] = "End date cannot be earlier than start date.";
+                    ModelState.AddModelError(string.Empty, "End date cannot be earlier than start date.");
+                    return View(tripDto);
+                }
+                else if (tripDto.EndDate > DateOnly.FromDateTime(DateTime.Now))
+                {
+                    TempData["error"] = "End date cannot be later than today.";
+                    ModelState.AddModelError(string.Empty, "End date cannot be later than today.");
+                    return View(tripDto);
+                }
+                else
+                {
+                    tripDto.Status = StaticDetail.TripStatusCompleted;
+                }
+            }          
+
+
 
             var response = await _tripService.UpdateAsync(tripDto);
             if (response?.IsSuccess == true)
