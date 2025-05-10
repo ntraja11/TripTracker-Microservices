@@ -81,19 +81,15 @@ namespace TripTracker.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(TripDto tripDto)
         {
-            if (tripDto == null)
+            if (tripDto == null || !ModelState.IsValid)
             {
                 TempData["error"] = "Invalid trip data.";
                 ModelState.AddModelError(string.Empty, "Invalid trip data.");
                 return View(tripDto);
             }
 
-            if (!ModelState.IsValid)
-            {
-                TempData["error"] = "Invalid trip data.";
-                ModelState.AddModelError(string.Empty, "Invalid trip data.");
-                return View(tripDto);
-            }
+            int travelGroupId = await GetTravelGroupId();
+            tripDto.TravelGroupId = travelGroupId;
 
             var response = await _tripService.CreateAsync(tripDto);
             if (response?.IsSuccess == true)
@@ -129,11 +125,24 @@ namespace TripTracker.Web.Controllers
                 var expenses = (expenseResponse!.IsSuccess == true && expenseResponse != null) ?
                     JsonConvert.DeserializeObject<List<ExpenseDto>>(Convert.ToString(expenseResponse.Result)) : new List<ExpenseDto>();
 
+                decimal tripTotalExpense = 0;
+
+                foreach(var participant in participants)
+                {
+                    participant.TotalTripExpense = expenses.Where(e => e.ParticipantId == participant.Id)
+                        .Sum(e => e.Amount);
+                    tripTotalExpense += (decimal) participant.TotalTripExpense;
+                }
+
+                trip.TotalExpense = tripTotalExpense;
+                var participantShare = (tripTotalExpense > 0 && participants.Count > 0) ? tripTotalExpense / participants.Count : 0;
+
                 TripDetailViewModel tripDetailViewModel = new()
                 {                    
                     Trip = trip!,
                     Participants = participants!,
-                    Expenses = expenses!
+                    Expenses = expenses!,
+                    ParticipantShare = participantShare
 
                 };
 
@@ -165,14 +174,7 @@ namespace TripTracker.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(TripDto tripDto)
         {
-            if (tripDto == null)
-            {
-                TempData["error"] = "Invalid trip data.";
-                ModelState.AddModelError(string.Empty, "Invalid trip data.");
-                return View(tripDto);
-            }
-
-            if (!ModelState.IsValid)
+            if (tripDto == null || !ModelState.IsValid)
             {
                 TempData["error"] = "Invalid trip data.";
                 ModelState.AddModelError(string.Empty, "Invalid trip data.");

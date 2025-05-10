@@ -42,7 +42,7 @@
                 <div class="col-md-12">
                     <hr>
                 </div>
-                
+
                 <div class="col-md-6 mb-2">
                     <h5 class="fw-bold">Total Expense</h5>
                     <p>@Model.Trip.TotalExpense?.ToString("C")</p>
@@ -64,20 +64,24 @@
 
                 <div class="col-md-12 mb-2">
                     <div class="d-inline-flex gap-3 align-items-center">
-                        <h5 class="fw-bold">Participants</h5>
+                        <h5 class="fw-bold">
+                            Participants @(Model.Trip.TotalExpense>0 ? "(Share: " + Model.ParticipantShare + ")" : "")
+                        </h5>
                         <a asp-controller="Participant" asp-action="AddParticipants" asp-route-tripId="@Model.Trip.Id" class="btn btn-sm btn-primary">
-                            + Add Participants
+                            + Manage Participants
                         </a>
                     </div>
 
-                    <ul class="ps-3">
-                        @if (Model.Participants != null && Model.Participants.Any())
+                    @if (Model.Participants != null && Model.Participants.Any())
+                    {
+                        if(Model.Trip.TotalExpense > 0)
                         {
                             <table class="table table-bordered table-striped mt-2">
                                 <thead class="table-dark">
                                     <tr>
                                         <th>Name</th>
                                         <th>Total expense</th>
+                                        <th>Difference</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -86,6 +90,9 @@
                                         <tr>
                                             <td>@participant.Name</td>
                                             <td>@participant.TotalTripExpense</td>
+                                            <td style="color: @(participant.TotalTripExpense - Model.ParticipantShare < 0 ? "#be4c49" : "#6ac76a"); font-weight: bold">
+                                                @(participant.TotalTripExpense - Model.ParticipantShare)
+                                            </td>
                                         </tr>
                                     }
                                 </tbody>
@@ -93,14 +100,24 @@
                         }
                         else
                         {
-                            <li class="text-muted">No participants added yet.</li>
+                            <ul>
+                                @foreach (var participant in Model.Participants)
+                                {
+                                    <li>@participant.Name</li>
+                                }
+                            </ul>
                         }
-                    </ul>
+
+                    }
+                    else
+                    {
+                        <li class="text-muted">No participants added yet.</li>
+                    }
                 </div>
 
                 <div class="col-md-12 mb-2">
                     <div class="d-inline-flex align-items-center">
-                        <h5 class="fw-bold mb-0 me-2">Expenses</h5>
+                        <h5 class="fw-bold mb-0 me-2">Expenses (Total: @Model.Trip.TotalExpense)</h5>
                         <a asp-controller="Expense" asp-action="Create" asp-route-tripId="@Model.Trip.Id" class="btn btn-sm btn-success">
                             + Add Expense
                         </a>

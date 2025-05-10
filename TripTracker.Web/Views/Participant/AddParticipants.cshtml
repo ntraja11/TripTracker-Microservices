@@ -56,7 +56,7 @@
 
 <!-- JavaScript for Dynamic Selection -->
 <script>
-    let selectedUserIds = [];
+    let selectedUserIds = @Html.Raw(Json.Serialize(Model.SelectedUserIds));   
 
     document.getElementById("addUserBtn").addEventListener("click", function() {
         var dropdown = document.getElementById("userDropdown");
@@ -64,7 +64,10 @@
         var selectedUserName = dropdown.options[dropdown.selectedIndex].text;
 
         if (selectedUserId) {
+            console.log("Before Adding:", selectedUserIds);
+            console.log("Trying to add:", selectedUserId);
             selectedUserIds.push(selectedUserId);
+            console.log("After Adding:", selectedUserIds);
 
             var listItem = document.createElement("li");
             listItem.innerHTML = selectedUserName +
@@ -74,13 +77,7 @@
             document.getElementById("selectedUsersList").appendChild(listItem);
             dropdown.remove(dropdown.selectedIndex);
 
-            // Create hidden inputs dynamically
-            var form = document.querySelector("form");
-            var hiddenInput = document.createElement("input");
-            hiddenInput.type = "hidden";
-            hiddenInput.name = "SelectedUserIds";
-            hiddenInput.value = selectedUserId;
-            form.appendChild(hiddenInput);
+            updateHiddenFields();
         }
     });
 
@@ -89,8 +86,12 @@
             var listItem = e.target.parentElement;
             var userId = listItem.getAttribute("data-user-id");
             var userName = listItem.innerText.split(" ✖")[0];
+                       
+            console.log("Before Removal:", selectedUserIds); 
+            console.log("Trying to remove:", userId); 
+            selectedUserIds = selectedUserIds.filter(id => id.toString() !== userId.toString());
 
-            selectedUserIds = selectedUserIds.filter(id => id !== userId);
+            console.log("After Removal:", selectedUserIds); 
 
             var dropdown = document.getElementById("userDropdown");
             var option = document.createElement("option");
@@ -100,10 +101,26 @@
 
             listItem.remove();
 
-            // Remove hidden input for userId
-            document.querySelectorAll(`input[name="SelectedUserIds"]`).forEach(input => {
-                if (input.value === userId) input.remove();
-            });
+            updateHiddenFields();
         }
     });
+
+        function updateHiddenFields() {
+        var form = document.querySelector("form");
+
+        document.querySelectorAll(`input[name^="SelectedUserIds"]`).forEach(input => input.remove());
+               
+
+        selectedUserIds.forEach((userId, index) => {
+            var existingInput = document.querySelector(`input[name="SelectedUserIds[${index}]"]`);
+            if (!existingInput) { 
+                var hiddenInput = document.createElement("input");
+                hiddenInput.type = "hidden";
+                hiddenInput.name = `SelectedUserIds[${index}]`;
+                hiddenInput.value = userId;
+                form.appendChild(hiddenInput);
+            }
+        });
+    }
+    
 </script>

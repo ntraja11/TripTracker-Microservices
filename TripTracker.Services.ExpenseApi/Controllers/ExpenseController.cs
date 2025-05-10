@@ -78,14 +78,7 @@ namespace TripTracker.Services.ExpenseApi.Controllers
                     _responseDto.Message = "Expense is null.";
                     return _responseDto;
                 }
-
-                if (await _db.Expenses.AnyAsync(tg => tg.Name!.ToLower() == expenseDto.Name!.ToLower()))
-                {
-                    _responseDto.IsSuccess = false;
-                    _responseDto.Message = "An Expense with this name already exists";
-                    return _responseDto;
-                }
-
+                
                 Expense expense = _mapper.Map<Expense>(expenseDto);
                 await _db.Expenses.AddAsync(expense);
                 await _db.SaveChangesAsync();

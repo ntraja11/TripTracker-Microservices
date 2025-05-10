@@ -3,7 +3,9 @@
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h2>Edit Expense</h2>
-        <a asp-action="Index" class="btn btn-secondary">← Back to List</a>
+        <div>
+            <a asp-controller="Trips" asp-action="Details" asp-route-tripId="@Model.Expense.TripId" class="btn btn-secondary">← Back to Trip Details</a>
+        </div>
     </div>
 
     <div class="card shadow-sm">
@@ -22,7 +24,7 @@
 
                     <div class="col-md-6 mb-3">
                         <label class="form-label fw-bold">Amount</label>
-                        <input asp-for="@Model.Expense.Amount" type="number" class="form-control" step="0.01" placeholder="Enter amount" required>
+                        <input asp-for="@Model.Expense.Amount" type="number" class="form-control" placeholder="Enter amount" required>
                         <div class="text-danger" asp-validation-for="@Model.Expense.Amount"></div>
                     </div>
 

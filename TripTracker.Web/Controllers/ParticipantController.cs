@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
+using System.Linq;
 using TripTracker.Web.Models.Dto;
 using TripTracker.Web.Service.Interface;
 using TripTracker.Web.ViewModel;
@@ -72,18 +73,20 @@ namespace TripTracker.Web.Controllers
 
             var participantResponse = await _participantService.GetAllByTripAsync(tripId);
 
-            var participants = (participantResponse!.IsSuccess == true && participantResponse != null) ?
+            List<ParticipantDto> participants = (participantResponse!.IsSuccess == true && participantResponse != null) ?
                 JsonConvert.DeserializeObject<List<ParticipantDto>>(Convert.ToString(participantResponse.Result)) : new List<ParticipantDto>();
-
+                      
             AddParticipantViewModel addParticipantViewModel = new()
             {
                 TripId = tripId,
+                SelectedUsers= participants!.Select(p => new SelectListItem { Text = p.Name, Value = p.Id.ToString()}),
+                SelectedUserIds = participants!.Select(p => p.Id.ToString()).ToList(),
                 AvailableUsers = users!
-                    .Where(u => !participants.Any(p => p.Email == u.Email))
+                    .Where(u => !participants!.Any(p => p.Email == u.Email))
                     .Select(u => new SelectListItem
                     {
                         Text = u.Name,
-                        Value = u.Id.ToString()
+                        Value = u.Id!.ToString()
                     })
 
             };
@@ -96,18 +99,54 @@ namespace TripTracker.Web.Controllers
             if (!addParticipantViewModel.SelectedUserIds.Any())
             {
                 TempData["error"] = "No participants selected.";
+                return RedirectToAction("Details", "Trips", new { tripId = addParticipantViewModel.TripId });
             }
 
-            bool isCreateParticipantSuccess = false;
+            // Get the current participants from the database
+            var existingParticipantsResponse = await _participantService.GetAllByTripAsync(addParticipantViewModel.TripId);
+            var existingParticipants = (existingParticipantsResponse?.IsSuccess == true && existingParticipantsResponse.Result != null)
+                ? JsonConvert.DeserializeObject<List<ParticipantDto>>(Convert.ToString(existingParticipantsResponse.Result))
+                : new List<ParticipantDto>();
 
-            foreach (var userId in addParticipantViewModel.SelectedUserIds)
+            var existingParticipantIds = existingParticipants.Select(p => p.Id.ToString()).ToList(); // IDs currently in DB
+            var newParticipantIds = addParticipantViewModel.SelectedUserIds; // IDs submitted from the form
+
+            bool isParticipantUpdated = false;
+
+
+
+            // **Step 1: Remove Unselected Participants**
+            var participantsToRemove = existingParticipantIds
+                        .Where(id => !newParticipantIds.Contains(id!))
+                        .ToList();
+            foreach (var participantId in participantsToRemove)
             {
-                var userResponse = await _authService.GetUserById(userId);
+                var removeResponse = await _participantService.DeleteAsync(int.Parse(participantId!));
+                if (removeResponse?.IsSuccess == true)
+                {
+                    isParticipantUpdated = true;
+                }
+                else
+                {
+                    isParticipantUpdated = false;
+                    TempData["error"] = removeResponse?.Message ?? $"Failed to remove participant {participantId}.";
+                    break;
+                }
+            }
+
+            var participantsToAdd = newParticipantIds
+                .Where(id => !existingParticipantIds.Contains(id))
+                .ToList();
+
+            // ✅ **Step 2: Add New Participants**
+            foreach (var userId in participantsToAdd)
+            {
+                var userResponse = await _authService.GetUserById(userId.ToString());
                 if (userResponse?.IsSuccess == true && userResponse.Result != null)
                 {
                     var user = JsonConvert.DeserializeObject<UserDto>(Convert.ToString(userResponse.Result));
-                    
-                    if(user != null)
+
+                    if (user != null)
                     {
                         var participant = new ParticipantDto
                         {
@@ -115,124 +154,30 @@ namespace TripTracker.Web.Controllers
                             Name = user.Name,
                             Email = user.Email,
                         };
-                        var createParticipantResponse = await _participantService.CreateAsync(participant);
 
-                        if (createParticipantResponse?.IsSuccess != true)
+                        var createParticipantResponse = await _participantService.CreateAsync(participant);
+                        if (createParticipantResponse?.IsSuccess == true)
                         {
-                            isCreateParticipantSuccess = false;
-                            TempData["error"] = createParticipantResponse?.Message ?? "Failed to add participant.";
-                            break;
+                            isParticipantUpdated = true;
                         }
                         else
                         {
-                            isCreateParticipantSuccess = true;
+                            isParticipantUpdated = false;
+                            TempData["error"] = createParticipantResponse?.Message ?? "Failed to add participant.";
                         }
-                    }                    
+                    }
                 }
             }
 
-            if (isCreateParticipantSuccess)
+            if (isParticipantUpdated)
             {
-                TempData["success"] = "Participants added successfully.";
+                TempData["success"] = "Participants updated successfully.";
             }
-                      
+
             return RedirectToAction("Details", "Trips", new { tripId = addParticipantViewModel.TripId });
         }
 
-        //[HttpGet]
-        //public IActionResult Create()
-        //{
-        //    return View();
-        //}
-
-        //[HttpPost]
-        //public async Task<IActionResult> Create(ParticipantDto participantDto)
-        //{
-        //    if (participantDto == null)
-        //    {
-        //        TempData["error"] = "Invalid participant data.";
-        //        ModelState.AddModelError(string.Empty, "Invalid participant data.");
-        //        return View(participantDto);
-        //    }
-
-        //    if (!ModelState.IsValid)
-        //    {
-        //        TempData["error"] = "Invalid participant data.";
-        //        ModelState.AddModelError(string.Empty, "Invalid participant data.");
-        //        return View(participantDto);
-        //    }
-
-        //    var response = await _participantService.CreateAsync(participantDto);
-        //    if (response?.IsSuccess == true)
-        //    {
-        //        TempData["success"] = "Participant created successfully.";
-        //        return RedirectToAction(nameof(Index));
-        //    }
-
-        //    TempData["error"] = response?.Message ?? "Failed to create participant.";
-        //    ModelState.AddModelError(string.Empty, response?.Message ?? "Failed to create participant.");
-        //    return View(participantDto);
-        //}
-
-        //public async Task<IActionResult> Details(int id)
-        //{
-        //    var response = await _participantService.GetAsync(id);
-        //    if (response?.IsSuccess == true && response.Result != null)
-        //    {
-        //        var participant = JsonConvert.DeserializeObject<ParticipantDto>(Convert.ToString(response.Result));
-        //        return View(participant);
-        //    }
-
-        //    TempData["error"] = response?.Message ?? "Participant not found.";
-        //    ModelState.AddModelError(string.Empty, response?.Message ?? "Participant not found.");
-        //    return View(new ParticipantDto());
-        //}
-
-        //[HttpGet]
-        //public async Task<IActionResult> Edit(int id)
-        //{
-        //    var response = await _participantService.GetAsync(id);
-        //    if (response != null && response?.IsSuccess == true && response.Result != null)
-        //    {
-        //        var participant = JsonConvert.DeserializeObject<ParticipantDto>(Convert.ToString(response.Result));
-        //        return View(participant);
-        //    }
-
-        //    TempData["error"] = response?.Message ?? "Participant not found.";
-        //    ModelState.AddModelError(string.Empty, response?.Message ?? "Participant not found.");
-        //    return View(new ParticipantDto());
-        //}
-
-        //[HttpPost]
-        //public async Task<IActionResult> Edit(ParticipantDto participantDto)
-        //{
-        //    if (participantDto == null)
-        //    {
-        //        TempData["error"] = "Invalid participant data.";
-        //        ModelState.AddModelError(string.Empty, "Invalid participant data.");
-        //        return View(participantDto);
-        //    }
-
-        //    if (!ModelState.IsValid)
-        //    {
-        //        TempData["error"] = "Invalid participant data.";
-        //        ModelState.AddModelError(string.Empty, "Invalid participant data.");
-        //        return View(participantDto);
-        //    }
-
-        //    var response = await _participantService.UpdateAsync(participantDto);
-        //    if (response?.IsSuccess == true)
-        //    {
-        //        TempData["success"] = "Participant updated successfully.";
-        //        return RedirectToAction(nameof(Index));
-        //    }
-
-        //    TempData["error"] = response?.Message ?? "Failed to update participant.";
-        //    ModelState.AddModelError(string.Empty, response?.Message ?? "Failed to update participant.");
-        //    return View(participantDto);
-        //}
-
-
+        
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {

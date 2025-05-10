@@ -96,7 +96,9 @@ namespace TripTracker.Services.ParticipantApi.Controllers
                     return _responseDto;
                 }
 
-                if (await _db.Participants.AnyAsync(tg => tg.Name!.ToLower() == participantDto.Name!.ToLower()))
+                if (await _db.Participants.AnyAsync(tg => 
+                        tg.Name!.ToLower() == participantDto.Name!.ToLower()
+                        && tg.TripId == participantDto.TripId))
                 {
                     _responseDto.IsSuccess = false;
                     _responseDto.Message = "A Participant with this name already exists";
