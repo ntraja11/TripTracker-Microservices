@@ -20,35 +20,7 @@ namespace TripTracker.Web.Controllers
             _participantService = participantService;
             _authService = authService;
         }
-
-        public async Task<IActionResult> Index()
-        {
-            List<ParticipantDto> participants = new();
-
-            var response = await _participantService.GetAllAsync();
-
-            if (response?.IsSuccess == true && response.Result != null)
-            {
-                try
-                {
-                    participants = JsonConvert
-                        .DeserializeObject<List<ParticipantDto>>(Convert.ToString(response.Result))
-                        ?? new List<ParticipantDto>();
-                }
-                catch (JsonException ex)
-                {
-                    TempData["error"] = $"Error parsing data: {ex.Message}";
-                    ModelState.AddModelError(string.Empty, $"Error parsing data: {ex.Message}");
-                }
-            }
-            else
-            {
-                TempData["error"] = response?.Message ?? "Failed to retrieve participants.";
-                ModelState.AddModelError(string.Empty, response?.Message ?? "Failed to retrieve participants.");
-            }
-
-            return View(participants);
-        }
+               
 
         [HttpGet]
         public async Task<IActionResult> AddParticipants(int tripId)

@@ -31,16 +31,7 @@ namespace TripTracker.Web.Service
                 Url = ParticipantApiPath + participantId
             });
         }
-
-        public async Task<ResponseDto?> GetAllAsync()
-        {
-            return await _baseService.SendAsync(new RequestDto
-            {
-                ApiType = ApiType.GET,
-                Url = ParticipantApiPath
-            });
-        }
-
+        
         public async Task<ResponseDto?> GetAllByTripAsync(int tripId)
         {
             return await _baseService.SendAsync(new RequestDto
