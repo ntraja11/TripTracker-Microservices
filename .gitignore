@@ -362,3 +362,5 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /TripTracker.Services.AuthApi/Properties/ServiceDependencies/TripTrackerServicesAuthApi - Web Deploy/profile.arm.json
+/TripTracker.Services.TripApi/Properties/ServiceDependencies/TripTrackerServicesTripApi - Web Deploy/profile.arm.json
+/TripTracker.Services.TravelGroupApi/Properties/ServiceDependencies/TripTrackerServicesTravelGroupApi - Web Deploy/profile.arm.json
