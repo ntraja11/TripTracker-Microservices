@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
+using System.Globalization;
 using TripTracker.Web.Models;
 using TripTracker.Web.Models.Dto;
 using TripTracker.Web.Service.Interface;
@@ -141,8 +142,8 @@ namespace TripTracker.Web.Controllers
                     tripTotalExpense += (decimal) participant.TotalTripExpense;
                 }
 
-                trip.TotalExpense = tripTotalExpense;
-                var participantShare = (tripTotalExpense > 0 && participants.Count > 0) ? tripTotalExpense / participants.Count : 0;
+                trip.TotalExpense = Math.Round(tripTotalExpense);
+                var participantShare = (tripTotalExpense > 0 && participants.Count > 0) ? Math.Round(tripTotalExpense / participants.Count) : 0;
 
                 TripDetailViewModel tripDetailViewModel = new()
                 {                    
@@ -251,13 +252,44 @@ namespace TripTracker.Web.Controllers
             var response = await _tripService.DeleteAsync(tripId);
             if (response?.IsSuccess == true)
             {
+                await DeleteTripParticipantsAndExpenses(tripId);
                 TempData["success"] = "Trip deleted successfully.";
                 return RedirectToAction(nameof(Index));
             }
 
+            
+
             TempData["error"] = response?.Message ?? "Failed to delete trip.";
             ModelState.AddModelError(string.Empty, response?.Message ?? "Failed to delete trip.");
             return RedirectToAction("Delete", "Trip", new { tripId });
+        }
+
+        private async Task DeleteTripParticipantsAndExpenses(int tripId)
+        {
+            var participantResponse = await _participantService.GetAllByTripAsync(tripId);
+            var participants = (participantResponse!.IsSuccess == true && participantResponse != null) ?
+                JsonConvert.DeserializeObject<List<ParticipantDto>>(Convert.ToString(participantResponse.Result)) : new List<ParticipantDto>();
+
+            if (participants != null && participants.Count > 0)
+            {
+                foreach (var participant in participants)
+                {
+                    var deleteParticipantResponse = await _participantService.DeleteAsync((int)participant.Id!);
+                }
+            }
+
+
+            var expenseResponse = await _expenseService.GetAllByTripAsync(tripId);
+            var expenses = (expenseResponse!.IsSuccess == true && expenseResponse != null) ?
+                JsonConvert.DeserializeObject<List<ExpenseDto>>(Convert.ToString(expenseResponse.Result)) : new List<ExpenseDto>();
+
+            if (expenses != null && expenses.Count > 0)
+            {
+                foreach (var expense in expenses)
+                {
+                    var deleteExpenseResponse = await _expenseService.DeleteAsync((int)expense.Id!);
+                }
+            }
         }
     }
 }
