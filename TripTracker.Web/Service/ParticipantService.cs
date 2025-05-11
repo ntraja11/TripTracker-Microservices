@@ -31,7 +31,7 @@ namespace TripTracker.Web.Service
                 Url = ParticipantApiPath + participantId
             });
         }
-        
+
         public async Task<ResponseDto?> GetAllByTripAsync(int tripId)
         {
             return await _baseService.SendAsync(new RequestDto
@@ -50,7 +50,7 @@ namespace TripTracker.Web.Service
             });
         }
 
-       
+
         public async Task<ResponseDto?> UpdateAsync(ParticipantDto participantDto)
         {
             return await _baseService.SendAsync(new Models.Dto.RequestDto

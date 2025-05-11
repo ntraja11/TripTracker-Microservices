@@ -1,10 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
-using System.Globalization;
-using TripTracker.Web.Models;
 using TripTracker.Web.Models.Dto;
 using TripTracker.Web.Service.Interface;
 using TripTracker.Web.Utility;
@@ -20,7 +16,7 @@ namespace TripTracker.Web.Controllers
         private readonly IExpenseService _expenseService;
         private readonly IAuthService _authService;
 
-        public TripsController(ITripService tripService, IExpenseService expenseService, 
+        public TripsController(ITripService tripService, IExpenseService expenseService,
             IAuthService authService, IParticipantService participantService)
         {
             _tripService = tripService;
@@ -32,7 +28,7 @@ namespace TripTracker.Web.Controllers
         public async Task<IActionResult> Index()
         {
             List<TripDto> trips = new();
-            
+
             int travelGroupId = await GetTravelGroupId();
 
             var response = await _tripService.GetByTravelGroupAsync(travelGroupId);
@@ -93,10 +89,10 @@ namespace TripTracker.Web.Controllers
             int travelGroupId = await GetTravelGroupId();
             tripDto.TravelGroupId = travelGroupId;
 
-            if(tripDto.StartDate != null)
+            if (tripDto.StartDate != null)
             {
 
-                tripDto.Status = (tripDto.StartDate > DateOnly.FromDateTime(DateTime.Now)) 
+                tripDto.Status = (tripDto.StartDate > DateOnly.FromDateTime(DateTime.Now))
                     ? StaticDetail.TripStatusPlanned : StaticDetail.TripStatusInProgress;
             }
             else
@@ -104,7 +100,7 @@ namespace TripTracker.Web.Controllers
                 tripDto.Status = StaticDetail.TripStatusPlanned;
             }
 
-                var response = await _tripService.CreateAsync(tripDto);
+            var response = await _tripService.CreateAsync(tripDto);
             if (response?.IsSuccess == true)
             {
                 TempData["success"] = "Trip created successfully.";
@@ -122,7 +118,7 @@ namespace TripTracker.Web.Controllers
             if (response?.IsSuccess == true && response.Result != null)
             {
                 var trip = JsonConvert.DeserializeObject<TripDto>(Convert.ToString(response.Result));
-                               
+
                 var participantsResponse = await _participantService.GetAllByTripAsync(tripId);
 
                 var participants = (participantsResponse!.IsSuccess == true && participantsResponse != null) ?
@@ -135,18 +131,18 @@ namespace TripTracker.Web.Controllers
 
                 decimal tripTotalExpense = 0;
 
-                foreach(var participant in participants)
+                foreach (var participant in participants)
                 {
                     participant.TotalTripExpense = expenses.Where(e => e.ParticipantId == participant.Id)
                         .Sum(e => e.Amount);
-                    tripTotalExpense += (decimal) participant.TotalTripExpense;
+                    tripTotalExpense += (decimal)participant.TotalTripExpense;
                 }
 
                 trip.TotalExpense = Math.Round(tripTotalExpense);
                 var participantShare = (tripTotalExpense > 0 && participants.Count > 0) ? Math.Round(tripTotalExpense / participants.Count) : 0;
 
                 TripDetailViewModel tripDetailViewModel = new()
-                {                    
+                {
                     Trip = trip!,
                     Participants = participants!,
                     Expenses = expenses!,
@@ -190,16 +186,16 @@ namespace TripTracker.Web.Controllers
             }
 
 
-            if(tripDto.StartDate != null && tripDto.EndDate == null)
+            if (tripDto.StartDate != null && tripDto.EndDate == null)
             {
                 tripDto.Status = (tripDto.StartDate > DateOnly.FromDateTime(DateTime.Now))
                     ? StaticDetail.TripStatusPlanned : StaticDetail.TripStatusInProgress;
             }
 
 
-            if(tripDto.EndDate != null && tripDto.StartDate != null)
+            if (tripDto.EndDate != null && tripDto.StartDate != null)
             {
-                if(tripDto.EndDate < tripDto.StartDate)
+                if (tripDto.EndDate < tripDto.StartDate)
                 {
                     TempData["error"] = "End date cannot be earlier than start date.";
                     ModelState.AddModelError(string.Empty, "End date cannot be earlier than start date.");
@@ -215,7 +211,7 @@ namespace TripTracker.Web.Controllers
                 {
                     tripDto.Status = StaticDetail.TripStatusCompleted;
                 }
-            }          
+            }
 
 
 
@@ -257,7 +253,7 @@ namespace TripTracker.Web.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            
+
 
             TempData["error"] = response?.Message ?? "Failed to delete trip.";
             ModelState.AddModelError(string.Empty, response?.Message ?? "Failed to delete trip.");

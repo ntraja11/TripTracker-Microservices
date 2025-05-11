@@ -51,7 +51,7 @@ namespace TripTracker.Web.Service
             });
         }
 
-       
+
         public async Task<ResponseDto?> UpdateAsync(ExpenseDto expenseDto)
         {
             return await _baseService.SendAsync(new Models.Dto.RequestDto

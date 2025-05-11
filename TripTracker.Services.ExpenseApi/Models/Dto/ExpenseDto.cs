@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
-
-namespace TripTracker.Services.ExpenseApi.Models.Dto
+﻿namespace TripTracker.Services.ExpenseApi.Models.Dto
 {
     public class ExpenseDto
     {

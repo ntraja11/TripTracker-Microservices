@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
-using System.Linq;
 using TripTracker.Web.Models.Dto;
 using TripTracker.Web.Service.Interface;
 using TripTracker.Web.ViewModel;
@@ -20,7 +19,7 @@ namespace TripTracker.Web.Controllers
             _participantService = participantService;
             _authService = authService;
         }
-               
+
 
         [HttpGet]
         public async Task<IActionResult> AddParticipants(int tripId)
@@ -47,11 +46,11 @@ namespace TripTracker.Web.Controllers
 
             List<ParticipantDto> participants = (participantResponse!.IsSuccess == true && participantResponse != null) ?
                 JsonConvert.DeserializeObject<List<ParticipantDto>>(Convert.ToString(participantResponse.Result)) : new List<ParticipantDto>();
-                      
+
             AddParticipantViewModel addParticipantViewModel = new()
             {
                 TripId = tripId,
-                SelectedUsers= participants!.Select(p => new SelectListItem { Text = p.Name, Value = p.Id.ToString()}),
+                SelectedUsers = participants!.Select(p => new SelectListItem { Text = p.Name, Value = p.Id.ToString() }),
                 SelectedUserIds = participants!.Select(p => p.Id.ToString()).ToList(),
                 AvailableUsers = users!
                     .Where(u => !participants!.Any(p => p.Email == u.Email))
@@ -149,7 +148,7 @@ namespace TripTracker.Web.Controllers
             return RedirectToAction("Details", "Trips", new { tripId = addParticipantViewModel.TripId });
         }
 
-        
+
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {

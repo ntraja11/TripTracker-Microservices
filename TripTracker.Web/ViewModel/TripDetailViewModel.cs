@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using TripTracker.Web.Models.Dto;
+﻿using TripTracker.Web.Models.Dto;
 
 namespace TripTracker.Web.ViewModel
 {

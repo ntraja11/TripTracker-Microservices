@@ -15,26 +15,26 @@ namespace TripTracker.Services.TravelGroupApi.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<TravelGroup>()
-                .HasData(
+            //modelBuilder.Entity<TravelGroup>()
+            //    .HasData(
 
-                new TravelGroup
-                {
-                    Id = 1,
-                    Name = "Friends Group",
-                    Place = "Keelapalur/Varanasi",
-                    Description = "Friends from palur and varanasi.",
-                    CreatedDate = DateOnly.FromDateTime(DateTime.Now),
-                },
-                new TravelGroup
-                {
-                    Id = 2,
-                    Name = "Aero Group",
-                    Place = "Chennai",
-                    Description = "Friends from Aeronautical education.",
-                    CreatedDate = DateOnly.FromDateTime(DateTime.Now),
-                }
-            );
+            //    new TravelGroup
+            //    {
+            //        Id = 1,
+            //        Name = "Friends Group",
+            //        Place = "Keelapalur/Varanasi",
+            //        Description = "Friends from palur and varanasi.",
+            //        CreatedDate = DateOnly.FromDateTime(DateTime.Now),
+            //    },
+            //    new TravelGroup
+            //    {
+            //        Id = 2,
+            //        Name = "Aero Group",
+            //        Place = "Chennai",
+            //        Description = "Friends from Aeronautical education.",
+            //        CreatedDate = DateOnly.FromDateTime(DateTime.Now),
+            //    }
+            //);
         }
 
 

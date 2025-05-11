@@ -78,7 +78,7 @@ namespace TripTracker.Services.ExpenseApi.Controllers
                     _responseDto.Message = "Expense is null.";
                     return _responseDto;
                 }
-                
+
                 Expense expense = _mapper.Map<Expense>(expenseDto);
                 await _db.Expenses.AddAsync(expense);
                 await _db.SaveChangesAsync();

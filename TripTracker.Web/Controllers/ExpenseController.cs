@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using TripTracker.Web.Models.Dto;
-using TripTracker.Web.Service;
 using TripTracker.Web.Service.Interface;
 using TripTracker.Web.ViewModel;
 
@@ -20,7 +19,7 @@ namespace TripTracker.Web.Controllers
             _expenseService = expenseService;
             _participantService = participantService;
         }
-        
+
         [HttpGet]
         public async Task<IActionResult> Create(int tripId)
         {
@@ -31,7 +30,7 @@ namespace TripTracker.Web.Controllers
                 return RedirectToAction("Details", "Trips", new { tripId = tripId });
             }
 
-            
+
             UpsertExpenseViewModel upsertExpenseViewModel = await GetUpsertExpenseViewModel(tripId);
             upsertExpenseViewModel.Expense = new ExpenseDto
             {
@@ -49,7 +48,7 @@ namespace TripTracker.Web.Controllers
                 JsonConvert.DeserializeObject<List<ParticipantDto>>(Convert.ToString(participantsResponse.Result)) : new List<ParticipantDto>();
 
             return new UpsertExpenseViewModel
-            {                
+            {
                 Participants = participants!.Select(p => new SelectListItem
                 {
                     Text = p.Name,
@@ -67,7 +66,7 @@ namespace TripTracker.Web.Controllers
                 ModelState.AddModelError(string.Empty, "Invalid expense data.");
                 return View(await GetUpsertExpenseViewModel(upsertExpenseViewModel.Expense!.TripId));
             }
-                        
+
             upsertExpenseViewModel.Expense.ParticipantName = await GetParticipantName(upsertExpenseViewModel.Expense.ParticipantId);
             upsertExpenseViewModel.Expense.Date = DateOnly.FromDateTime(DateTime.Now);
 
@@ -75,7 +74,7 @@ namespace TripTracker.Web.Controllers
             if (response?.IsSuccess == true)
             {
                 TempData["success"] = "Expense created successfully.";
-                return RedirectToAction("Details", "Trips", new { tripId = upsertExpenseViewModel.Expense.TripId});
+                return RedirectToAction("Details", "Trips", new { tripId = upsertExpenseViewModel.Expense.TripId });
             }
 
             TempData["error"] = response?.Message ?? "Failed to create expense.";
@@ -115,7 +114,7 @@ namespace TripTracker.Web.Controllers
         private async Task<ExpenseDto> GetExpense(int expenseId)
         {
             var response = await _expenseService.GetAsync(expenseId);
-            var expense =  (response?.IsSuccess == true && response.Result != null) ?
+            var expense = (response?.IsSuccess == true && response.Result != null) ?
                 JsonConvert.DeserializeObject<ExpenseDto>(Convert.ToString(response.Result))
                 : new ExpenseDto();
 
@@ -149,7 +148,7 @@ namespace TripTracker.Web.Controllers
             if (response?.IsSuccess == true)
             {
                 TempData["success"] = "Expense updated successfully.";
-                return RedirectToAction("Details", "Expense", new { expenseId = upsertExpenseViewModel.Expense.Id});
+                return RedirectToAction("Details", "Expense", new { expenseId = upsertExpenseViewModel.Expense.Id });
             }
 
             TempData["error"] = response?.Message ?? "Failed to update expense.";
@@ -157,7 +156,7 @@ namespace TripTracker.Web.Controllers
 
             UpsertExpenseViewModel freshUpsertExpenseViewModel = await GetUpsertExpenseViewModel(upsertExpenseViewModel.Expense.TripId);
             freshUpsertExpenseViewModel.Expense = await GetExpense(upsertExpenseViewModel.Expense.Id);
-            
+
             return View(freshUpsertExpenseViewModel);
         }
 
