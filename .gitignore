@@ -370,3 +370,5 @@ FodyWeavers.xsd
 /TripTracker.Services.TravelGroupApi/.config/dotnet-tools.json
 /TripTracker.Web/.config/dotnet-tools.json
 /TripTracker.Web/Properties/ServiceDependencies/TripTrackerWeb - Web Deploy/profile.arm.json
+/TripTracker.GatewaySolution/.config/dotnet-tools.json
+/TripTracker.GatewaySolution/Properties/ServiceDependencies/TripTrackerGatewaySolution - Web Deploy/profile.arm.json
