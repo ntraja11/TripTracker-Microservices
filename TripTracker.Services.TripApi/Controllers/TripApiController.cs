@@ -100,7 +100,7 @@ namespace TripTracker.Services.TripApi.Controllers
                 if (tripDto == null)
                 {
                     _responseDto.IsSuccess = false;
-                    _responseDto.Message = "Trip group is null.";
+                    _responseDto.Message = "Trip is null.";
                     return _responseDto;
                 }
 

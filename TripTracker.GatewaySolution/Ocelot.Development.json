@@ -230,6 +230,7 @@
 
   ],
   "GlobalConfiguration": {
-    "BaseUrl": "https://triptrackergatewaysolution-dncdgshdcxetgjbq.northeurope-01.azurewebsites.net"
+    "BaseUrl": "https://localhost:9999"
+    //"BaseUrl": "https://triptrackergatewaysolution-dncdgshdcxetgjbq.northeurope-01.azurewebsites.net"
   }
 }
