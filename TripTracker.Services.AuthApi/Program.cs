@@ -35,11 +35,12 @@ builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+app.UseSwagger();
+app.UseSwaggerUI(s => 
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+    s.SwaggerEndpoint("/swagger/v1/swagger.json", "TripTracker.AuthApi");
+    s.RoutePrefix = string.Empty; 
+});
 
 app.UseHttpsRedirection();
 
