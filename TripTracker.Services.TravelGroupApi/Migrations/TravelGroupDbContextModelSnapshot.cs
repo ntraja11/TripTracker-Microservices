@@ -52,26 +52,6 @@ namespace TripTracker.Services.TravelGroupApi.Migrations
                         .IsUnique();
 
                     b.ToTable("TravelGroups");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CreatedDate = new DateOnly(2025, 5, 6),
-                            Description = "Friends from palur and varanasi.",
-                            MemberCount = 0,
-                            Name = "Friends Group",
-                            Place = "Keelapalur/Varanasi"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CreatedDate = new DateOnly(2025, 5, 6),
-                            Description = "Friends from Aeronautical education.",
-                            MemberCount = 0,
-                            Name = "Aero Group",
-                            Place = "Chennai"
-                        });
                 });
 #pragma warning restore 612, 618
         }

@@ -12,8 +12,8 @@ using TripTracker.Services.TravelGroupApi.Data;
 namespace TripTracker.Services.TravelGroupApi.Migrations
 {
     [DbContext(typeof(TravelGroupDbContext))]
-    [Migration("20250506194447_UniqueTravelGroupName")]
-    partial class UniqueTravelGroupName
+    [Migration("20250511203915_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -55,26 +55,6 @@ namespace TripTracker.Services.TravelGroupApi.Migrations
                         .IsUnique();
 
                     b.ToTable("TravelGroups");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CreatedDate = new DateOnly(2025, 5, 6),
-                            Description = "Friends from palur and varanasi.",
-                            MemberCount = 0,
-                            Name = "Friends Group",
-                            Place = "Keelapalur/Varanasi"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CreatedDate = new DateOnly(2025, 5, 6),
-                            Description = "Friends from Aeronautical education.",
-                            MemberCount = 0,
-                            Name = "Aero Group",
-                            Place = "Chennai"
-                        });
                 });
 #pragma warning restore 612, 618
         }
