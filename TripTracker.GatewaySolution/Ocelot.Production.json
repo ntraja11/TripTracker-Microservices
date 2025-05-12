@@ -55,7 +55,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "https://triptrackerservicestripapi-d3hdh7djhwhcf9f0.northeurope-01.azurewebsites.net",
+          "Host": "https://triptrackerservicestripapi-d3hdh7djhwhcf9f0.northeurope-01.azurewebsites.net"
         }
       ],
       "UpstreamHttpMethod": [ "Get" ],

@@ -30,6 +30,19 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
 builder.Services.AddScoped<ResponseDto>();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll",
+        builder =>
+        {
+            builder.WithOrigins(
+                "https://triptrackerweb-evg5fzc0asb3b3fg.northeurope-01.azurewebsites.net",
+                "https://localhost:1010")
+                   .AllowAnyMethod()
+                   .AllowAnyHeader();
+        });
+});
+
 
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
@@ -45,6 +58,7 @@ app.UseSwaggerUI(s =>
 });
 
 app.UseHttpsRedirection();
+app.UseCors("AllowAll");
 
 app.UseAuthentication();
 app.UseAuthorization();
