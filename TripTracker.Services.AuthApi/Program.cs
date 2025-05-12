@@ -7,6 +7,7 @@ using TripTracker.Services.AuthApi.Models;
 using TripTracker.Services.AuthApi.Models.Dto;
 using TripTracker.Services.AuthApi.Service;
 using TripTracker.Services.AuthApi.Service.Interface;
+using TripTracker.Services.AuthApi.Utility;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,6 +30,16 @@ builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("ApiSett
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
 builder.Services.AddScoped<ResponseDto>();
+
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<BackendApiAuthenticationHttpClientHandler>();
+builder.Services.AddScoped<ITravelGroupApiService, TravelGroupApiService>();
+
+builder.Services.AddHttpClient("TravelGroupApi", u => u.BaseAddress =
+    new Uri(builder.Configuration["ServiceUrls:TravelGroupApi"]))
+    .AddHttpMessageHandler<BackendApiAuthenticationHttpClientHandler>();
+
+
 
 builder.Services.AddCors(options =>
 {

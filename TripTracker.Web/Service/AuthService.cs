@@ -18,7 +18,7 @@ namespace TripTracker.Web.Service
             return await _baseService.SendAsync(new RequestDto
             {
                 ApiType = ApiType.POST,
-                Url = AuthApiPath + "/" + "assign-role",
+                Url = AuthApiPath + "/assign-role",
                 Data = registrationRequestDto
             });
         }

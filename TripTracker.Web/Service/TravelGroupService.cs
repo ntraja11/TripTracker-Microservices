@@ -15,7 +15,7 @@ namespace TripTracker.Web.Service
         }
         public async Task<ResponseDto?> CreateAsync(TravelGroupDto travelGroupDto)
         {
-            return await _baseService.SendAsync(new Models.Dto.RequestDto
+            return await _baseService.SendAsync(new RequestDto
             {
                 ApiType = ApiType.POST,
                 Url = TravelGroupApiPath,
@@ -25,7 +25,7 @@ namespace TripTracker.Web.Service
 
         public async Task<ResponseDto?> DeleteAsync(int travelGroupId)
         {
-            return await _baseService.SendAsync(new Models.Dto.RequestDto
+            return await _baseService.SendAsync(new RequestDto
             {
                 ApiType = ApiType.DELETE,
                 Url = TravelGroupApiPath + "/" + travelGroupId
@@ -43,7 +43,7 @@ namespace TripTracker.Web.Service
 
         public async Task<ResponseDto?> GetAsync(int travelGroupId)
         {
-            return await _baseService.SendAsync(new Models.Dto.RequestDto
+            return await _baseService.SendAsync(new RequestDto
             {
                 ApiType = ApiType.GET,
                 Url = TravelGroupApiPath + "/" + travelGroupId
@@ -52,16 +52,16 @@ namespace TripTracker.Web.Service
 
         public async Task<ResponseDto?> GetAsync(string travelGroupName)
         {
-            return await _baseService.SendAsync(new Models.Dto.RequestDto
+            return await _baseService.SendAsync(new RequestDto
             {
                 ApiType = ApiType.GET,
                 Url = TravelGroupApiPath + "/get-by-name/" + travelGroupName
-            });
+            }, withBearer: false);
         }
 
         public async Task<ResponseDto?> UpdateAsync(TravelGroupDto travelGroupDto)
         {
-            return await _baseService.SendAsync(new Models.Dto.RequestDto
+            return await _baseService.SendAsync(new RequestDto
             {
                 ApiType = ApiType.PUT,
                 Url = TravelGroupApiPath,

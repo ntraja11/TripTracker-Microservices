@@ -6,52 +6,27 @@
     {
       "DownstreamPathTemplate": "/api/travel-group",
       "DownstreamScheme": "https",
-      "HttpHandlerOptions": {
-        "AllowAutoRedirect": false,
-        "UseProxy": false,
-        "UseCookies": false
-      },
       "DownstreamHostAndPorts": [
         {
-          "Host": "triptrackerservicestravelgroupapi-gee6d5fmc7argkea.northeurope-01.azurewebsites.net",
-          "Port": 443
+          "Host": "triptrackerservicestravelgroupapi-gee6d5fmc7argkea.northeurope-01.azurewebsites.net"
         }
       ],
       "UpstreamHttpMethod": [ "Get" ],
       "UpstreamPathTemplate": "/api/travel-group",
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer"
-      },
-      "QoSOptions": {
-        "TimeoutValue": 5000,
-        "ExceptionsAllowedBeforeBreaking": 5,
-        "DurationOfBreak": 30000
       }
     },
     {
-      "DownstreamPathTemplate": "/api/travel-group/getByName/{travelGroupName}",
-      "DownstreamScheme": "https",
-      "HttpHandlerOptions": {
-        "AllowAutoRedirect": false,
-        "UseProxy": false,
-        "UseCookies": false
-      },
+      "DownstreamPathTemplate": "/api/travel-group/get-by-name/{travelGroupName}",
+      "DownstreamScheme": "https",      
       "DownstreamHostAndPorts": [
         {
-          "Host": "triptrackerservicestravelgroupapi-gee6d5fmc7argkea.northeurope-01.azurewebsites.net",
-          "Port": 443
+          "Host": "triptrackerservicestravelgroupapi-gee6d5fmc7argkea.northeurope-01.azurewebsites.net"
         }
       ],
       "UpstreamHttpMethod": [ "Get" ],
-      "UpstreamPathTemplate": "/api/travel-group/getByName/{travelGroupName}",
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer"
-      },
-      "QoSOptions": {
-        "TimeoutValue": 5000,
-        "ExceptionsAllowedBeforeBreaking": 5,
-        "DurationOfBreak": 30000
-      }
+      "UpstreamPathTemplate": "/api/travel-group/get-by-name/{travelGroupName}"
     },
     {
       "DownstreamPathTemplate": "/api/travel-group/{travelGroupId}",
@@ -122,8 +97,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "triptrackerservicestripapi-d3hdh7djhwhcf9f0.northeurope-01.azurewebsites.net",
-          "Port": 443
+          "Host": "triptrackerservicestripapi-d3hdh7djhwhcf9f0.northeurope-01.azurewebsites.net"
         }
       ],
       "UpstreamHttpMethod": [ "Get" ],

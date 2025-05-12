@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using TripTracker.Services.AuthApi.Data;
 using TripTracker.Services.AuthApi.Models;
 using TripTracker.Services.AuthApi.Models.Dto;
@@ -15,17 +16,19 @@ namespace TripTracker.Services.AuthApi.Service
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IJwtTokenGenerator _jwtTokenGenerator;
         private readonly IMapper _mapper;
+        private readonly ITravelGroupApiService _travelGroupService;
         public AuthService(AuthDbContext db,
             RoleManager<IdentityRole> roleManager,
             UserManager<ApplicationUser> userManager,
             IJwtTokenGenerator jwtTokenGenerator,
-            IMapper mapper)
+            IMapper mapper, ITravelGroupApiService travelGroupApiService)
         {
             _db = db;
             _roleManager = roleManager;
             _userManager = userManager;
             _jwtTokenGenerator = jwtTokenGenerator;
             _mapper = mapper;
+            _travelGroupService = travelGroupApiService;
         }
 
         public async Task<bool> AssignRole(string email, string roleName)
@@ -116,6 +119,37 @@ namespace TripTracker.Services.AuthApi.Service
 
         public async Task<string> Register(RegistrationRequestDto registrationRequestDto)
         {
+
+            var travelGroup = await _travelGroupService.GetTravelGroupByName(registrationRequestDto.TravelGroupName!);
+            
+            var travelGroupExists = travelGroup != null && travelGroup.Id > 0;
+            bool requestingNewGroup = registrationRequestDto.IsNewGroup;
+
+            if (travelGroupExists && requestingNewGroup)
+            {
+                return "Travel group name already registered";
+            }
+
+            if (!travelGroupExists && !requestingNewGroup)
+            {
+                return "Travel group not found.";
+            }
+
+            if (!travelGroupExists)
+            {
+                var travelGroupCreateResponse = await _travelGroupService.CreateAsync(new TravelGroupDto
+                {
+                    Name = registrationRequestDto.TravelGroupName,
+                });
+                if (travelGroupCreateResponse?.IsSuccess == false)
+                {
+                    return travelGroupCreateResponse.Message;
+                }
+                travelGroup = JsonConvert.DeserializeObject<TravelGroupDto>(Convert.ToString(travelGroupCreateResponse?.Result));
+            }
+
+            registrationRequestDto.Role = travelGroupExists ? "MEMBER" : "ADMIN";
+
             ApplicationUser user = new()
             {
                 UserName = registrationRequestDto.Email,
@@ -123,14 +157,23 @@ namespace TripTracker.Services.AuthApi.Service
                 NormalizedEmail = registrationRequestDto.Email!.ToUpper(),
                 PhoneNumber = registrationRequestDto.PhoneNumber,
                 Name = registrationRequestDto.Name,
-                TravelGroupId = registrationRequestDto.TravelGroupId
+                TravelGroupId = travelGroup!.Id,
             };
 
             try
             {
                 var result = await _userManager.CreateAsync(user, registrationRequestDto.Password!);
+
+
                 if (result.Succeeded)
                 {
+                    var assignRole = await AssignRole(registrationRequestDto.Email, registrationRequestDto.Role);
+
+                    if (!assignRole)
+                    {
+                        return "User registered but failed to assign role";
+                    }
+
                     return "";
                 }
                 else

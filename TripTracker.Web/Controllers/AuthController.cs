@@ -14,13 +14,11 @@ namespace TripTracker.Web.Controllers
     public class AuthController : Controller
     {
         private readonly IAuthService _authService;
-        private readonly ITravelGroupService _travelGroupService;
         private readonly ITokenHandler _tokenHandler;
 
-        public AuthController(IAuthService authService, ITravelGroupService travelGroupService, ITokenHandler tokenHandler)
+        public AuthController(IAuthService authService, ITokenHandler tokenHandler)
         {
             _authService = authService;
-            _travelGroupService = travelGroupService;
             _tokenHandler = tokenHandler;
         }
 
@@ -77,65 +75,10 @@ namespace TripTracker.Web.Controllers
                 return View();
             }
 
-            var travelGroupResponse = await _travelGroupService.GetAsync(registrationRequestDto.TravelGroupName!);
-
-            bool travelGroupExists = travelGroupResponse?.IsSuccess == true;
-            bool requestNewGroup = registrationRequestDto.IsNewGroup;
-
-            if (travelGroupExists && requestNewGroup)
-            {
-                TempData["error"] = "Travel group already exists.";
-                ModelState.AddModelError(string.Empty, "Travel group already exists.");
-                return View();
-            }
-
-            if (!travelGroupExists && !requestNewGroup)
-            {
-                TempData["error"] = "Travel group not found.";
-                ModelState.AddModelError(string.Empty, "Travel group not found.");
-                return View();
-            }
-
-
-            ResponseDto? travelGroupCreateResponse = null;
-
-            if (!travelGroupExists)
-            {
-                travelGroupCreateResponse = await _travelGroupService.CreateAsync(new TravelGroupDto
-                {
-                    Name = registrationRequestDto.TravelGroupName,
-                });
-
-                if (travelGroupCreateResponse?.IsSuccess == false)
-                {
-                    TempData["error"] = travelGroupCreateResponse.Message;
-                    ModelState.AddModelError(string.Empty, travelGroupCreateResponse.Message);
-                    return View();
-                }
-
-            }
-
-
-            registrationRequestDto.TravelGroupId = JsonConvert.DeserializeObject<TravelGroupDto>(Convert.ToString(travelGroupCreateResponse?.Result))?.Id
-                                                    ?? JsonConvert.DeserializeObject<TravelGroupDto>(Convert.ToString(travelGroupResponse?.Result))?.Id;
-
-            registrationRequestDto.Role = travelGroupExists ? StaticDetail.RoleMember
-                                            : StaticDetail.RoleAdmin;
-
-
             var registrationResponseDto = await _authService.RegisterAsync(registrationRequestDto);
 
             if (registrationResponseDto?.IsSuccess == true)
-            {
-                var assignRole = await _authService.AssignRoleAsync(registrationRequestDto);
-
-                if (assignRole?.IsSuccess == false)
-                {
-                    var errorMessage = assignRole?.Message ?? "Failed to assign role";
-                    TempData["error"] = errorMessage;
-                    ModelState.AddModelError(string.Empty, errorMessage);
-                    return View();
-                }
+            {                
                 TempData["success"] = "User registered successfully.";
                 return RedirectToAction(nameof(Login));
             }
