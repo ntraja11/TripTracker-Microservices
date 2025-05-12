@@ -1,7 +1,7 @@
 {
   "Routes": [
 
-    //"TravelGroupApi" : 
+    //"TravelGroupApi" :
 
     {
       "DownstreamPathTemplate": "/api/travel-group/",
@@ -12,7 +12,10 @@
         }
       ],
       "UpstreamHttpMethod": [ "Get" ],
-      "UpstreamPathTemplate": "/api/travel-group/"
+      "UpstreamPathTemplate": "/api/travel-group/",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      }
     },
     {
       "DownstreamPathTemplate": "/api/travel-group/{travelGroupId}",
@@ -23,7 +26,10 @@
         }
       ],
       "UpstreamHttpMethod": [ "Get", "Delete" ],
-      "UpstreamPathTemplate": "/api/travel-group/{travelGroupId}"
+      "UpstreamPathTemplate": "/api/travel-group/{travelGroupId}",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      }
     },
     {
       "DownstreamPathTemplate": "/api/travel-group/",
@@ -45,7 +51,10 @@
         }
       ],
       "UpstreamHttpMethod": [ "Put" ],
-      "UpstreamPathTemplate": "/api/travel-group/"
+      "UpstreamPathTemplate": "/api/travel-group/",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      }
     },
 
     //"TripApi" : 
@@ -101,7 +110,7 @@
         }
       ],
       "UpstreamHttpMethod": [ "Get" ],
-      "UpstreamPathTemplate": "/api/trip/getByTravelGroup{travelGroupId}",
+      "UpstreamPathTemplate": "/api/trip/getByTravelGroup/{travelGroupId}",
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer"
       }

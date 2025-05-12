@@ -12,6 +12,18 @@ var app = builder.Build();
 
 app.MapGet("/", () => "Hello World!");
 
-app.UseOcelot().GetAwaiter().GetResult();
 
+
+app.Use(async (context, next) =>
+{
+    Console.WriteLine("Incoming Headers:");
+    foreach (var header in context.Request.Headers)
+    {
+        Console.WriteLine($"{header.Key}: {header.Value}");
+    }
+    await next.Invoke();
+});
+
+
+app.UseOcelot().GetAwaiter().GetResult();
 app.Run();

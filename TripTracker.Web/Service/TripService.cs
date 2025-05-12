@@ -11,7 +11,7 @@ namespace TripTracker.Web.Service
         public TripService(IBaseService baseService)
         {
             _baseService = baseService;
-            TripApiPath = TripApiBasePath + "/api/trip/";
+            TripApiPath = TripApiBasePath + "/api/trip";
         }
         public async Task<ResponseDto?> CreateAsync(TripDto tripDto)
         {
@@ -28,7 +28,7 @@ namespace TripTracker.Web.Service
             return await _baseService.SendAsync(new Models.Dto.RequestDto
             {
                 ApiType = ApiType.DELETE,
-                Url = TripApiPath + tripId
+                Url = TripApiPath + "/" + tripId
             });
         }
 
@@ -46,7 +46,7 @@ namespace TripTracker.Web.Service
             return await _baseService.SendAsync(new Models.Dto.RequestDto
             {
                 ApiType = ApiType.GET,
-                Url = TripApiPath + tripId
+                Url = TripApiPath + "/" + tripId
             });
         }
 
@@ -55,7 +55,7 @@ namespace TripTracker.Web.Service
             return await _baseService.SendAsync(new Models.Dto.RequestDto
             {
                 ApiType = ApiType.GET,
-                Url = TripApiPath + "getByTravelGroup/" + travelGroupId
+                Url = TripApiPath + "/get-by-travel-group/" + travelGroupId
             });
         }
 

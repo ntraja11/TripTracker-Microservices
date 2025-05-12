@@ -11,7 +11,7 @@ namespace TripTracker.Web.Service
         public TravelGroupService(IBaseService baseService)
         {
             _baseService = baseService;
-            TravelGroupApiPath = TravelGroupApiBasePath + "/api/travel-group/";
+            TravelGroupApiPath = TravelGroupApiBasePath + "/api/travel-group";
         }
         public async Task<ResponseDto?> CreateAsync(TravelGroupDto travelGroupDto)
         {
@@ -28,8 +28,8 @@ namespace TripTracker.Web.Service
             return await _baseService.SendAsync(new Models.Dto.RequestDto
             {
                 ApiType = ApiType.DELETE,
-                Url = TravelGroupApiPath + travelGroupId
-            }, withBearer: false);
+                Url = TravelGroupApiPath + "/" + travelGroupId
+            });
         }
 
         public async Task<ResponseDto?> GetAllAsync()
@@ -38,7 +38,7 @@ namespace TripTracker.Web.Service
             {
                 ApiType = ApiType.GET,
                 Url = TravelGroupApiPath
-            }, withBearer: false);
+            });
         }
 
         public async Task<ResponseDto?> GetAsync(int travelGroupId)
@@ -46,8 +46,8 @@ namespace TripTracker.Web.Service
             return await _baseService.SendAsync(new Models.Dto.RequestDto
             {
                 ApiType = ApiType.GET,
-                Url = TravelGroupApiPath + travelGroupId
-            }, withBearer: false);
+                Url = TravelGroupApiPath + "/" + travelGroupId
+            });
         }
 
         public async Task<ResponseDto?> GetAsync(string travelGroupName)
@@ -55,8 +55,8 @@ namespace TripTracker.Web.Service
             return await _baseService.SendAsync(new Models.Dto.RequestDto
             {
                 ApiType = ApiType.GET,
-                Url = TravelGroupApiPath + "getByName/" + travelGroupName
-            }, withBearer: false);
+                Url = TravelGroupApiPath + "/get-by-name/" + travelGroupName
+            });
         }
 
         public async Task<ResponseDto?> UpdateAsync(TravelGroupDto travelGroupDto)

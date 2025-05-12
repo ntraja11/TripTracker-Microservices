@@ -26,9 +26,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowAll",
         builder =>
         {
-            builder.WithOrigins(
-                "https://triptrackerweb-evg5fzc0asb3b3fg.northeurope-01.azurewebsites.net",
-                "https://localhost:1010")
+            builder.AllowAnyOrigin()
                    .AllowAnyMethod()
                    .AllowAnyHeader();
         });

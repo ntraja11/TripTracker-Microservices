@@ -1,79 +1,147 @@
 {
   "Routes": [
 
-    //"TravelGroupApi" : 
+    //"TravelGroupApi" :
 
     {
-      "DownstreamPathTemplate": "/api/travel-group/",
+      "DownstreamPathTemplate": "/api/travel-group",
       "DownstreamScheme": "https",
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": false,
+        "UseProxy": false,
+        "UseCookies": false
+      },
       "DownstreamHostAndPorts": [
         {
-          "Host": "https://triptrackerservicestravelgroupapi-gee6d5fmc7argkea.northeurope-01.azurewebsites.net"
+          "Host": "triptrackerservicestravelgroupapi-gee6d5fmc7argkea.northeurope-01.azurewebsites.net",
+          "Port": 443
         }
       ],
       "UpstreamHttpMethod": [ "Get" ],
-      "UpstreamPathTemplate": "/api/travel-group/"
+      "UpstreamPathTemplate": "/api/travel-group",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "QoSOptions": {
+        "TimeoutValue": 5000,
+        "ExceptionsAllowedBeforeBreaking": 5,
+        "DurationOfBreak": 30000
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/travel-group/getByName/{travelGroupName}",
+      "DownstreamScheme": "https",
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": false,
+        "UseProxy": false,
+        "UseCookies": false
+      },
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "triptrackerservicestravelgroupapi-gee6d5fmc7argkea.northeurope-01.azurewebsites.net",
+          "Port": 443
+        }
+      ],
+      "UpstreamHttpMethod": [ "Get" ],
+      "UpstreamPathTemplate": "/api/travel-group/getByName/{travelGroupName}",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "QoSOptions": {
+        "TimeoutValue": 5000,
+        "ExceptionsAllowedBeforeBreaking": 5,
+        "DurationOfBreak": 30000
+      }
     },
     {
       "DownstreamPathTemplate": "/api/travel-group/{travelGroupId}",
       "DownstreamScheme": "https",
+      "HttpHandlerOptions": {
+        "AllowAutoRedirect": false,
+        "UseProxy": false
+      },
       "DownstreamHostAndPorts": [
         {
-          "Host": "https://triptrackerservicestravelgroupapi-gee6d5fmc7argkea.northeurope-01.azurewebsites.net"
+          "Host": "triptrackerservicestravelgroupapi-gee6d5fmc7argkea.northeurope-01.azurewebsites.net",
+          "Port": 443
         }
       ],
       "UpstreamHttpMethod": [ "Get", "Delete" ],
-      "UpstreamPathTemplate": "/api/travel-group/{travelGroupId}"
+      "UpstreamPathTemplate": "/api/travel-group/{travelGroupId}",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "QoSOptions": {
+        "TimeoutValue": 5000,
+        "ExceptionsAllowedBeforeBreaking": 5,
+        "DurationOfBreak": 30000
+      }
     },
     {
-      "DownstreamPathTemplate": "/api/travel-group/",
+      "DownstreamPathTemplate": "/api/travel-group",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "https://triptrackerservicestravelgroupapi-gee6d5fmc7argkea.northeurope-01.azurewebsites.net"
+          "Host": "triptrackerservicestravelgroupapi-gee6d5fmc7argkea.northeurope-01.azurewebsites.net",
+          "Port": 443
         }
       ],
       "UpstreamHttpMethod": [ "Post" ],
-      "UpstreamPathTemplate": "/api/travel-group/"
+      "UpstreamPathTemplate": "/api/travel-group",
+      "QoSOptions": {
+        "TimeoutValue": 5000,
+        "ExceptionsAllowedBeforeBreaking": 5,
+        "DurationOfBreak": 30000
+      }
     },
     {
-      "DownstreamPathTemplate": "/api/travel-group/",
+      "DownstreamPathTemplate": "/api/travel-group",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "https://triptrackerservicestravelgroupapi-gee6d5fmc7argkea.northeurope-01.azurewebsites.net"
+          "Host": "triptrackerservicestravelgroupapi-gee6d5fmc7argkea.northeurope-01.azurewebsites.net",
+          "Port": 443
         }
       ],
       "UpstreamHttpMethod": [ "Put" ],
-      "UpstreamPathTemplate": "/api/travel-group/"
+      "UpstreamPathTemplate": "/api/travel-group",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "QoSOptions": {
+        "TimeoutValue": 5000,
+        "ExceptionsAllowedBeforeBreaking": 5,
+        "DurationOfBreak": 30000
+      }
     },
 
     //"TripApi" : 
 
     {
-      "DownstreamPathTemplate": "/api/trip/",
+      "DownstreamPathTemplate": "/api/trip",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "https://triptrackerservicestripapi-d3hdh7djhwhcf9f0.northeurope-01.azurewebsites.net"
+          "Host": "triptrackerservicestripapi-d3hdh7djhwhcf9f0.northeurope-01.azurewebsites.net",
+          "Port": 443
         }
       ],
       "UpstreamHttpMethod": [ "Get" ],
-      "UpstreamPathTemplate": "/api/trip/",
+      "UpstreamPathTemplate": "/api/trip",
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer"
       }
     },
     {
-      "DownstreamPathTemplate": "/api/trip/",
+      "DownstreamPathTemplate": "/api/trip",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "https://triptrackerservicestripapi-d3hdh7djhwhcf9f0.northeurope-01.azurewebsites.net"
+          "Host": "triptrackerservicestripapi-d3hdh7djhwhcf9f0.northeurope-01.azurewebsites.net"
         }
       ],
       "UpstreamHttpMethod": [ "Post", "Put" ],
-      "UpstreamPathTemplate": "/api/trip/",
+      "UpstreamPathTemplate": "/api/trip",
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer"
       }
@@ -83,7 +151,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "https://triptrackerservicestripapi-d3hdh7djhwhcf9f0.northeurope-01.azurewebsites.net"
+          "Host": "triptrackerservicestripapi-d3hdh7djhwhcf9f0.northeurope-01.azurewebsites.net"
         }
       ],
       "UpstreamHttpMethod": [ "Get", "Delete" ],
@@ -97,11 +165,11 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "https://triptrackerservicestripapi-d3hdh7djhwhcf9f0.northeurope-01.azurewebsites.net"
+          "Host": "triptrackerservicestripapi-d3hdh7djhwhcf9f0.northeurope-01.azurewebsites.net"
         }
       ],
       "UpstreamHttpMethod": [ "Get" ],
-      "UpstreamPathTemplate": "/api/trip/getByTravelGroup{travelGroupId}",
+      "UpstreamPathTemplate": "/api/trip/getByTravelGroup/{travelGroupId}",
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer"
       }
@@ -110,29 +178,29 @@
     //"ParticipantApi": 
 
     {
-      "DownstreamPathTemplate": "/api/participant/",
+      "DownstreamPathTemplate": "/api/participant",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "https://triptrackerservicesparticipantapi-dgeggbgxh3bbfja5.northeurope-01.azurewebsites.net"
+          "Host": "triptrackerservicesparticipantapi-dgeggbgxh3bbfja5.northeurope-01.azurewebsites.net"
         }
       ],
       "UpstreamHttpMethod": [ "Get" ],
-      "UpstreamPathTemplate": "/api/participant/",
+      "UpstreamPathTemplate": "/api/participant",
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer"
       }
     },
     {
-      "DownstreamPathTemplate": "/api/participant/",
+      "DownstreamPathTemplate": "/api/participant",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "https://triptrackerservicesparticipantapi-dgeggbgxh3bbfja5.northeurope-01.azurewebsites.net"
+          "Host": "triptrackerservicesparticipantapi-dgeggbgxh3bbfja5.northeurope-01.azurewebsites.net"
         }
       ],
       "UpstreamHttpMethod": [ "Put", "Post" ],
-      "UpstreamPathTemplate": "/api/participant/",
+      "UpstreamPathTemplate": "/api/participant",
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer"
       }
@@ -142,7 +210,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "https://triptrackerservicesparticipantapi-dgeggbgxh3bbfja5.northeurope-01.azurewebsites.net"
+          "Host": "triptrackerservicesparticipantapi-dgeggbgxh3bbfja5.northeurope-01.azurewebsites.net"
         }
       ],
       "UpstreamHttpMethod": [ "Get", "Delete" ],
@@ -156,7 +224,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "https://triptrackerservicesparticipantapi-dgeggbgxh3bbfja5.northeurope-01.azurewebsites.net"
+          "Host": "triptrackerservicesparticipantapi-dgeggbgxh3bbfja5.northeurope-01.azurewebsites.net"
         }
       ],
       "UpstreamHttpMethod": [ "Get" ],
@@ -171,29 +239,29 @@
     //"ExpenseApi": 
 
     {
-      "DownstreamPathTemplate": "/api/expense/",
+      "DownstreamPathTemplate": "/api/expense",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "https://triptrackerservicesexpenseapi-gxbnc0g6ggdmegbu.northeurope-01.azurewebsites.net"
+          "Host": "triptrackerservicesexpenseapi-gxbnc0g6ggdmegbu.northeurope-01.azurewebsites.net"
         }
       ],
       "UpstreamHttpMethod": [ "Get" ],
-      "UpstreamPathTemplate": "/api/expense/",
+      "UpstreamPathTemplate": "/api/expense",
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer"
       }
     },
     {
-      "DownstreamPathTemplate": "/api/expense/",
+      "DownstreamPathTemplate": "/api/expense",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "https://triptrackerservicesexpenseapi-gxbnc0g6ggdmegbu.northeurope-01.azurewebsites.net"
+          "Host": "triptrackerservicesexpenseapi-gxbnc0g6ggdmegbu.northeurope-01.azurewebsites.net"
         }
       ],
       "UpstreamHttpMethod": [ "Post", "Put" ],
-      "UpstreamPathTemplate": "/api/expense/",
+      "UpstreamPathTemplate": "/api/expense",
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer"
       }
@@ -203,7 +271,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "https://triptrackerservicesexpenseapi-gxbnc0g6ggdmegbu.northeurope-01.azurewebsites.net"
+          "Host": "triptrackerservicesexpenseapi-gxbnc0g6ggdmegbu.northeurope-01.azurewebsites.net"
         }
       ],
       "UpstreamHttpMethod": [ "Get", "Delete" ],
@@ -217,7 +285,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "https://triptrackerservicesexpenseapi-gxbnc0g6ggdmegbu.northeurope-01.azurewebsites.net"
+          "Host": "triptrackerservicesexpenseapi-gxbnc0g6ggdmegbu.northeurope-01.azurewebsites.net"
         }
       ],
       "UpstreamHttpMethod": [ "Get" ],
@@ -230,6 +298,11 @@
 
   ],
   "GlobalConfiguration": {
-    "BaseUrl": "https://triptrackergatewaysolution-dncdgshdcxetgjbq.northeurope-01.azurewebsites.net"
+    "BaseUrl": "triptrackergatewaysolution-dncdgshdcxetgjbq.northeurope-01.azurewebsites.net",
+    "QoSOptions": {
+      "TimeoutValue": 5000,
+      "ExceptionsAllowedBeforeBreaking": 5,
+      "DurationOfBreak": 30000
+    }
   }
 }

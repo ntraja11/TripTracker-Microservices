@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using TripTracker.Services.TravelGroupApi.Data;
 using TripTracker.Services.TravelGroupApi.Models;
@@ -23,6 +24,7 @@ namespace TripTracker.Services.TravelGroupApi.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<ResponseDto> GetAll()
         {
             try
@@ -40,6 +42,7 @@ namespace TripTracker.Services.TravelGroupApi.Controllers
 
         [HttpGet]
         [Route("{id:int}")]
+        [Authorize]
         public async Task<ResponseDto> Get(int id)
         {
             var travelGroup = await _db.TravelGroups.FindAsync(id);
@@ -64,7 +67,8 @@ namespace TripTracker.Services.TravelGroupApi.Controllers
         }
 
         [HttpGet]
-        [Route("getByName/{travelGroupName}")]
+        [Route("get-by-name/{travelGroupName}")]
+        [Authorize]
         public async Task<ResponseDto> Get(string travelGroupName)
         {
             var travelGroup = await _db.TravelGroups.FirstOrDefaultAsync(tg => tg.Name == travelGroupName);
@@ -121,6 +125,7 @@ namespace TripTracker.Services.TravelGroupApi.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "ADMIN")]
         public async Task<ResponseDto> Put([FromBody] TravelGroupDto travelGroupDto)
         {
             try
@@ -147,6 +152,7 @@ namespace TripTracker.Services.TravelGroupApi.Controllers
 
         [HttpDelete]
         [Route("{id:int}")]
+        [Authorize(Roles = "ADMIN")]
         public async Task<ResponseDto> Delete(int id)
         {
             try

@@ -66,7 +66,7 @@ namespace TripTracker.Services.TripApi.Controllers
         }
 
         [HttpGet]
-        [Route("getByTravelGroup/{travelGroupId:int}")]
+        [Route("get-by-travel-group/{travelGroupId:int}")]
         public async Task<ResponseDto> GetByTravelGroup(int travelGroupId)
         {
             var trips = await _db.Trips.Where(t => t.TravelGroupId == travelGroupId)

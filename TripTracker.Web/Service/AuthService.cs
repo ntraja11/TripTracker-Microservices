@@ -11,14 +11,14 @@ namespace TripTracker.Web.Service
         public AuthService(IBaseService baseService)
         {
             _baseService = baseService;
-            AuthApiPath = AuthApiBasePath + "/api/auth/";
+            AuthApiPath = AuthApiBasePath + "/api/auth";
         }
         public async Task<ResponseDto?> AssignRoleAsync(RegistrationRequestDto registrationRequestDto)
         {
             return await _baseService.SendAsync(new RequestDto
             {
                 ApiType = ApiType.POST,
-                Url = AuthApiPath + "assign-role",
+                Url = AuthApiPath + "/" + "assign-role",
                 Data = registrationRequestDto
             });
         }
@@ -28,7 +28,7 @@ namespace TripTracker.Web.Service
             return await _baseService.SendAsync(new RequestDto
             {
                 ApiType = ApiType.GET,
-                Url = AuthApiPath + "get-travel-group-id/" + email,
+                Url = AuthApiPath + "/get-travel-group-id/" + email,
             });
         }
 
@@ -37,7 +37,7 @@ namespace TripTracker.Web.Service
             return await _baseService.SendAsync(new RequestDto
             {
                 ApiType = ApiType.GET,
-                Url = AuthApiPath + "get-user-by-id/" + userId,
+                Url = AuthApiPath + "/get-user-by-id/" + userId,
             });
         }
 
@@ -46,7 +46,7 @@ namespace TripTracker.Web.Service
             return await _baseService.SendAsync(new RequestDto
             {
                 ApiType = ApiType.GET,
-                Url = AuthApiPath + "get-users-by-travel-group/" + travelGroupId,
+                Url = AuthApiPath + "/get-users-by-travel-group/" + travelGroupId,
             });
         }
 
@@ -55,7 +55,7 @@ namespace TripTracker.Web.Service
             return await _baseService.SendAsync(new RequestDto
             {
                 ApiType = ApiType.POST,
-                Url = AuthApiPath + "login",
+                Url = AuthApiPath + "/login",
                 Data = loginRequestDto
             }, withBearer: false);
         }
@@ -70,7 +70,7 @@ namespace TripTracker.Web.Service
             return await _baseService.SendAsync(new RequestDto
             {
                 ApiType = ApiType.POST,
-                Url = AuthApiPath + "register",
+                Url = AuthApiPath + "/register",
                 Data = registrationRequestDto
             }, withBearer: false);
         }
