@@ -18,7 +18,7 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
 }
 
 .form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
@@ -28,6 +28,70 @@ body {
 
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
+}
+
+/*register form animation*/
+
+.register-form, .login-form{
+    position: relative;
+    border-radius: 10px;
+}
+
+.register-form::before, .register-form::after {
+    content: "";
+    position: absolute;
+    width: 101%;
+    height: 101%;
+    top: 50%;
+    left: 50%;
+    background-image: conic-gradient(#ff4545, #00ff99, #006aff, #ff0095, #ff4545);
+    z-index: -1;
+    border-radius: 10px;
+    transform: translate(-50%, -50%);
+}
+
+.register-form::before {
+    filter: blur(10px);
+    opacity: 0.5;
+}
+
+
+
+/* ------------------------   */
+
+
+/*login form animation*/
+@property --angle{
+    syntax: '<angle>';
+    inherits: false;
+    initial-value: 0deg;
+}
+
+.login-form::before, .login-form::after {
+    content: "";
+    position: absolute;
+    width: 102%;
+    height: 102%;
+    top: 50%;
+    left: 50%;
+    background-image: conic-gradient(from var(--angle), transparent 80%, #ff4545, #00ff99, #006aff, #ff0095, #ff4545);
+    animation: border-run 6s infinite linear;
+    z-index: -1;
+    border-radius: 10px;
+    transform: translate(-50%, -50%);
+}
+.login-form::after {
+    animation-delay: 3s;
+}
+
+@keyframes border-run {
+    from {
+        --angle: 0deg;
+    }
+
+    to {
+        --angle: 360deg;
+    }
 }
 
 
