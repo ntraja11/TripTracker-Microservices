@@ -61,10 +61,15 @@ body {
 
 
 /*login form animation*/
-@property --angle{
+@property --before-angle{
     syntax: '<angle>';
     inherits: false;
     initial-value: 0deg;
+}
+@property --after-angle {
+    syntax: '<angle>';
+    inherits: false;
+    initial-value: -180deg;
 }
 
 .login-form::before, .login-form::after {
@@ -73,24 +78,32 @@ body {
     width: 102%;
     height: 102%;
     top: 50%;
-    left: 50%;
-    background-image: conic-gradient(from var(--angle), transparent 80%, #ff4545, #00ff99, #006aff, #ff0095, #ff4545);
+    left: 50%;    
     animation: border-run 6s infinite linear;
     z-index: -1;
     border-radius: 10px;
     transform: translate(-50%, -50%);
 }
+.login-form::before {
+    background-image: conic-gradient(from var(--before-angle), transparent 80%, #ff4545, #00ff99, #006aff, #ff0095, #ff4545);
+}
 .login-form::after {
-    animation-delay: 3s;
+    background-image: conic-gradient(from var(--after-angle), transparent 80%, #ff4545, #00ff99, #006aff, #ff0095, #ff4545);
+    /*animation-delay: 3s;*/
+    /*opacity: 0;*/
 }
 
 @keyframes border-run {
     from {
-        --angle: 0deg;
+        /*opacity: 1;*/
+        --before-angle: 0deg;
+        --after-angle: -180deg;
     }
 
     to {
-        --angle: 360deg;
+        /*opacity: 1;*/
+        --before-angle: 360deg;
+        --after-angle: 180deg;
     }
 }
 
