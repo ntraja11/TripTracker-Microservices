@@ -377,3 +377,9 @@ FodyWeavers.xsd
 /TripTracker.Services.ParticipantApi/appsettings.Production.json
 /TripTracker.Services.ExpenseApi/appsettings.Production.json
 /TripTracker.Services.AuthApi/appsettings.Production.json
+/TripTracker.Services.TripApi/appsettings.Development-azure.json
+/TripTracker.Services.TravelGroupApi/appsettings.Development-azure.json
+/TripTracker.Services.ParticipantApi/appsettings.Development-azure.json
+/TripTracker.Services.ExpenseApi/appsettings.Development-azure.json
+/TripTracker.Services.AuthApi/appsettings.Development-azure.json
+/TripTracker.Web/appsettings.Development-azure.json
