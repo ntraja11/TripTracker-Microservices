@@ -3,7 +3,7 @@
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h2>Add Expense</h2>
-        <a asp-action="Index" class="btn btn-secondary">← Back to List</a>
+        <a asp-controller="Trip" asp-action="Details" asp-route-tripId="@Model.Expense.TripId" class="btn btn-secondary">← Back to Trip</a>
     </div>
 
     <div class="card shadow-sm">

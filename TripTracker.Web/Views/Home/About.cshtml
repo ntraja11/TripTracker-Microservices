@@ -23,14 +23,14 @@
                 <div class="feature-box p-4 border border-secondary shadow-lg rounded bg-dark text-light">
                     <i class="bi bi-cloud-check display-3 text-info"></i>
                     <h4 class="fw-bold mt-3">☁ Hosted on Azure</h4>
-                    <p>Optimized for cloud-native deployment using **Azure Kubernetes Service (AKS)**.</p>
+                    <p>Deployed using **Azure SQL Database** & **Azure App Service** for optimized cloud performance.</p>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="feature-box p-4 border border-secondary shadow-lg rounded bg-dark text-light">
                     <i class="bi bi-cpu display-3 text-success"></i>
                     <h4 class="fw-bold mt-3">⚙ Microservices Architecture</h4>
-                    <p>Built with **ASP.NET Core** & Dockerized microservices for maximum efficiency.</p>
+                    <p>Built with **ASP.NET Core** & **Ocelot API Gateway**, ensuring efficient routing & communication between services.</p>
                 </div>
             </div>
             <div class="col-md-4">
@@ -43,75 +43,40 @@
         </div>
     </section>
 
-    <!-- ⏳ Timeline of Development -->
-    <section class="my-5 text-center">
-        <h2 class="fw-bold text-info">📅 How TripTracker Came to Life</h2>
-        <p class="lead">Step-by-step development milestones that shaped this project.</p>
-
-        <div class="row mt-4">
-            <div class="col-md-3">
-                <div class="timeline-box border border-primary p-4 rounded bg-dark text-light">
-                    <i class="bi bi-database display-4 text-primary"></i>
-                    <h5 class="fw-bold mt-3">Phase 1 - Database Design</h5>
-                    <p>Structured **Entity Framework Core** models and optimized **Azure SQL storage**.</p>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="timeline-box border border-success p-4 rounded bg-dark text-light">
-                    <i class="bi bi-cloud-upload display-4 text-success"></i>
-                    <h5 class="fw-bold mt-3">Phase 2 - API Development</h5>
-                    <p>Built **ASP.NET Core Web APIs** with microservices integration.</p>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="timeline-box border border-warning p-4 rounded bg-dark text-light">
-                    <i class="bi bi-boxes display-4 text-warning"></i>
-                    <h5 class="fw-bold mt-3">Phase 3 - Microservices & Containers</h5>
-                    <p>Deployed **Dockerized microservices** with **Kubernetes orchestration**.</p>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="timeline-box border border-danger p-4 rounded bg-dark text-light">
-                    <i class="bi bi-rocket-takeoff display-4 text-danger"></i>
-                    <h5 class="fw-bold mt-3">Phase 4 - Azure Deployment</h5>
-                    <p>Configured **Azure DevOps CI/CD pipelines** for seamless deployment.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+    
 
     <!-- 🎯 Personal Statement -->
     <section class="my-5 text-center">
         <h2 class="fw-bold text-warning">🔹 My Technical Expertise</h2>
         <p class="lead">Skills I mastered while developing TripTracker.</p>
 
-        <div class="row mt-4">
+        <div class="row skills mt-4">
             <div class="col-md-4">
-                <div class="card border border-primary bg-dark text-light p-4 rounded">
-                    <i class="bi bi-code-slash display-4 text-primary"></i>
-                    <h5 class="fw-bold mt-3">🖥 Backend Development</h5>
+                <div class="card border border-warning bg-dark text-light p-4 rounded">
+                    <i class="bi bi-code-slash display-4 text-warning"></i>
+                    <h5 class="fw-bold mt-3">Backend</h5>
                     <p>.NET Core, ASP.NET Web API, Entity Framework Core, JWT Authentication.</p>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="card border border-success bg-dark text-light p-4 rounded">
                     <i class="bi bi-globe display-4 text-success"></i>
-                    <h5 class="fw-bold mt-3">🌐 Frontend Technologies</h5>
-                    <p>Razor Pages, Bootstrap, JavaScript (ES6+), AJAX Dynamic Updates.</p>
+                    <h5 class="fw-bold mt-3">Frontend</h5>
+                    <p>.NET MVC Views, Bootstrap and JavaScript.</p>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="card border border-danger bg-dark text-light p-4 rounded">
                     <i class="bi bi-cloud-check display-4 text-danger"></i>
-                    <h5 class="fw-bold mt-3">☁ Cloud & DevOps</h5>
-                    <p>Azure Kubernetes Service, Azure SQL, CI/CD Pipelines, Docker & Kubernetes.</p>
+                    <h5 class="fw-bold mt-3">Cloud</h5>
+                    <p>Azure App Service, Azure SQL database and Github version control</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- 🎬 Final CTA -->
-    <section class="text-center my-5">
+    <section class="text-center mt-5">
         <h2 class="fw-bold text-light">Want to experience TripTracker?</h2>
         <p class="lead">Explore the app and see how a **modern microservices application** works in action.</p>
         <a asp-controller="Trips" asp-action="Index" class="btn btn-lg btn-warning fw-bold">Start Exploring 🚀</a>

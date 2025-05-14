@@ -30,6 +30,9 @@ body {
   text-align: start;
 }
 
+
+
+
 /*register form animation*/
 
 .register-form, .login-form{
@@ -122,5 +125,27 @@ body {
 
     html {
         font-size: 12px;
+    }
+    .row {
+        display: flex;
+        gap: 15px;
+    }
+   
+}
+
+@media (min-width: 768px) {
+    /*.hide-on-mobile {
+        display: block;
+    }*/
+    .row {
+        display: flex;
+        align-items: stretch;
+    }
+    .feature-box {
+        min-height: 315px;
+    }
+
+    .skills .card {
+        min-height: 230px;
     }
 }

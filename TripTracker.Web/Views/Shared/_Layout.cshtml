@@ -22,15 +22,22 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
+
+                        @{
+                            var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+                            var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
+                        }
+
+
+                        <li class="nav-item @(currentController == "Home" && currentAction == "Index" ? "active" : "")">
                             <a class="nav-link" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item @(currentController == "Home" && currentAction == "About" ? "active" : "")">
                             <a class="nav-link" asp-controller="Home" asp-action="About">About</a>
                         </li>
                         @if (User.Identity!.IsAuthenticated && User.Identity!.Name!.ToLower().Contains("rajaanand"))
                         {
-                            <li class="nav-item">
+                            <li class="nav-item @(new[] { "TravelGroup", "Trips" }.Contains(currentController) && currentAction == "Index" ? "active" : "")">
                                 <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
                                     <ul class="navbar-nav">
                                         <li class="nav-item dropdown">
@@ -48,7 +55,7 @@
                         }
                         else if (User.Identity!.IsAuthenticated)
                         {
-                            <li class="nav-item">
+                            <li class="nav-item @(currentController == "Trips" ? "active" : "")">
                                 <a class="nav-link" asp-controller="Trips" asp-action="Index">My Trips</a>
                             </li>
                         }
