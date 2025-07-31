@@ -72,6 +72,8 @@ namespace TripTracker.Web.Service
                         return new ResponseDto() { IsSuccess = false, Message = "Unauthorized" };
                     case HttpStatusCode.Forbidden:
                         return new ResponseDto() { IsSuccess = false, Message = "Forbidden" };
+                    case HttpStatusCode.BadGateway:
+                        return new ResponseDto() { IsSuccess = false, Message = "Bad Gateway" };
                     default:
                         apiContent = await responseMessage.Content.ReadAsStringAsync();
                         apiResponseDto = JsonConvert.DeserializeObject<ResponseDto>(apiContent);

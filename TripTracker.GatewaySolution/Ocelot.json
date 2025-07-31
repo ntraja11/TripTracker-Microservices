@@ -4,7 +4,7 @@
     //"TravelGroupApi" : "https://localhost:1011"
 
     {
-      "DownstreamPathTemplate": "/api/travel-group/",
+      "DownstreamPathTemplate": "/api/travelGroup/",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -13,10 +13,10 @@
         }
       ],
       "UpstreamHttpMethod": [ "Get" ],
-      "UpstreamPathTemplate": "/api/travel-group/"
+      "UpstreamPathTemplate": "/api/travelGroup/"
     },
     {
-      "DownstreamPathTemplate": "/api/travel-group/{travelGroupId}",
+      "DownstreamPathTemplate": "/api/travelGroup?travelGroupId={travelGroupId}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -25,10 +25,10 @@
         }
       ],
       "UpstreamHttpMethod": [ "Get", "Delete" ],
-      "UpstreamPathTemplate": "/api/travel-group/{travelGroupId}"
+      "UpstreamPathTemplate": "/api/travelGroup/{travelGroupId}"
     },
     {
-      "DownstreamPathTemplate": "/api/travel-group/",
+      "DownstreamPathTemplate": "/api/travelGroup/",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -37,10 +37,10 @@
         }
       ],
       "UpstreamHttpMethod": [ "Post" ],
-      "UpstreamPathTemplate": "/api/travel-group/"
+      "UpstreamPathTemplate": "/api/travelGroup/"
     },
     {
-      "DownstreamPathTemplate": "/api/travel-group/",
+      "DownstreamPathTemplate": "/api/travelGroup/",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -49,7 +49,7 @@
         }
       ],
       "UpstreamHttpMethod": [ "Put" ],
-      "UpstreamPathTemplate": "/api/travel-group/"
+      "UpstreamPathTemplate": "/api/travelGroup/"
     },
 
     //"TripApi" : "https://localhost:1013"
@@ -163,7 +163,7 @@
       }
     },
     {
-      "DownstreamPathTemplate": "/api/participant/get-all-by-trip/{tripId}",
+      "DownstreamPathTemplate": "/api/participant/GetAllByTrip/{tripId}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -172,7 +172,7 @@
         }
       ],
       "UpstreamHttpMethod": [ "Get" ],
-      "UpstreamPathTemplate": "/api/participant/get-all-by-trip/{tripId}",
+      "UpstreamPathTemplate": "/api/participant/GetAllByTrip/{tripId}",
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer"
       }
@@ -228,7 +228,7 @@
       }
     },
     {
-      "DownstreamPathTemplate": "/api/expense/get-all-by-trip/{tripId}",
+      "DownstreamPathTemplate": "/api/expense/GetAllByTrip/{tripId}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -237,7 +237,7 @@
         }
       ],
       "UpstreamHttpMethod": [ "Get" ],
-      "UpstreamPathTemplate": "/api/expense/get-all-by-trip/{tripId}",
+      "UpstreamPathTemplate": "/api/expense/GetAllByTrip/{tripId}",
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer"
       }

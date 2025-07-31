@@ -38,7 +38,7 @@ namespace TripTracker.Web.Service
             return await _baseService.SendAsync(new RequestDto
             {
                 ApiType = ApiType.GET,
-                Url = ExpenseApiPath + "get-all-by-trip/" + tripId
+                Url = ExpenseApiPath + "GetAllByTrip/" + tripId
             });
         }
 

@@ -25,7 +25,7 @@ namespace TripTracker.Services.ExpenseApi.Controllers
         }
 
         [HttpGet]
-        [Route("get-all-by-trip/{tripId:int}")]
+        [Route("GetAllByTrip/{tripId:int}")]
         public async Task<ResponseDto> GetAllByTrip(int tripId)
         {
             try
@@ -67,7 +67,7 @@ namespace TripTracker.Services.ExpenseApi.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "ADMIN")]
+        //[Authorize(Roles = "ADMIN")]
         public async Task<ResponseDto> Post([FromBody] ExpenseDto expenseDto)
         {
             try
@@ -93,7 +93,7 @@ namespace TripTracker.Services.ExpenseApi.Controllers
         }
 
         [HttpPut]
-        [Authorize(Roles = "ADMIN")]
+        //[Authorize(Roles = "ADMIN")]
         public async Task<ResponseDto> Put([FromBody] ExpenseDto expenseDto)
         {
             try
@@ -120,7 +120,7 @@ namespace TripTracker.Services.ExpenseApi.Controllers
 
         [HttpDelete]
         [Route("{id:int}")]
-        [Authorize(Roles = "ADMIN")]
+        //[Authorize(Roles = "ADMIN")]
         public async Task<ResponseDto> Delete(int id)
         {
             try

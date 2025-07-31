@@ -55,7 +55,7 @@ namespace TripTracker.Web.Service
             return await _baseService.SendAsync(new Models.Dto.RequestDto
             {
                 ApiType = ApiType.GET,
-                Url = TripApiPath + "/get-by-travel-group/" + travelGroupId
+                Url = TripApiPath + "/getByTravelGroup/" + travelGroupId
             });
         }
 

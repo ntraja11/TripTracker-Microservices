@@ -67,17 +67,28 @@ namespace TripTracker.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> AddParticipants(AddParticipantViewModel addParticipantViewModel)
         {
-            if (!addParticipantViewModel.SelectedUserIds.Any())
+            var existingParticipantsResponse = await _participantService.GetAllByTripAsync(addParticipantViewModel.TripId);
+            if (existingParticipantsResponse == null || !existingParticipantsResponse.IsSuccess)
+            {
+                TempData["error"] = "Failed to retrieve existing participants.";
+                return RedirectToAction("Details", "Trips", new { tripId = addParticipantViewModel.TripId });
+            }
+
+            var existingParticipants = (existingParticipantsResponse?.IsSuccess == true && existingParticipantsResponse.Result != null)
+                ? JsonConvert.DeserializeObject<List<ParticipantDto>>(Convert.ToString(existingParticipantsResponse.Result))
+                : new List<ParticipantDto>();
+
+
+
+            if (!addParticipantViewModel.SelectedUserIds.Any() && existingParticipants!.Count == 0)
             {
                 TempData["error"] = "No participants selected.";
                 return RedirectToAction("Details", "Trips", new { tripId = addParticipantViewModel.TripId });
             }
 
             // Get the current participants from the database
-            var existingParticipantsResponse = await _participantService.GetAllByTripAsync(addParticipantViewModel.TripId);
-            var existingParticipants = (existingParticipantsResponse?.IsSuccess == true && existingParticipantsResponse.Result != null)
-                ? JsonConvert.DeserializeObject<List<ParticipantDto>>(Convert.ToString(existingParticipantsResponse.Result))
-                : new List<ParticipantDto>();
+            
+            
 
             var existingParticipantIds = existingParticipants.Select(p => p.Id.ToString()).ToList(); // IDs currently in DB
             var newParticipantIds = addParticipantViewModel.SelectedUserIds; // IDs submitted from the form

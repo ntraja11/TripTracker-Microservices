@@ -8,7 +8,7 @@ using TripTracker.Services.TravelGroupApi.Models.Dto;
 
 namespace TripTracker.Services.TravelGroupApi.Controllers
 {
-    [Route("api/travel-group")]
+    [Route("api/travelGroup")]
     [ApiController]
     public class TravelGroupApiController : ControllerBase
     {
@@ -25,7 +25,7 @@ namespace TripTracker.Services.TravelGroupApi.Controllers
 
         [HttpGet]
         [Authorize]
-        public async Task<ResponseDto> GetAll()
+        public async Task<ResponseDto> Get()
         {
             try
             {
@@ -67,8 +67,8 @@ namespace TripTracker.Services.TravelGroupApi.Controllers
         }
 
         [HttpGet]
-        [Route("get-by-name/{travelGroupName}")]
-        public async Task<ResponseDto> Get(string travelGroupName)
+        [Route("getByName/{travelGroupName}")]
+        public async Task<ResponseDto> getByName(string travelGroupName)
         {
             var travelGroup = await _db.TravelGroups.FirstOrDefaultAsync(tg => tg.Name == travelGroupName);
 
@@ -124,7 +124,7 @@ namespace TripTracker.Services.TravelGroupApi.Controllers
         }
 
         [HttpPut]
-        [Authorize(Roles = "ADMIN")]
+        //[Authorize(Roles = "ADMIN")]
         public async Task<ResponseDto> Put([FromBody] TravelGroupDto travelGroupDto)
         {
             try
@@ -151,7 +151,7 @@ namespace TripTracker.Services.TravelGroupApi.Controllers
 
         [HttpDelete]
         [Route("{id:int}")]
-        [Authorize(Roles = "ADMIN")]
+        //[Authorize(Roles = "ADMIN")]
         public async Task<ResponseDto> Delete(int id)
         {
             try

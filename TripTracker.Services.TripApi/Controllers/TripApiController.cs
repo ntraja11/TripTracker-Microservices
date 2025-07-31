@@ -25,7 +25,7 @@ namespace TripTracker.Services.TripApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ResponseDto> GetAll()
+        public async Task<ResponseDto> Get()
         {
             try
             {
@@ -66,21 +66,20 @@ namespace TripTracker.Services.TripApi.Controllers
         }
 
         [HttpGet]
-        [Route("get-by-travel-group/{travelGroupId:int}")]
+        [Route("getByTravelGroup/{travelGroupId:int}")]
         public async Task<ResponseDto> GetByTravelGroup(int travelGroupId)
-        {
-            var trips = await _db.Trips.Where(t => t.TravelGroupId == travelGroupId)
-                .AsNoTracking().ToListAsync();
-
-            if (trips == null || trips!.Count == 0)
-            {
-                _responseDto.IsSuccess = false;
-                _responseDto.Message = "No trips created in this travel group";
-                return _responseDto;
-            }
-
+        { 
             try
             {
+                var trips = await _db.Trips.Where(t => t.TravelGroupId == travelGroupId)
+                .AsNoTracking().ToListAsync();
+
+                if (trips.Count == 0)
+                {
+                    _responseDto.IsSuccess = false;
+                    _responseDto.Message = "No trips created in this travel group";
+                    return _responseDto;
+                }
                 _responseDto.Result = _mapper.Map<IEnumerable<TripDto>>(trips);
             }
             catch (Exception ex)
@@ -92,7 +91,7 @@ namespace TripTracker.Services.TripApi.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "ADMIN")]
+        //[Authorize(Roles = "ADMIN")]
         public async Task<ResponseDto> Post([FromBody] TripDto tripDto)
         {
             try
@@ -125,7 +124,7 @@ namespace TripTracker.Services.TripApi.Controllers
         }
 
         [HttpPut]
-        [Authorize(Roles = "ADMIN")]
+        //[Authorize(Roles = "ADMIN")]
         public async Task<ResponseDto> Put([FromBody] TripDto tripDto)
         {
             try
@@ -152,7 +151,7 @@ namespace TripTracker.Services.TripApi.Controllers
 
         [HttpDelete]
         [Route("{id:int}")]
-        [Authorize(Roles = "ADMIN")]
+        //[Authorize(Roles = "ADMIN")]
         public async Task<ResponseDto> Delete(int id)
         {
             try

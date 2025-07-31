@@ -11,7 +11,7 @@ namespace TripTracker.Web.Service
         public TravelGroupService(IBaseService baseService)
         {
             _baseService = baseService;
-            TravelGroupApiPath = TravelGroupApiBasePath + "/api/travel-group";
+            TravelGroupApiPath = TravelGroupApiBasePath + "/api/travelGroup";
         }
         public async Task<ResponseDto?> CreateAsync(TravelGroupDto travelGroupDto)
         {
@@ -55,7 +55,7 @@ namespace TripTracker.Web.Service
             return await _baseService.SendAsync(new RequestDto
             {
                 ApiType = ApiType.GET,
-                Url = TravelGroupApiPath + "/get-by-name/" + travelGroupName
+                Url = TravelGroupApiPath + "/getByName/" + travelGroupName
             }, withBearer: false);
         }
 

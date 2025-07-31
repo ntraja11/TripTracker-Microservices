@@ -4,9 +4,20 @@ using TripTracker.GatewaySolution.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Configuration.AddJsonFile("Ocelot.json", optional: false, reloadOnChange: true);
-builder.Services.AddOcelot(builder.Configuration);
 builder.AddAppAuthentication();
+
+if (builder.Environment.ToString().ToLower().Equals("production"))
+{
+    builder.Configuration.AddJsonFile("Ocelot.Production.json", optional: false, reloadOnChange: true);
+}
+else
+{
+    //builder.Configuration.AddJsonFile("Ocelot.Development.json", optional: false, reloadOnChange: true);
+    builder.Configuration.AddJsonFile("Ocelot.json", optional: false, reloadOnChange: true);
+}
+
+builder.Services.AddOcelot(builder.Configuration);
+
 
 var app = builder.Build();
 

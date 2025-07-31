@@ -12,7 +12,7 @@ namespace TripTracker.GatewaySolution.Extensions
             var issuer = builder.Configuration["ApiSettings:Issuer"];
             var audience = builder.Configuration["ApiSettings:Audience"];
 
-            var key = Encoding.UTF8.GetBytes(secret);
+            var key = Encoding.UTF8.GetBytes(secret!);
 
             builder.Services.AddAuthentication(options =>
             {

@@ -18,8 +18,8 @@ namespace TripTracker.Services.AuthApi.Controllers
         }
 
         [HttpGet]
-        [Route("get-travel-group-id/{email}")]
-        public async Task<IActionResult> Get(string email)
+        [Route("getTravelGroupId/{email}")]
+        public async Task<IActionResult> getTravelGroupId(string email)
         {
             if (string.IsNullOrEmpty(email))
             {
@@ -39,7 +39,7 @@ namespace TripTracker.Services.AuthApi.Controllers
         }
 
         [HttpGet]
-        [Route("get-user-by-id/{userId}")]
+        [Route("GetUserById/{userId}")]
         public async Task<IActionResult> GetUserById(string userId)
         {
             if (string.IsNullOrEmpty(userId))
@@ -56,7 +56,7 @@ namespace TripTracker.Services.AuthApi.Controllers
         }
 
         [HttpGet]
-        [Route("get-users-by-travel-group/{travelGroupId:int}")]
+        [Route("GetUsersByTravelGroup/{travelGroupId:int}")]
         public async Task<IActionResult> GetUsersByTravelGroup(int travelGroupId)
         {
             if (travelGroupId == 0)
@@ -110,7 +110,7 @@ namespace TripTracker.Services.AuthApi.Controllers
             return Ok(_response);
         }
 
-        [HttpPost("assign-role")]
+        [HttpPost("assignRole")]
         public async Task<IActionResult> AssignRole([FromBody] RegistrationRequestDto registrationRequestDto)
         {
             if (!ModelState.IsValid)

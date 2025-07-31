@@ -24,25 +24,10 @@ namespace TripTracker.Services.ParticipantApi.Controllers
             _mapper = mapper;
             _responseDto = responseDto;
         }
+                
 
         [HttpGet]
-        public async Task<ResponseDto> GetAll()
-        {
-            try
-            {
-                _responseDto.Result = _mapper.Map<IEnumerable<ParticipantDto>>(
-                    await _db.Participants.AsNoTracking().ToListAsync());
-            }
-            catch (Exception ex)
-            {
-                _responseDto.IsSuccess = false;
-                _responseDto.Message = ex.Message;
-            }
-            return _responseDto;
-        }
-
-        [HttpGet]
-        [Route("get-all-by-trip/{tripId}")]
+        [Route("GetAllByTrip/{tripId}")]
         public async Task<ResponseDto> GetAllByTrip(int tripId)
         {
             try
@@ -84,7 +69,7 @@ namespace TripTracker.Services.ParticipantApi.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "ADMIN")]
+        //[Authorize(Roles = "ADMIN")]
         public async Task<ResponseDto> Post([FromBody] ParticipantDto participantDto)
         {
             try
@@ -119,7 +104,7 @@ namespace TripTracker.Services.ParticipantApi.Controllers
         }
 
         [HttpPut]
-        [Authorize(Roles = "ADMIN")]
+        //[Authorize(Roles = "ADMIN")]
         public async Task<ResponseDto> Put([FromBody] ParticipantDto participantDto)
         {
             try
@@ -146,7 +131,7 @@ namespace TripTracker.Services.ParticipantApi.Controllers
 
         [HttpDelete]
         [Route("{id:int}")]
-        [Authorize(Roles = "ADMIN")]
+        //[Authorize(Roles = "ADMIN")]
         public async Task<ResponseDto> Delete(int id)
         {
             try

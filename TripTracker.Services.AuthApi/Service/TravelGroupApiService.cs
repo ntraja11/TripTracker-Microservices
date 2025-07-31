@@ -22,7 +22,7 @@ namespace TripTracker.Services.AuthApi.Service
 
                 var content = new StringContent(JsonConvert.SerializeObject(dto), Encoding.UTF8, "application/json");
 
-                var response = await client.PostAsync("/api/travel-group", content);
+                var response = await client.PostAsync("/api/travelGroup", content);
 
                 var apiContent = await response.Content.ReadAsStringAsync();
 
@@ -40,7 +40,7 @@ namespace TripTracker.Services.AuthApi.Service
             try
             {
                 var client = _httpClientFactory.CreateClient("TravelGroupApi");
-                var response = await client.GetAsync($"/api/travel-group/get-by-name/{travelGroupName}");
+                var response = await client.GetAsync($"/api/travelGroup/getByName/{travelGroupName}");
 
                 if (!response.IsSuccessStatusCode) // Ensure valid response
                 {
