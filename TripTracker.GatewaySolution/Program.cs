@@ -18,6 +18,9 @@ else
 
 builder.Services.AddOcelot(builder.Configuration);
 
+builder.Logging.AddConsole();
+builder.Logging.SetMinimumLevel(LogLevel.Debug);
+
 
 var app = builder.Build();
 

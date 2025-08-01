@@ -8,7 +8,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "triptrackerservicestravelgroupapi-gee6d5fmc7argkea.northeurope-01.azurewebsites.net"
+          "Host": "triptrackerservicestravelgroupapi-gee6d5fmc7argkea.northeurope-01.azurewebsites.net",
+          "Port": 443
         }
       ],
       "UpstreamHttpMethod": [ "Get" ],
@@ -22,7 +23,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "triptrackerservicestravelgroupapi-gee6d5fmc7argkea.northeurope-01.azurewebsites.net"
+          "Host": "triptrackerservicestravelgroupapi-gee6d5fmc7argkea.northeurope-01.azurewebsites.net",
+          "Port": 443
         }
       ],
       "UpstreamHttpMethod": [ "Get" ],
@@ -33,7 +35,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "triptrackerservicestravelgroupapi-gee6d5fmc7argkea.northeurope-01.azurewebsites.net"
+          "Host": "triptrackerservicestravelgroupapi-gee6d5fmc7argkea.northeurope-01.azurewebsites.net",
+          "Port": 443
         }
       ],
       "UpstreamHttpMethod": [ "Get", "Delete" ],
@@ -47,7 +50,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "triptrackerservicestravelgroupapi-gee6d5fmc7argkea.northeurope-01.azurewebsites.net"
+          "Host": "triptrackerservicestravelgroupapi-gee6d5fmc7argkea.northeurope-01.azurewebsites.net",
+          "Port": 443
         }
       ],
       "UpstreamHttpMethod": [ "Post" ],
@@ -58,7 +62,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "triptrackerservicestravelgroupapi-gee6d5fmc7argkea.northeurope-01.azurewebsites.net"
+          "Host": "triptrackerservicestravelgroupapi-gee6d5fmc7argkea.northeurope-01.azurewebsites.net",
+          "Port": 443
         }
       ],
       "UpstreamHttpMethod": [ "Put" ],
@@ -233,7 +238,6 @@
         "AuthenticationProviderKey": "Bearer"
       }
     }
-
 
   ],
   "GlobalConfiguration": {
