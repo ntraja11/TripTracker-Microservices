@@ -1,9 +1,12 @@
+using DotNetEnv;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using TripTracker.Web.Service;
 using TripTracker.Web.Service.Interface;
 using TripTracker.Web.Utility;
 
 var builder = WebApplication.CreateBuilder(args);
+
+Env.Load();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

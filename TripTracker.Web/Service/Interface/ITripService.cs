@@ -14,6 +14,8 @@ namespace TripTracker.Web.Service.Interface
         Task<ResponseDto?> UpdateAsync(TripDto dto);
 
         Task<ResponseDto?> DeleteAsync(int tripId);
+
+        Task<ResponseDto?> EmailTrip(TripDto dto);
     }
 
 }

@@ -2,6 +2,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using TripTracker.MessageBus;
 using TripTracker.Services.TripApi;
 using TripTracker.Services.TripApi.Data;
 using TripTracker.Services.TripApi.Extensions;
@@ -12,6 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddScoped<ResponseDto>();
+builder.Services.AddScoped<IMessageBus, MessageBus>();
 
 builder.Services.AddDbContext<TripDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),

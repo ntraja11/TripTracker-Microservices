@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Net;
+using System.Net.Mail;
 using TripTracker.Web.Models.Dto;
 using TripTracker.Web.Service.Interface;
 using TripTracker.Web.Utility;
@@ -44,16 +46,78 @@ namespace TripTracker.Web.Controllers
                 catch (JsonException ex)
                 {
                     TempData["error"] = $"Error parsing data: {ex.Message}";
-                    ModelState.AddModelError(string.Empty, $"Error parsing data: {ex.Message}");
                 }
             }
             else
             {
                 TempData["error"] = response?.Message ?? "Failed to retrieve trips.";
-                ModelState.AddModelError(string.Empty, response?.Message ?? "Failed to retrieve trips.");
             }
 
             return View(trips);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> EmailTripCreated(int tripId)
+        {
+            var response = await _tripService.GetAsync(tripId);
+            if (response?.IsSuccess == true && response.Result != null)
+            {
+                var tripDto = JsonConvert.DeserializeObject<TripDto>(Convert.ToString(response.Result));
+
+                var participantsResponse = await _participantService.GetAllByTripAsync(tripId);
+
+                var participants = (participantsResponse!.IsSuccess == true && participantsResponse != null) ?
+                    JsonConvert.DeserializeObject<List<ParticipantDto>>(Convert.ToString(participantsResponse.Result)) : new List<ParticipantDto>();
+
+                tripDto!.Participants = participants.Select(p => p.Email);
+
+                var emailResponse = await _tripService.EmailTrip(tripDto);
+                if (emailResponse?.IsSuccess == true)
+                {
+                    TempData["success"] = "Trip email sent successfully.";
+                    return RedirectToAction(nameof(Index));
+                }
+
+            }
+            
+            
+            TempData["error"] = response?.Message ?? "Failed to send trip email.";
+            return RedirectToAction(nameof(Index));
+        }
+
+        [Authorize]
+        public ActionResult SendMail()
+        {
+            Console.WriteLine(  $"-------------------  Sending Email ------------------- ");
+
+            MailMessage mail = new MailMessage();
+
+            mail.From = new MailAddress("ntraja11@gmail.com");
+
+            mail.To.Add("ntraja11@outlook.com");
+            mail.Subject = "Test Email";
+            mail.Body = "This is a test email sent from the TripTracker.";
+
+            mail.IsBodyHtml = true;
+
+            SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
+            smtp.Credentials = new NetworkCredential("ntraja11@gmail.com", Environment.GetEnvironmentVariable("SMTP-KEY"));
+            smtp.EnableSsl = true;
+
+            try
+            {
+                smtp.Send(mail);
+                TempData["success"] = "Email sent successfully.";
+            }
+            catch (Exception ex)
+            {
+                TempData["error"] = $"Failed to send email: {ex.Message}";
+
+                return RedirectToAction(nameof(Index));
+            }
+
+            return RedirectToAction(nameof(Index));
         }
 
         private async Task<int> GetTravelGroupId()
@@ -154,7 +218,6 @@ namespace TripTracker.Web.Controllers
             }
 
             TempData["error"] = response?.Message ?? "Trip not found.";
-            ModelState.AddModelError(string.Empty, response?.Message ?? "Trip not found.");
 
 
             return View(new TripDto());

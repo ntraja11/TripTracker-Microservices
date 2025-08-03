@@ -3,7 +3,15 @@
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h2>Trip Details</h2>
-        <a asp-action="Index" class="btn btn-secondary">← Back to List</a>
+        <div class="d-flex gap-1">
+            <a asp-action="Index" class="btn btn-secondary">← Back to List</a>
+            <form asp-action="EmailTripCreated" method="post">
+                <input type="hidden" name="tripId" value="@Model.Trip.Id" />
+                <button type="submit" class="btn btn-primary">Send Email</button>
+            </form>
+            @* <a asp-action="EmailTripCreated" asp-route-tripId="@Model.Trip.Id" class="btn btn-primary">Send Email</a> *@
+        </div>
+        
     </div>
 
     <div class="card shadow-sm">

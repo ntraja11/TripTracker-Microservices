@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using TripTracker.MessageBus;
 using TripTracker.Services.TripApi.Data;
 using TripTracker.Services.TripApi.Models;
 using TripTracker.Services.TripApi.Models.Dto;
@@ -16,12 +17,16 @@ namespace TripTracker.Services.TripApi.Controllers
         private readonly TripDbContext _db;
         private readonly ResponseDto _responseDto;
         private readonly IMapper _mapper;
+        private readonly IMessageBus _messageBus;
+        private readonly IConfiguration _configuration;
 
-        public TripApiController(TripDbContext db, IMapper mapper, ResponseDto responseDto)
+        public TripApiController(TripDbContext db, IMapper mapper, ResponseDto responseDto, IMessageBus messageBus, IConfiguration configuration)
         {
             _db = db;
             _mapper = mapper;
             _responseDto = responseDto;
+            _messageBus = messageBus;
+            _configuration = configuration;
         }
 
         [HttpGet]
@@ -81,6 +86,24 @@ namespace TripTracker.Services.TripApi.Controllers
                     return _responseDto;
                 }
                 _responseDto.Result = _mapper.Map<IEnumerable<TripDto>>(trips);
+            }
+            catch (Exception ex)
+            {
+                _responseDto.IsSuccess = false;
+                _responseDto.Message = ex.Message;
+            }
+            return _responseDto;
+        }
+
+        [HttpPost("EmailTripCreated")]
+        public async Task<ResponseDto> EmailTripCreated([FromBody] TripDto tripDto)
+        {
+            try
+            {               
+                await _messageBus.PublishMessage(tripDto, 
+                    _configuration.GetValue<string>("QueueNames:EmailTripCreated"),
+                    _configuration.GetValue<string>("ConnectionStrings:ServiceBusConnection"));
+                _responseDto.Result = true;
             }
             catch (Exception ex)
             {

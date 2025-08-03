@@ -23,6 +23,16 @@ namespace TripTracker.Web.Service
             });
         }
 
+        public async Task<ResponseDto?> EmailTrip(TripDto tripDto)
+        {
+            return await _baseService.SendAsync(new Models.Dto.RequestDto
+            {
+                ApiType = ApiType.POST,
+                Url = TripApiPath + "/EmailTripCreated",
+                Data = tripDto
+            });
+
+        }
         public async Task<ResponseDto?> DeleteAsync(int tripId)
         {
             return await _baseService.SendAsync(new Models.Dto.RequestDto
