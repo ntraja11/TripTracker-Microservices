@@ -27,6 +27,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Integration", "Integration"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TripTracker.MessageBus", "TripTracker.MessageBus\TripTracker.MessageBus.csproj", "{35299C10-C3D1-4978-86E8-FE2B73700455}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TripTracker.Services.EmailApi", "TripTracker.Services.EmailApi\TripTracker.Services.EmailApi.csproj", "{7A0B6163-B66C-48CB-9BC2-0A847E0569D3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -65,6 +67,10 @@ Global
 		{35299C10-C3D1-4978-86E8-FE2B73700455}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{35299C10-C3D1-4978-86E8-FE2B73700455}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{35299C10-C3D1-4978-86E8-FE2B73700455}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A0B6163-B66C-48CB-9BC2-0A847E0569D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A0B6163-B66C-48CB-9BC2-0A847E0569D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A0B6163-B66C-48CB-9BC2-0A847E0569D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A0B6163-B66C-48CB-9BC2-0A847E0569D3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -78,6 +84,7 @@ Global
 		{CBE31E32-7B01-44FF-B73F-39A432A0A230} = {1A72B25D-35D7-44B4-90DB-44BCE13156A2}
 		{D7E266D5-88B5-4E18-A726-DCB32DF1C67C} = {87BA7A60-729C-4D1B-A73A-01B64C103215}
 		{35299C10-C3D1-4978-86E8-FE2B73700455} = {7A7EE9DC-89DF-4CBF-90AE-FBE2E63B6A02}
+		{7A0B6163-B66C-48CB-9BC2-0A847E0569D3} = {1A72B25D-35D7-44B4-90DB-44BCE13156A2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5F692006-62DE-4C4D-A5CA-E2EA01E9217C}

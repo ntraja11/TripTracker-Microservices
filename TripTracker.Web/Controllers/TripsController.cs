@@ -86,39 +86,39 @@ namespace TripTracker.Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        [Authorize]
-        public ActionResult SendMail()
-        {
-            Console.WriteLine(  $"-------------------  Sending Email ------------------- ");
+        //[Authorize]
+        //public ActionResult SendMail()
+        //{
+        //    Console.WriteLine(  $"-------------------  Sending Email ------------------- ");
 
-            MailMessage mail = new MailMessage();
+        //    MailMessage mail = new MailMessage();
 
-            mail.From = new MailAddress("ntraja11@gmail.com");
+        //    mail.From = new MailAddress("ntraja11@gmail.com");
 
-            mail.To.Add("ntraja11@outlook.com");
-            mail.Subject = "Test Email";
-            mail.Body = "This is a test email sent from the TripTracker.";
+        //    mail.To.Add("ntraja11@outlook.com");
+        //    mail.Subject = "Test Email";
+        //    mail.Body = "This is a test email sent from the TripTracker.";
 
-            mail.IsBodyHtml = true;
+        //    mail.IsBodyHtml = true;
 
-            SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
-            smtp.Credentials = new NetworkCredential("ntraja11@gmail.com", Environment.GetEnvironmentVariable("SMTP-KEY"));
-            smtp.EnableSsl = true;
+        //    SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
+        //    smtp.Credentials = new NetworkCredential("ntraja11@gmail.com", Environment.GetEnvironmentVariable("SMTP-KEY"));
+        //    smtp.EnableSsl = true;
 
-            try
-            {
-                smtp.Send(mail);
-                TempData["success"] = "Email sent successfully.";
-            }
-            catch (Exception ex)
-            {
-                TempData["error"] = $"Failed to send email: {ex.Message}";
+        //    try
+        //    {
+        //        smtp.Send(mail);
+        //        TempData["success"] = "Email sent successfully.";
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        TempData["error"] = $"Failed to send email: {ex.Message}";
 
-                return RedirectToAction(nameof(Index));
-            }
+        //        return RedirectToAction(nameof(Index));
+        //    }
 
-            return RedirectToAction(nameof(Index));
-        }
+        //    return RedirectToAction(nameof(Index));
+        //}
 
         private async Task<int> GetTravelGroupId()
         {

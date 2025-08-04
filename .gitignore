@@ -386,3 +386,5 @@ FodyWeavers.xsd
 /TripTracker.Web/.env
 /TripTracker.Services.TripApi/appsettings.Development.json
 /TripTracker.Services.TripApi/appsettings.Development.json
+/TripTracker.Services.EmailApi/.env
+/TripTracker.Services.EmailApi/appsettings.Development.json
