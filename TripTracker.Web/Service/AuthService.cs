@@ -70,7 +70,7 @@ namespace TripTracker.Web.Service
             return await _baseService.SendAsync(new RequestDto
             {
                 ApiType = ApiType.POST,
-                Url = AuthApiPath + "/register",
+                Url = AuthApiPath + "/Register",
                 Data = registrationRequestDto
             }, withBearer: false);
         }

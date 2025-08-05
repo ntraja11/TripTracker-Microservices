@@ -52,19 +52,13 @@ namespace TripTracker.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(TravelGroupDto travelGroupDto)
         {
-            if (travelGroupDto == null)
+            if (travelGroupDto == null || !ModelState.IsValid)
             {
                 TempData["error"] = "Invalid travel group data.";
                 ModelState.AddModelError(string.Empty, "Invalid travel group data.");
                 return View(travelGroupDto);
             }
-
-            if (!ModelState.IsValid)
-            {
-                TempData["error"] = "Invalid travel group data.";
-                ModelState.AddModelError(string.Empty, "Invalid travel group data.");
-                return View(travelGroupDto);
-            }
+                        
 
             var response = await _travelGroupService.CreateAsync(travelGroupDto);
             if (response?.IsSuccess == true)

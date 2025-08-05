@@ -18,8 +18,8 @@ namespace TripTracker.Services.AuthApi.Controllers
         }
 
         [HttpGet]
-        [Route("getTravelGroupId/{email}")]
-        public async Task<IActionResult> getTravelGroupId(string email)
+        [Route("GetTravelGroupId/{email}")]
+        public async Task<IActionResult> GetTravelGroupId(string email)
         {
             if (string.IsNullOrEmpty(email))
             {
@@ -72,7 +72,7 @@ namespace TripTracker.Services.AuthApi.Controllers
             return Ok(_response);
         }
 
-        [HttpPost("register")]
+        [HttpPost("Register")]
         public async Task<IActionResult> Register([FromBody] RegistrationRequestDto registrationRequestDto)
         {
             if (!ModelState.IsValid)

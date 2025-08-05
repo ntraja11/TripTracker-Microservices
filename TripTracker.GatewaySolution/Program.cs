@@ -24,7 +24,7 @@ builder.Logging.SetMinimumLevel(LogLevel.Debug);
 
 var app = builder.Build();
 
-app.MapGet("/", () => "Hello World!");
+app.MapGet("/", () => "Gateway is running");
 
 
 

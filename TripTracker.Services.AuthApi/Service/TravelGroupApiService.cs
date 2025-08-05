@@ -40,7 +40,7 @@ namespace TripTracker.Services.AuthApi.Service
             try
             {
                 var client = _httpClientFactory.CreateClient("TravelGroupApi");
-                var response = await client.GetAsync($"/api/travelGroup/getByName/{travelGroupName}");
+                var response = await client.GetAsync($"/api/travelGroup/GetByName/{travelGroupName}");
 
                 if (!response.IsSuccessStatusCode) // Ensure valid response
                 {

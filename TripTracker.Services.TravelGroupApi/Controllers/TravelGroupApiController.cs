@@ -67,8 +67,8 @@ namespace TripTracker.Services.TravelGroupApi.Controllers
         }
 
         [HttpGet]
-        [Route("getByName/{travelGroupName}")]
-        public async Task<ResponseDto> getByName(string travelGroupName)
+        [Route("GetByName/{travelGroupName}")]
+        public async Task<ResponseDto> GetByName(string travelGroupName)
         {
             var travelGroup = await _db.TravelGroups.FirstOrDefaultAsync(tg => tg.Name == travelGroupName);
 
