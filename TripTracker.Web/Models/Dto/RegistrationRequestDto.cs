@@ -15,7 +15,6 @@ namespace TripTracker.Web.Models.Dto
         [RegularExpression(@"^\d+$", ErrorMessage = "Phone number must contain only digits")]
         public string? PhoneNumber { get; set; }
 
-
         [Required(ErrorMessage = "Password is required")]
         public string? Password { get; set; }
         [Required(ErrorMessage = "Travel group name is required")]

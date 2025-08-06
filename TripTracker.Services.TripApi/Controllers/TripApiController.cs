@@ -71,7 +71,7 @@ namespace TripTracker.Services.TripApi.Controllers
         }
 
         [HttpGet]
-        [Route("getByTravelGroup/{travelGroupId:int}")]
+        [Route("GetByTravelGroup/{travelGroupId:int}")]
         public async Task<ResponseDto> GetByTravelGroup(int travelGroupId)
         { 
             try

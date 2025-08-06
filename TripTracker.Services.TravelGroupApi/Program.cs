@@ -1,5 +1,6 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using TripTracker.Services.TravelGroupApi;
@@ -60,6 +61,13 @@ builder.Services.AddSwaggerGen(option =>
 builder.AddAppAuthentication();
 builder.Services.AddAuthorization();
 
+builder.Services.Configure<ForwardedHeadersOptions>(options =>
+{
+    options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+    options.KnownNetworks.Clear(); // Trust all networks
+    options.KnownProxies.Clear();  // Trust all proxies
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -70,12 +78,20 @@ app.UseSwaggerUI(s =>
     s.RoutePrefix = string.Empty;
 });
 
+app.UseForwardedHeaders();
+app.UseCors("AllowAll");
+
 app.UseHttpsRedirection();
 
-app.UseCors("AllowAll");
+app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+}); ;
 
 app.MapControllers();
 

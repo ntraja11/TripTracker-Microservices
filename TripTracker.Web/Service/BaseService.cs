@@ -52,6 +52,8 @@ namespace TripTracker.Web.Service
 
                 HttpResponseMessage responseMessage = new HttpResponseMessage();
 
+                Console.WriteLine($"----------- Request url :: {message.RequestUri}");
+
                 responseMessage = await client.SendAsync(message);
 
                 string apiContent = "";

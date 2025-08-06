@@ -1,4 +1,5 @@
 using AutoMapper;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using TripTracker.Services.AuthApi;
@@ -46,9 +47,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowAll",
         builder =>
         {
-            builder.WithOrigins(
-                "https://triptrackerweb-evg5fzc0asb3b3fg.northeurope-01.azurewebsites.net",
-                "https://localhost:1010")
+            builder.AllowAnyOrigin()
                    .AllowAnyMethod()
                    .AllowAnyHeader();
         });
@@ -57,6 +56,13 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
+
+builder.Services.Configure<ForwardedHeadersOptions>(options =>
+{
+    options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+    options.KnownNetworks.Clear(); // Trust all networks
+    options.KnownProxies.Clear();  // Trust all proxies
+});
 
 var app = builder.Build();
 
@@ -68,11 +74,21 @@ app.UseSwaggerUI(s =>
     s.RoutePrefix = string.Empty;
 });
 
-app.UseHttpsRedirection();
+app.UseForwardedHeaders();
 app.UseCors("AllowAll");
+
+app.UseHttpsRedirection();
+
+app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers(); 
+});
+
 
 app.MapControllers();
 
